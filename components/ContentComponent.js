@@ -83,10 +83,10 @@ export default class ContentContainer extends Component {
     }
 
     render() {
-        // const { navigation } = this.props;
+        const { navigation } = this.props;
 
 
-        // const intime = this.props.navigation.getParam('timein', 'nothing sent');
+        const intime = this.props.navigation.getParam('timein', 'nothing sent');
 
         const d = new Date();
         const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -94,7 +94,7 @@ export default class ContentContainer extends Component {
         var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         var dayName = days[d.getDay()];
 
-        //document.write("The current month is " +);
+    
         return (
             <TouchableOpacity activeOpacity={1} style={styles.drawerTransparent} onPress={() => this.props.navigation.goBack()}>
                 <TouchableOpacity activeOpacity={1} style={styles.drawer} disabled={false}>
@@ -126,14 +126,14 @@ export default class ContentContainer extends Component {
                                     <Text style={{ fontSize: 18, paddingLeft: 3, color: 'white' }}>TIME OUT</Text>
                                 </View>
                             </TouchableOpacity>
-                            {/* <Text style={styles.bordertext}>Timed-in at:  {intime}</Text> */}
+                            <Text style={styles.bordertext}>Timed-in at:  {intime}</Text>
                         </View>
                     </View>
 
 
                     <View style={{ paddingTop: 30 }}>
                         {/* Home */}
-                        <TouchableHighlight underlayColor={'rgba(0,0,0,0.2)'} onPress={() => this.props.navigation.closeDrawer()}>
+                        <TouchableHighlight underlayColor={'rgba(0,0,0,0.2)'} onPress={() => this.props.navigation.navigate('Home')}>
                             <View style={styles.row}>
                                 <Image source={require('../assets/house.png')} style={styles.icon} />
                                 <Text style={styles.text}>Home</Text>

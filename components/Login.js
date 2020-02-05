@@ -1,8 +1,6 @@
 import React from 'react'
 
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import { createStackNavigator } from 'react-navigation-stack';
-
 
 const DismissKeyboardHOC = (Comp) => {
   return ({ children, ...props }) => (
@@ -144,7 +142,8 @@ export default class Login extends React.Component {
         if (responseJson.validation === "hello") {
 
           alert(responseJson.validation + " --" + time)
-          this.props.navigation.navigate('DrawerNavigator', { timein: time })
+        //   this.props.navigation.navigate('MainNavigation', { timein: time })
+        this.props.navigation.navigate('DrawerNav',{timein:time})
         }
         else {
           alert("error")

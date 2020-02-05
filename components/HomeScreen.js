@@ -12,7 +12,8 @@ export default class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.view}>
-                <TouchableHighlight onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}
+                <TouchableHighlight onPress={() => 
+                this.props.navigation.dispatch(DrawerActions.openDrawer())}
                 style={styles.touchableHighlight} underlayColor={'rgba(0,0,0,0.8)'}>
                     <Image source={require('../assets/menu.png')} style={{height: 30, width: 30}}/>
                 </TouchableHighlight>
