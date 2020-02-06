@@ -191,7 +191,6 @@ export default class Login extends React.Component {
     //     </View>
     //   )
     // } else {
-    console.log('else: ', this.state.a)
     return (
 
       <View style={styles.container}>

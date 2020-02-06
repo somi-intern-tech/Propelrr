@@ -66,11 +66,12 @@ const DrawerNav = createDrawerNavigator({
   Login: { screen: Login }
 },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Home',
     contentComponent: ContentComponent,
     drawerWidth: Dimensions.get('window').width,
     drawerPosition: 'left',
     drawerBackgroundColor: 'transparent',
+    
 
   }
 );
