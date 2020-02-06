@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, ScrollView, Image, Button } from 'react-native';
 
+
+
 export default class ContentContainer extends Component {
     constructor(props) {
         super(props);
@@ -82,8 +84,9 @@ export default class ContentContainer extends Component {
         clearInterval(this.Clock);
     }
 
+    
     render() {
-        const { navigation } = this.props;
+        // const { navigation } = this.props;
 
 
         const intime = this.props.navigation.getParam('timein', 'nothing sent');
@@ -169,7 +172,7 @@ export default class ContentContainer extends Component {
 
                         <View style={styles.line}></View>
                         {/* Log out */}
-                        <TouchableHighlight underlayColor={'rgba(0,0,0,0.2)'} onPress={() => this.props.history.push("App")}>
+                        <TouchableHighlight underlayColor={'rgba(0,0,0,0.2)'} onPress={() =>  this.props.navigation.navigate('Login')}>
                             <View style={styles.row}>
                                 <Image source={require('../assets/logout.png')} style={styles.icon} />
                                 <Text style={styles.text}>Log out</Text>

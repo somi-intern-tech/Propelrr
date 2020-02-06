@@ -3,9 +3,9 @@ import {
   createAppContainer
 } from 'react-navigation';
 
-import {createStackNavigator} from 'react-navigation-stack';
-import {createSwitchNavigator} from 'react-navigation';
-import { createDrawerNavigator} from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import Login from './components/Login';
 import HomeScreen from './components/HomeScreen';
@@ -42,12 +42,12 @@ const AuthStackNavigation = createStackNavigator(
       screen: Login,
       navigationOptions: {
         headerShown: false
+      },
+      Home: {
+        screen: HomeScreen
       }
     },
-
-  
-    initialRouteName: 'Login'
-
+    initialRouteName: 'Home'
   })
 
 // const DashboardStack = createStackNavigator({ // For header options
@@ -59,21 +59,23 @@ const AuthStackNavigation = createStackNavigator(
 
 
 const DrawerNav = createDrawerNavigator({
-    Home: { screen: HomeScreen },
-    Profile: { screen: Profile },
-    MyRequest: { screen: MyRequest },
-    ManageEvents: { screen: ManageEvents },
-    Login: { screen: Login}
+  Home: { screen: (HomeScreen) },
+  Profile: { screen: Profile },
+  MyRequest: { screen: MyRequest },
+  ManageEvents: { screen: ManageEvents },
+  Login: { screen: Login }
 },
-    {
-        initialRouteName: 'Login',
-        contentComponent: ContentComponent,
-        drawerWidth: Dimensions.get('window').width,
-        drawerPosition: 'left',
-        drawerBackgroundColor: 'transparent',
+  {
+    initialRouteName: 'Login',
+    contentComponent: ContentComponent,
+    drawerWidth: Dimensions.get('window').width,
+    drawerPosition: 'left',
+    drawerBackgroundColor: 'transparent',
 
-    }
+  }
 );
+
+
 
 
 

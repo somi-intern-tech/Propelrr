@@ -142,8 +142,8 @@ export default class Login extends React.Component {
         if (responseJson.validation === "hello") {
 
           alert(responseJson.validation + " --" + time)
-        //   this.props.navigation.navigate('MainNavigation', { timein: time })
-        this.props.navigation.navigate('DrawerNav',{timein:time})
+          this.props.navigation.navigate('Home', { timein: time })
+        // this.props.navigation.navigate('App',{timein:time})
         }
         else {
           alert("error")

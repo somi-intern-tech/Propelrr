@@ -10,10 +10,13 @@ export default class HomeScreen extends Component {
         ),
     }
     render() {
+        const intime = this.props.navigation.getParam('timein', 'nothing sent');
+
         return (
             <View style={styles.view}>
+                <Text>{intime}</Text>
                 <TouchableHighlight onPress={() => 
-                this.props.navigation.dispatch(DrawerActions.openDrawer())}
+                this.props.navigation.dispatch(DrawerActions.openDrawer(),{timein: intime})}
                 style={styles.touchableHighlight} underlayColor={'rgba(0,0,0,0.8)'}>
                     <Image source={require('../assets/menu.png')} style={{height: 30, width: 30}}/>
                 </TouchableHighlight>
