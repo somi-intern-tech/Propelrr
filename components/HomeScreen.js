@@ -27,13 +27,13 @@ export default class HomeScreen extends Component {
 
         this.state = {
             items: {},
-            datess: '',
+            clickedDate: '',
             visibleModal: null,
             // modalVisible: false,
         };
     }
-    
- 
+
+
     componentDidMount() {
         var that = this;
 
@@ -48,16 +48,34 @@ export default class HomeScreen extends Component {
     renderButton = (text, onPress) => (
         <TouchableOpacity onPress={onPress}>
             <View style={styles.button}>
-                <Text>{text}</Text>
+                <Text style={{ color: 'white' }}>{text}</Text>
             </View>
         </TouchableOpacity>
     );
 
     renderModalContent = () => (
         <View style={styles.modalContent}>
-            <Text>Hello!</Text>
-            {this.renderButton('Close', () => this.setState({ visibleModal: null }))}
+            <View style={styles.modalHeader}>
+                <View style={{ alignItems: 'center', flexDirection: 'row'}}>
+                    <Image source={require('../assets/calendar.png')} style={{ height: 23, width: 23 }} />
+                    <Text style={{ fontSize: 22, paddingLeft:4 }}>
+                        {this.state.clickedDate}
+                    </Text>
+                </View>
+                <View style={{ alignItems: 'flex-end' }}>
+                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null }))}
+                </View>
+            </View>
+            <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
+                <TouchableOpacity>
+                    <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                        REQUEST LEAVE
+                        </Text>
+                </TouchableOpacity>
+            </View>
+
         </View>
+
     );
 
 
@@ -93,7 +111,7 @@ export default class HomeScreen extends Component {
                     // Initially visible month. Default = Date()
                     current={Date()}
                     // Handler which gets executed on day press. Default = undefined
-                    onDayPress={()=>{ this.setState({ visibleModal: 1 })}}
+                    onDayPress={(day) => { this.setState({ visibleModal: 1, clickedDate: moment(day.dateString).format('MMMM DD, YYYY') }) }}
                     // onDayPress={(day) => { datePressed = day }}
                     // Handler which gets executed on day long press. Default = undefined
                     onDayLongPress={(day) => { console.log('selected day', day) }}
@@ -181,20 +199,26 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     button: {
-        backgroundColor: 'lightblue',
-        padding: 12,
-        margin: 16,
+        backgroundColor: '#A9A9A9',
+        padding: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 4,
+        borderRadius: 2,
         borderColor: 'rgba(0, 0, 0, 0.1)',
     },
     modalContent: {
         backgroundColor: 'white',
         padding: 22,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4,
+        borderRadius: 2,
         borderColor: 'rgba(0, 0, 0, 0.1)',
+        height: 350,
+        justifyContent: 'space-between'
     },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    modalFooter: {
+        justifyContent: 'flex-end',
+    }
 });
