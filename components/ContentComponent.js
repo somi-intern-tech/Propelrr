@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, ScrollView, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, ScrollView, Image, Button, Alert } from 'react-native';
 
 
 
@@ -76,14 +76,13 @@ export default class ContentContainer extends Component {
         that.setState({
             //Setting the value of the date time
             date:
-                date + ',' + year,
+                date + ', ' + year,
         });
     }
 
     componentWillUnmount() {
         clearInterval(this.Clock);
     }
-
     
     render() {
         // const { navigation } = this.props;

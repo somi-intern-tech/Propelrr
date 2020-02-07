@@ -86,3 +86,4 @@ const MainNavigation = createSwitchNavigator({
 })
 const App = createAppContainer(MainNavigation)
 export default App // Stack, Drawer, Switch naviagtions return react component.
+

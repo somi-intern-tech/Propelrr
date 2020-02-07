@@ -4,6 +4,7 @@ import { DrawerActions } from 'react-navigation-drawer';
 import { LocaleConfig } from 'react-native-calendars';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from "moment"
+import Modal from 'react-native-modal';
 
 LocaleConfig.locales['en'] = {
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -27,70 +28,16 @@ export default class HomeScreen extends Component {
         this.state = {
             items: {},
             datess: '',
-            time: ''
+            visibleModal: null,
+            // modalVisible: false,
         };
     }
-    GetTime() {
-
-        // Creating variables to hold time.
-        var date, TimeType, hour, minutes, seconds, fullTime;
-
-        // Creating Date() function object.
-        date = new Date();
-
-        // Getting current hour from Date object.
-        hour = date.getHours();
-
-        // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
-        if (hour <= 11) {
-
-            TimeType = 'AM';
-
-        }
-        else {
-
-            // If the Hour is Not less than equals to 11 then Set the Time format as PM.
-            TimeType = 'PM';
-
-        }
-        // IF current hour is grater than 12 then minus 12 from current hour to make it in 12 Hours Format.
-        if (hour > 12) {
-            hour = hour - 12;
-        }
-        // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format. 
-        if (hour == 0) {
-            hour = 12;
-        }
-        // Getting the current minutes from date object.
-        minutes = date.getMinutes();
-
-        // Checking if the minutes value is less then 10 then add 0 before minutes.
-        if (minutes < 10) {
-            minutes = '0' + minutes.toString();
-        }
-
-        //Getting current seconds from date object.
-        seconds = date.getSeconds();
-
-        // If seconds value is less than 10 then add 0 before seconds.
-        if (seconds < 10) {
-            seconds = '0' + seconds.toString();
-        }
-        // Adding all the variables in fullTime variable.
-        fullTime = hour.toString() + ':' + minutes.toString() + ' ' + TimeType.toString();
-        // Setting up fullTime variable in State.
-        this.setState({
-            time: fullTime
-        });
-    }
-
-
+    
+ 
     componentDidMount() {
-        this.Clock = setInterval(() => this.GetTime(), 1000);
         var that = this;
 
         var date = new Date().getDate(); //Current Date
-        var month = new Date().getMonth() + 1; //Current Month
         var year = new Date().getFullYear(); //Current Year
         that.setState({
             //Setting the value of the date time
@@ -98,13 +45,24 @@ export default class HomeScreen extends Component {
                 date + ',' + year,
         });
     }
+    renderButton = (text, onPress) => (
+        <TouchableOpacity onPress={onPress}>
+            <View style={styles.button}>
+                <Text>{text}</Text>
+            </View>
+        </TouchableOpacity>
+    );
 
-    componentWillUnmount() {
-        clearInterval(this.Clock);
-    }
+    renderModalContent = () => (
+        <View style={styles.modalContent}>
+            <Text>Hello!</Text>
+            {this.renderButton('Close', () => this.setState({ visibleModal: null }))}
+        </View>
+    );
+
+
     render() {
         const intime = this.props.navigation.getParam('timein', 'nothing sent');
-        const datePressed = ""
         const outputDate = moment().format("YYYY-MM-DD")
         const d = new Date();
         const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -128,11 +86,14 @@ export default class HomeScreen extends Component {
                         {dayName + ', ' + monthNames[d.getMonth()] + ' ' + this.state.date}
                     </Text>
                 </View>
+                <Modal isVisible={this.state.visibleModal === 1}>
+                    {this.renderModalContent()}
+                </Modal>
                 <Calendar
                     // Initially visible month. Default = Date()
                     current={Date()}
                     // Handler which gets executed on day press. Default = undefined
-                    onDayPress={(day) => { console.log('selected day', day) }}
+                    onDayPress={()=>{ this.setState({ visibleModal: 1 })}}
                     // onDayPress={(day) => { datePressed = day }}
                     // Handler which gets executed on day long press. Default = undefined
                     onDayLongPress={(day) => { console.log('selected day', day) }}
@@ -141,44 +102,44 @@ export default class HomeScreen extends Component {
                     markedDates={{
                         [outputDate]: { selected: true, selectedColor: 'blue' },
                         // [datePressed]: {selected: true, selectedColor: 'blue' }
-            }}
+                    }}
                     style={{
-                    height: 350,
-                    width: 350,
-                }}
-                // Specify theme properties to override specific styles for calendar parts. Default = {}
-                theme={{
-                    backgroundColor: '#ffffff',
-                    calendarBackground: '#ffffff',
-                    textSectionTitleColor: 'black',
-                    selectedDayBackgroundColor: '#ff9800',
-                    // selectedDayTextColor: 'blue',
-                    todayTextColor: 'white',
-                    dayTextColor: 'black',
-                    textDisabledColor: '#d9e1e8',
-                    dotColor: '#00adf5',
-                    selectedDotColor: '#ffffff',
-                    arrowColor: 'black',
-                    monthTextColor: 'grey',
-                    indicatorColor: 'grey',
-                    textDayFontFamily: 'Arial',
-                    textMonthFontFamily: 'Arial',
-                    textDayHeaderFontFamily: 'Arial',
-                    textDayFontWeight: '300',
-                    textMonthFontWeight: 'bold',
-                    textDayHeaderFontWeight: '300',
-                    textDayFontSize: 16,
-                    textMonthFontSize: 16,
-                    textDayHeaderFontSize: 15,
-                    'stylesheet.calendar.header': {
-                        week: {
-                            marginTop: 5,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
-                        }
+                        height: 350,
+                        width: 350,
+                    }}
+                    // Specify theme properties to override specific styles for calendar parts. Default = {}
+                    theme={{
+                        backgroundColor: '#ffffff',
+                        calendarBackground: '#ffffff',
+                        textSectionTitleColor: 'black',
+                        selectedDayBackgroundColor: '#ff9800',
+                        // selectedDayTextColor: 'blue',
+                        todayTextColor: 'white',
+                        dayTextColor: 'black',
+                        textDisabledColor: '#d9e1e8',
+                        dotColor: '#00adf5',
+                        selectedDotColor: '#ffffff',
+                        arrowColor: 'black',
+                        monthTextColor: 'grey',
+                        indicatorColor: 'grey',
+                        textDayFontFamily: 'Arial',
+                        textMonthFontFamily: 'Arial',
+                        textDayHeaderFontFamily: 'Arial',
+                        textDayFontWeight: '300',
+                        textMonthFontWeight: 'bold',
+                        textDayHeaderFontWeight: '300',
+                        textDayFontSize: 16,
+                        textMonthFontSize: 16,
+                        textDayHeaderFontSize: 15,
+                        'stylesheet.calendar.header': {
+                            week: {
+                                marginTop: 5,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }
 
-                    }
-                }}
+                        }
+                    }}
                 />
             </View>
         );
@@ -213,5 +174,27 @@ const styles = StyleSheet.create({
     },
     container: {
         height: 500
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        backgroundColor: 'lightblue',
+        padding: 12,
+        margin: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
     },
 });
