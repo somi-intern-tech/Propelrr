@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Image, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Image, Alert, TextInput, Button } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import { LocaleConfig } from 'react-native-calendars';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -24,14 +24,15 @@ export default class HomeScreen extends Component {
     }
     constructor(props) {
         super(props);
-
         this.state = {
             items: {},
             clickedDate: '',
             visibleModal: null,
+            isVisible: true
             // modalVisible: false,
         };
     }
+
 
 
     componentDidMount() {
@@ -52,13 +53,22 @@ export default class HomeScreen extends Component {
             </View>
         </TouchableOpacity>
     );
+    ToggleFunction = () => {
+
+        this.setState(state => ({
+
+            isVisible: !state.isVisible,
+            isInvisible: !state.isInvisible
+        }));
+
+    };
 
     renderModalContent = () => (
         <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-                <View style={{ alignItems: 'center', flexDirection: 'row'}}>
+                <View style={{ alignItems: 'center', flexDirection: 'row' }}>
                     <Image source={require('../assets/calendar.png')} style={{ height: 23, width: 23 }} />
-                    <Text style={{ fontSize: 22, paddingLeft:4 }}>
+                    <Text style={{ fontSize: 22, paddingLeft: 4 }}>
                         {this.state.clickedDate}
                     </Text>
                 </View>
@@ -66,18 +76,41 @@ export default class HomeScreen extends Component {
                     {this.renderButton('CLOSE', () => this.setState({ visibleModal: null }))}
                 </View>
             </View>
-            <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
-                <TouchableOpacity>
-                    <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
-                        REQUEST LEAVE
-                        </Text>
-                </TouchableOpacity>
-            </View>
+            {
+                this.state.isVisible ?
+                    <View style={{ width: '100%', justifyContent: 'flex-start' }}>
+                        <TextInput
+                            placeholder="Reason..."
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
+                        />
+                        <Button title="Toggle" onPress={this.ToggleFunction} />
+                    </View>
+                    
+                    : null
+
+            }
+
+            {
+
+                this.state.isInvisible ?
+                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
+                        <TouchableOpacity
+                            onPress={this.ToggleFunction}
+                        >
+
+                            <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                                REQUEST LEAVE
+                    </Text>
+                        </TouchableOpacity>
+                    </View>
+                    : null
+
+            }
+
 
         </View>
 
     );
-
 
     render() {
         const intime = this.props.navigation.getParam('timein', 'nothing sent');
