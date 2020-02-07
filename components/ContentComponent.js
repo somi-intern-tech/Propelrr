@@ -100,7 +100,7 @@ export default class ContentContainer extends Component {
         return (
             <TouchableOpacity activeOpacity={1} style={styles.drawerTransparent} onPress={() => this.props.navigation.goBack()}>
                 <TouchableOpacity activeOpacity={1} style={styles.drawer} disabled={false}>
-                    {/* <ScrollView> */}
+                    <ScrollView>
                     {/* Header */}
                     <View style={styles.header}>
                         {/* Profile */}
@@ -180,7 +180,7 @@ export default class ContentContainer extends Component {
                     </View>
 
 
-                    {/* </ScrollView> */}
+                    </ScrollView>
                 </TouchableOpacity>
             </TouchableOpacity>
         );

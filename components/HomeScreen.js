@@ -77,22 +77,58 @@ export default class HomeScreen extends Component {
                 </View>
             </View>
             {
-                this.state.isVisible ?
-                    <View style={{ width: '100%', justifyContent: 'flex-start' }}>
+                this.state.isInvisible ?
+                    <View style={{ width: '100%', justifyContent: 'flex-start', marginTop: 20 }}>
+                        <Text style={{paddingBottom: 10}}>FROM</Text>
+                        <TextInput
+                            placeholder="Start Date"
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%', marginBottom: 20 }}
+                        />
+                        <Text style={{paddingBottom: 10}}>TO</Text>
+                        <TextInput
+                            placeholder="End Date"
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%', marginBottom: 40 }}
+                        />
                         <TextInput
                             placeholder="Reason..."
                             style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
                         />
-                        <Button title="Toggle" onPress={this.ToggleFunction} />
+
                     </View>
-                    
+
                     : null
 
             }
+            {
+                this.state.isInvisible ?
+                <View>
+                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
+                        <TouchableOpacity
+                            // onPress={}
+                        >
 
+                            <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                                SUBMIT REQUEST
+                             </Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#A9A9A9', }}>
+                    <TouchableOpacity
+                        onPress={this.ToggleFunction}
+                    >
+
+                        <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                            CANCEL
+                         </Text>
+                    </TouchableOpacity>
+                </View>
+                </View>
+                    : null
+
+            }
             {
 
-                this.state.isInvisible ?
+                this.state.isVisible ?
                     <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
                         <TouchableOpacity
                             onPress={this.ToggleFunction}
@@ -100,13 +136,12 @@ export default class HomeScreen extends Component {
 
                             <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                                 REQUEST LEAVE
-                    </Text>
+                             </Text>
                         </TouchableOpacity>
                     </View>
                     : null
 
             }
-
 
         </View>
 
@@ -141,8 +176,6 @@ export default class HomeScreen extends Component {
                     {this.renderModalContent()}
                 </Modal>
                 <Calendar
-                    // Initially visible month. Default = Date()
-                    current={Date()}
                     // Handler which gets executed on day press. Default = undefined
                     onDayPress={(day) => { this.setState({ visibleModal: 1, clickedDate: moment(day.dateString).format('MMMM DD, YYYY') }) }}
                     // onDayPress={(day) => { datePressed = day }}
@@ -244,7 +277,7 @@ const styles = StyleSheet.create({
         padding: 22,
         borderRadius: 2,
         borderColor: 'rgba(0, 0, 0, 0.1)',
-        height: 350,
+        height: 400,
         justifyContent: 'space-between'
     },
     modalHeader: {
