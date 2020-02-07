@@ -47,7 +47,9 @@ export default class HomeScreen extends Component {
         });
     }
     renderButton = (text, onPress) => (
+
         <TouchableOpacity onPress={onPress}>
+            
             <View style={styles.button}>
                 <Text style={{ color: 'white' }}>{text}</Text>
             </View>
@@ -73,21 +75,23 @@ export default class HomeScreen extends Component {
                     </Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null }))}
+                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null,isVisible:true,isInvisible:false }))}
                 </View>
             </View>
             {
                 this.state.isInvisible ?
                     <View style={{ width: '100%', justifyContent: 'flex-start', marginTop: 20 }}>
-                        <Text style={{paddingBottom: 10}}>FROM</Text>
+                        <Text style={{ paddingBottom: 10 }}>FROM</Text>
                         <TextInput
-                            placeholder="Start Date"
-                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%', marginBottom: 20 }}
+                            // placeholder="Start Date"
+                            value ={this.state.clickedDate}
+
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
                         />
-                        <Text style={{paddingBottom: 10}}>TO</Text>
+                        <Text style={{ paddingTop: 10 }}>TO</Text>
                         <TextInput
                             placeholder="End Date"
-                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%', marginBottom: 40 }}
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
                         />
                         <TextInput
                             placeholder="Reason..."
@@ -101,38 +105,39 @@ export default class HomeScreen extends Component {
             }
             {
                 this.state.isInvisible ?
-                <View>
-                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
-                        <TouchableOpacity
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
+                        <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
+                            <TouchableOpacity
                             // onPress={}
-                        >
-
-                            <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
-                                SUBMIT REQUEST
+                            >
+                                <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                                    SUBMIT REQUEST
                              </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#A9A9A9', }}>
-                    <TouchableOpacity
-                        onPress={this.ToggleFunction}
-                    >
-
-                        <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
-                            CANCEL
+                            </TouchableOpacity>
+                        </View>
+                        <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#A9A9A9', }}>
+                            <TouchableOpacity
+                                onPress={this.ToggleFunction}
+                            >
+                                <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
+                                    CANCEL
                          </Text>
-                    </TouchableOpacity>
-                </View>
-                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
                     : null
 
             }
             {
 
                 this.state.isVisible ?
-                    <View style={[styles.modalFooter], { alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}>
-                        <TouchableOpacity
+
+                    <View style={[styles.modalFooter]}>
+                        <View style={{ height: 150 }}></View>
+                        <TouchableOpacity style= {{alignItems: 'center', justifyContent: 'center', borderRadius: 2, backgroundColor: '#ff9800', }}
                             onPress={this.ToggleFunction}
                         >
+
 
                             <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                                 REQUEST LEAVE
@@ -163,7 +168,7 @@ export default class HomeScreen extends Component {
                     style={styles.touchableHighlight} underlayColor={'rgba(0,0,0,0.8)'}>
                     <Image source={require('../assets/menu.png')} style={{ height: 30, width: 30 }} />
                 </TouchableHighlight>
-                <View style={{ width: 380, height: 40, backgroundColor: '#008ECC', justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ width: '100%', height: 40, backgroundColor: '#008ECC', justifyContent: 'center', alignItems: 'center' }}>
                     <Text
                         style={{
                             fontSize: 25,
@@ -184,12 +189,11 @@ export default class HomeScreen extends Component {
                     // Handler which gets executed when visible month changes in calendar. Default = undefined
                     onMonthChange={(month) => { console.log('month changed', month) }}
                     markedDates={{
-                        [outputDate]: { selected: true, selectedColor: 'blue' },
+                        [outputDate]: { selected: true, selectedColor: 'orange' },
                         // [datePressed]: {selected: true, selectedColor: 'blue' }
                     }}
                     style={{
-                        height: 350,
-                        width: 350,
+                        width: '90%',
                     }}
                     // Specify theme properties to override specific styles for calendar parts. Default = {}
                     theme={{
@@ -277,8 +281,9 @@ const styles = StyleSheet.create({
         padding: 22,
         borderRadius: 2,
         borderColor: 'rgba(0, 0, 0, 0.1)',
-        height: 400,
-        justifyContent: 'space-between'
+        height: 'auto',
+        justifyContent: 'space-between',
+
     },
     modalHeader: {
         flexDirection: 'row',
