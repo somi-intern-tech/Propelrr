@@ -72,7 +72,7 @@ export default class HomeScreen extends Component {
                 < View >
                     <TextInput
                         value={moment().format('MMMM DD, YYYY')}
-                        editable={false}
+                        // editable={false}
                         style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
                     />
                 </View >
@@ -82,11 +82,12 @@ export default class HomeScreen extends Component {
         else {
             return (
                 < View >
-                    <TextInput
-                        value={this.state.clickedDate}
-                        editable={false}
-                        style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
-                    />
+                    <TouchableOpacity onPress={() => console.log("Pressed")}>
+                        <Text style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}>
+                            {this.state.clickedDate}
+                            
+                        </Text>
+                    </TouchableOpacity>
                 </View >
             );
 
@@ -102,8 +103,8 @@ export default class HomeScreen extends Component {
                     </Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                        {this.renderButton('CLOSE', () => this.setState({ visibleModal: null, isVisibleT1: true, isVisibleT2: false }))}
-                    </View>
+                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null, isVisibleT1: true, isVisibleT2: false }))}
+                </View>
             </View>
             {
                 this.state.isVisibleT2 ?
@@ -111,10 +112,12 @@ export default class HomeScreen extends Component {
                         <Text style={{ paddingBottom: 10 }}>FROM</Text>
                         {this.condition()}
                         <Text style={{ paddingTop: 10 }}>TO</Text>
-                        <TextInput
-                            placeholder="End Date"
-                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
-                        />
+                        <TouchableOpacity onPress={() => console.log("Pressed")}>
+                            <Text style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }} placeholder="End Date">
+                            </Text>
+                        </TouchableOpacity>
+
+
                         <TextInput
                             placeholder="Reason..."
                             style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
