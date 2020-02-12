@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity, Image, Alert, TextInput, Button } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import { LocaleConfig } from 'react-native-calendars';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
-import moment from "moment"
+import moment from 'moment';
 import Modal from 'react-native-modal';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 LocaleConfig.locales['en'] = {
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -30,6 +31,8 @@ export default class HomeScreen extends Component {
             visibleModalT2: null,
             isVisibleT1: true,
             pressedDate: 0,
+            isDatePickerVisible: false,
+            setDatePickerVisibility:false
             // modalVisible: false,
         };
     }
@@ -59,22 +62,23 @@ export default class HomeScreen extends Component {
     ToggleFunction = () => {
 
         this.setState(state => ({
-
+            // isVisibleT1: true,
             isVisibleT1: !state.isVisibleT1,
-            isVisibleT2: !state.isVisibleT2
+            isVisibleT2: !state.isVisibleT2,
+
         }));
 
-    };
+    }
     condition() {
         if (moment().format('YY MM DD') > this.state.pressedDate) {
             //return to current date
             return (
                 < View >
-                    <TextInput
-                        value={moment().format('MMMM DD, YYYY')}
-                        // editable={false}
-                        style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
-                    />
+                    <TouchableOpacity style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }} >
+                        <Text >
+                            {moment().format('MMMM DD, YYYY')}
+                        </Text>
+                    </TouchableOpacity>
                 </View >
             );
 
@@ -82,10 +86,9 @@ export default class HomeScreen extends Component {
         else {
             return (
                 < View >
-                    <TouchableOpacity onPress={() => console.log("Pressed")}>
-                        <Text style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}>
+                    <TouchableOpacity style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }} >
+                        <Text >
                             {this.state.clickedDate}
-                            
                         </Text>
                     </TouchableOpacity>
                 </View >
@@ -94,6 +97,7 @@ export default class HomeScreen extends Component {
         }
     }
     renderModalContent = () => (
+        
         <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
                 <View style={{ alignItems: 'center', flexDirection: 'row' }}>
@@ -103,24 +107,33 @@ export default class HomeScreen extends Component {
                     </Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
-                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null, isVisibleT1: true, isVisibleT2: false }))}
+                    {this.renderButton('CLOSE', () => this.setState({ visibleModal: null, isVisibleT1: true,visibleModalT2:false, isVisibleT2: false }))}
                 </View>
             </View>
+
+
             {
                 this.state.isVisibleT2 ?
                     <View style={{ width: '100%', justifyContent: 'flex-start', marginTop: 20 }}>
                         <Text style={{ paddingBottom: 10 }}>FROM</Text>
                         {this.condition()}
-                        <Text style={{ paddingTop: 10 }}>TO</Text>
-                        <TouchableOpacity onPress={() => console.log("Pressed")}>
-                            <Text style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }} placeholder="End Date">
+                        <Text style={{ paddingTop: 10, paddingBottom: 10 }}>TO</Text>
+
+                        <TouchableOpacity style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }} >
+                            <Text style={{ color: 'gray' }}> End date
                             </Text>
+
                         </TouchableOpacity>
+                        {/* <Modal isVisible={this.state.visibleModalT2 === 2} style={styles.bottomModal}> */}
+                        {/* {this.datePicker()} */}
 
-
+                        {/* </Modal> */}
+                        
+                        
+                  
                         <TextInput
                             placeholder="Reason..."
-                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%' }}
+                            style={{ borderBottomColor: '#000000', borderBottomWidth: 1, width: '100%', marginTop: 8 }}
                             multiline={true}
                         />
 
@@ -129,6 +142,7 @@ export default class HomeScreen extends Component {
                     : null
 
             }
+
             {
                 this.state.isVisibleT2 ?
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 15 }}>
@@ -154,6 +168,8 @@ export default class HomeScreen extends Component {
                     : null
 
             }
+
+
             {
 
                 this.state.isVisibleT1 ?
@@ -173,34 +189,15 @@ export default class HomeScreen extends Component {
                     : null
 
             }
+
         </View>
 
     );
-    renderDatePicker() {
-        <View>
-            <DatePicker
-                style={{ width: 300, margin: 10 }}
-                mode='date'
-                confirmBtnText='Confirm'
-                cancelBtnText='Cancel'
-                // date={this.state.mydate}
-                customStyles={{
-                    dateIcon: {
-                        position: "absolute",
-                        left: 0,
-                        top: 4,
-                        marginLeft: 0
-                    },
-                    dateInput: {
-                        marginLeft: 36
-                    }
-                    // ... You can check the source to find the other keys.
-                }}
-                onDateChange={(date) => { this.setState({ date: date }) }}
-            />
-        </View>
-    }
+
+    
     render() {
+
+    
         const intime = this.props.navigation.getParam('timein', 'nothing sent');
         const outputDate = moment().format("YYYY-MM-DD")
         const d = new Date();
@@ -228,6 +225,7 @@ export default class HomeScreen extends Component {
                 <Modal isVisible={this.state.visibleModal === 1}>
                     {this.renderModalContent()}
                 </Modal>
+
                 <Calendar
                     // Handler which gets executed on day press. Default = undefined
                     onDayPress={(day) => { this.setState({ visibleModal: 1, clickedDate: moment(day.dateString).format('MMMM DD, YYYY'), pressedDate: moment(day.dateString).format('YY MM DD') }) }}
@@ -281,6 +279,20 @@ export default class HomeScreen extends Component {
         );
     }
 }
+
+const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = date => {
+    console.warn("A date has been picked: ", date);
+    hideDatePicker();
+  };
+
 
 
 const styles = StyleSheet.create({
@@ -340,4 +352,9 @@ const styles = StyleSheet.create({
     modalFooter: {
         justifyContent: 'flex-end',
     },
+    bottomModal: {
+        justifyContent: 'flex-end',
+        margin: 0,
+    },
 });
+
