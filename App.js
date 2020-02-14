@@ -31,9 +31,7 @@ import { Dimensions } from 'react-native';
 //   initialRouteName: 'Login',
 // }
 // );
-
 // const App = createAppContainer(RootStack);
-
 // export default App;
 
 const AuthStackNavigation = createStackNavigator(

@@ -78,8 +78,18 @@ export default class HomeScreen extends Component {
       visibleModalT2: null,
       isVisibleT1: true,
       pressedDate: 0,
-      isDatePickerVisible:false,
-      setDatePickerVisibility:false
+      isDatePickerVisibleStart: false,
+      setDatePickerVisibilityStart: false,
+      isDatePickerVisibleEnd: false,
+      setDatePickerVisibilityEnd: false,
+      pickerdate: '',
+      startDate: moment().format('MMMM DD, YYYY'),
+      handlerDate: '',
+      endDate: "End Date",
+      confirmID: null,
+      handle: '',
+      startDateFuture: null,
+      endColor: 'grey'
     }
   }
 
@@ -107,36 +117,159 @@ export default class HomeScreen extends Component {
       isVisibleT2: !state.isVisibleT2,
     }))
   }
-  condition () {
+  //---------START DATE-----------
+  showDatePickerStart = () => {
+    this.setState(state => ({
+      setDatePickerVisibilityStart: !state.setDatePickerVisibilityStart,
+      isDatePickerVisibleStart: !state.isDatePickerVisibleStart,
+    }))
+  }
+  hideDatePickerStart = () => {
+    this.setState({
+      setDatePickerVisibilityStart: false,
+      isDatePickerVisibleStart: false,
+
+    })
+  }
+  handleConfirmStartPast = date => {
+    this.setState({startDate: moment(date).format('MMMM DD, YYYY')})
+
+    // console.warn('A date has been picked: ', this.state.startDate)
+    this.hideDatePickerStart()
+  }
+  handleConfirmStartFuture = date => {
+    this.setState({startDateFuture: moment(date).format('MMMM DD, YYYY')})
+
+    // console.warn('A date has been picked: ', this.state.startDate)
+    this.hideDatePickerStart()
+  }
+
+  //-----------------------------
+
+  // --------END DATE-------------
+  showDatePickerEnd = () => {
+    this.setState(state => ({
+      setDatePickerVisibilityEnd: !state.setDatePickerVisibilityEnd,
+      isDatePickerVisibleEnd: !state.isDatePickerVisibleEnd,
+    }))
+  }
+
+  hideDatePickerEnd = () => {
+    this.setState({
+      setDatePickerVisibilityEnd: false,
+      isDatePickerVisibleEnd: false,
+
+    })
+  }
+
+  handleConfirmEnd = date => {
+    this.setState({endDate: moment(date).format('MMMM DD, YYYY'),endColor: 'black'})
+
+    // console.warn('A date has been picked: ', this.state.startDate)
+    this.hideDatePickerEnd()
+  }
+  // -----------------------------
+
+  condition = () => {
     if (moment().format('YY MM DD') > this.state.pressedDate) {
       //return to current date
+      //past
       return (
         <View>
+          <Text style={{paddingBottom: 10}}>FROM</Text>
           <TouchableOpacity
+            onPress={this.showDatePickerStart}
             style={{
               borderBottomColor: '#000000',
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text>{moment().format('MMMM DD, YYYY')}</Text>
+            <Text>{this.state.startDate}</Text>
           </TouchableOpacity>
+
+          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+
+          <TouchableOpacity
+            onPress={this.showDatePickerEnd}
+            style={{
+              borderBottomColor: '#000000',
+              borderBottomWidth: 1,
+              width: '100%',
+            }}>
+            <Text style={{color: this.state.endColor}}>{this.state.endDate}</Text>
+          </TouchableOpacity>
+
+          {/* Datepicker of Start */}
+          <DateTimePickerModal
+            isVisible={this.state.isDatePickerVisibleStart}
+            mode='date'
+            onConfirm={this.handleConfirmStartFuture}
+            onCancel={this.hideDatePickerStart}
+            minimumDate={moment().toDate()}
+            date={new Date(this.state.pickerdate)}
+          />
+          {/* Datepicker of End */}
+          <DateTimePickerModal
+            isVisible={this.state.isDatePickerVisibleEnd}
+            mode='date'
+            onConfirm={this.handleConfirmEnd}
+            onCancel={this.hideDatePickerEnd}
+            minimumDate={new Date(this.state.startDateFuture)}
+            // date={new Date(this.state.endDate)}
+          />
         </View>
       )
     } else {
+      // future
+
       return (
         <View>
+          <Text style={{paddingBottom: 10}}>FROM</Text>
           <TouchableOpacity
+            onPress={this.showDatePickerStart}
             style={{
               borderBottomColor: '#000000',
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text>{this.state.clickedDate}</Text>
+            <Text>{this.state.startDateFuture}</Text>
           </TouchableOpacity>
+
+          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+
+          <TouchableOpacity
+            onPress={this.showDatePickerEnd}
+            style={{
+              borderBottomColor: '#000000',
+              borderBottomWidth: 1,
+              width: '100%',
+            }}>
+            <Text style={{color: this.state.endColor}}>{this.state.endDate}</Text>
+          </TouchableOpacity>
+
+          {/* Datepicker of Start */}
+          <DateTimePickerModal
+            isVisible={this.state.isDatePickerVisibleStart}
+            mode='date'
+            onConfirm={this.handleConfirmStartFuture}
+            onCancel={this.hideDatePickerStart}
+            minimumDate={moment().toDate()}
+            date={new Date(this.state.pickerdate)}
+          />
+          {/* Datepicker of End */}
+          <DateTimePickerModal
+            isVisible={this.state.isDatePickerVisibleEnd}
+            mode='date'
+            onConfirm={this.handleConfirmEnd}
+            onCancel={this.hideDatePickerEnd}
+            minimumDate={new Date(this.state.startDateFuture)}
+            // date={new Date(this.state.endDate)}
+          />
         </View>
       )
     }
   }
+
   renderModalContent = () => (
     <View style={styles.modalContent}>
       <View style={styles.modalHeader}>
@@ -156,6 +289,8 @@ export default class HomeScreen extends Component {
               isVisibleT1: true,
               visibleModalT2: false,
               isVisibleT2: false,
+              endDate: 'End Date',
+              endColor: 'grey'
             }),
           )}
         </View>
@@ -164,23 +299,11 @@ export default class HomeScreen extends Component {
       {this.state.isVisibleT2 ? (
         <View
           style={{width: '100%', justifyContent: 'flex-start', marginTop: 20}}>
-          <Text style={{paddingBottom: 10}}>FROM</Text>
-          {this.condition()}
-          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
-
-          <TouchableOpacity
-            style={{
-              borderBottomColor: '#000000',
-              borderBottomWidth: 1,
-              width: '100%',
-            }}>
-            <Text style={{color: 'gray'}}> End date</Text>
-          </TouchableOpacity>
           {/* <Modal isVisible={this.state.visibleModalT2 === 2} style={styles.bottomModal}> */}
           {/* {this.datePicker()} */}
 
-          {/* </Modal> */}
-            {this.btnDate()}
+          {this.condition()}
+
           <TextInput
             placeholder='Reason...'
             style={{
@@ -191,9 +314,6 @@ export default class HomeScreen extends Component {
             }}
             multiline={true}
           />
-
-       
-          
         </View>
       ) : null}
 
@@ -261,39 +381,53 @@ export default class HomeScreen extends Component {
     </View>
   )
 
+  // btnDate = () => {
+  //   // this.setState({
+  //   //     visibleModal: false,isDatePickerVisible:false,setDatePickerVisibility:false
+  //   // })
 
-  btnDate =() =>{
-    // this.setState({
-    //     visibleModal: false,isDatePickerVisible:false,setDatePickerVisibility:false
-    // })
+  //   const showDatePicker = () => {
+  //     this.setState({setDatePickerVisibility: true, isDatePickerVisible: true})
+  //   }
 
-    const showDatePicker = () => {
-      this.setState({setDatePickerVisibility:true,isDatePickerVisible:true})
-    };
-  
-    const hideDatePicker = () => {
-        this.setState({setDatePickerVisibility:false,isDatePickerVisible:false})
+  //   const hideDatePicker = () => {
+  //     this.setState({
+  //       setDatePickerVisibility: false,
+  //       isDatePickerVisible: false,
+  //     })
+  //   }
 
-    };
-  
-    const handleConfirm = date => {
-      console.warn("A date has been picked: ", date);
-      hideDatePicker();
-    };
-  
-    return (
-      <View>
-        <Button title="Show Date Picker" onPress={showDatePicker} />
-        <DateTimePickerModal
-          isVisible={this.state.isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-      </View>
-    );
-  };
-  
+  //   const handleConfirm = date => {
+  //     console.warn('A date has been picked: ', date)
+  //     hideDatePicker()
+  //   }
+
+  //   return (
+  //     <View>
+  //       <Text style={{paddingBottom: 10}}>FROM</Text>
+  //       {this.condition()}
+  //       <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+
+  //       <TouchableOpacity
+  //         onPress={showDatePicker}
+  //         style={{
+  //           borderBottomColor: '#000000',
+  //           borderBottomWidth: 1,
+  //           width: '100%',
+  //         }}>
+  //         <Text style={{color: 'gray'}}> End date</Text>
+  //       </TouchableOpacity>
+  //       <DateTimePickerModal
+  //         isVisible={this.state.isDatePickerVisible}
+  //         mode='date'
+  //         onConfirm={handleConfirm}
+  //         onCancel={hideDatePicker}
+  //         minimumDate={this.state.pickerdate}
+  //       />
+  //     </View>
+  //   )
+  // }
+
   render () {
     const intime = this.props.navigation.getParam('timein', 'nothing sent')
     const outputDate = moment().format('YYYY-MM-DD')
@@ -366,6 +500,8 @@ export default class HomeScreen extends Component {
               visibleModal: 1,
               clickedDate: moment(day.dateString).format('MMMM DD, YYYY'),
               pressedDate: moment(day.dateString).format('YY MM DD'),
+              pickerdate: moment(day.dateString).toDate(),
+              startDateFuture: moment(day.dateString).format('MMMM DD, YYYY'),
             })
           }}
           // onDayPress={(day) => { datePressed = day }}
