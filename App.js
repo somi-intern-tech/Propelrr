@@ -36,17 +36,13 @@ import { Dimensions } from 'react-native';
 
 const AuthStackNavigation = createStackNavigator(
   {
-    Login: {
-      screen: Login,
-      navigationOptions: {
-        headerShown: false
-      },
-      Home: {
-        screen: HomeScreen
-      }
-    },
-    initialRouteName: 'Home'
-  })
+    Home: { screen: (HomeScreen) },
+  Profile: { screen: Profile },
+  MyRequest: { screen: MyRequest },
+  ManageEvents: { screen: ManageEvents },
+  Login: { screen: Login }
+  },
+  {headerMode:'none'})
 
 // const DashboardStack = createStackNavigator({ // For header options
 //   HomeScreen: HomeScreen,
@@ -58,13 +54,16 @@ const AuthStackNavigation = createStackNavigator(
 
 const DrawerNav = createDrawerNavigator({
   Home: { screen: (HomeScreen) },
-  Profile: { screen: Profile },
+  Profile: { screen: Profile,navigationOptions:{
+    title:'PROFILE'
+  } },
   MyRequest: { screen: MyRequest },
   ManageEvents: { screen: ManageEvents },
   Login: { screen: Login }
+
 },
   {
-    initialRouteName: 'Home',
+    // initialRouteName: 'Home',
     contentComponent: ContentComponent,
     drawerWidth: Dimensions.get('window').width,
     drawerPosition: 'left',

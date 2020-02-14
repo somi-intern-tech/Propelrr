@@ -16,6 +16,10 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen'
 
 LocaleConfig.locales['en'] = {
   monthNames: [
@@ -85,11 +89,11 @@ export default class HomeScreen extends Component {
       pickerdate: '',
       startDate: moment().format('MMMM DD, YYYY'),
       handlerDate: '',
-      endDate: "End Date",
+      endDate: 'End Date',
       confirmID: null,
       handle: '',
       startDateFuture: null,
-      endColor: 'grey'
+      endColor: 'grey',
     }
   }
 
@@ -128,7 +132,6 @@ export default class HomeScreen extends Component {
     this.setState({
       setDatePickerVisibilityStart: false,
       isDatePickerVisibleStart: false,
-
     })
   }
   handleConfirmStartPast = date => {
@@ -158,12 +161,14 @@ export default class HomeScreen extends Component {
     this.setState({
       setDatePickerVisibilityEnd: false,
       isDatePickerVisibleEnd: false,
-
     })
   }
 
   handleConfirmEnd = date => {
-    this.setState({endDate: moment(date).format('MMMM DD, YYYY'),endColor: 'black'})
+    this.setState({
+      endDate: moment(date).format('MMMM DD, YYYY'),
+      endColor: 'black',
+    })
 
     // console.warn('A date has been picked: ', this.state.startDate)
     this.hideDatePickerEnd()
@@ -196,7 +201,9 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>{this.state.endDate}</Text>
+            <Text style={{color: this.state.endColor}}>
+              {this.state.endDate}
+            </Text>
           </TouchableOpacity>
 
           {/* Datepicker of Start */}
@@ -206,7 +213,8 @@ export default class HomeScreen extends Component {
             onConfirm={this.handleConfirmStartFuture}
             onCancel={this.hideDatePickerStart}
             minimumDate={moment().toDate()}
-            date={new Date(this.state.pickerdate)}
+            date={new Date(this.state.startDate)}
+            maximumDate={new Date('2999-12-31')}
           />
           {/* Datepicker of End */}
           <DateTimePickerModal
@@ -215,6 +223,8 @@ export default class HomeScreen extends Component {
             onConfirm={this.handleConfirmEnd}
             onCancel={this.hideDatePickerEnd}
             minimumDate={new Date(this.state.startDateFuture)}
+            date={new Date(this.state.startDateFuture)}
+            maximumDate={new Date('2999-12-31')}
             // date={new Date(this.state.endDate)}
           />
         </View>
@@ -244,7 +254,9 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>{this.state.endDate}</Text>
+            <Text style={{color: this.state.endColor}}>
+              {this.state.endDate}
+            </Text>
           </TouchableOpacity>
 
           {/* Datepicker of Start */}
@@ -254,7 +266,8 @@ export default class HomeScreen extends Component {
             onConfirm={this.handleConfirmStartFuture}
             onCancel={this.hideDatePickerStart}
             minimumDate={moment().toDate()}
-            date={new Date(this.state.pickerdate)}
+            date={new Date(this.state.startDateFuture)}
+            maximumDate={new Date('2999-12-31')}
           />
           {/* Datepicker of End */}
           <DateTimePickerModal
@@ -263,6 +276,8 @@ export default class HomeScreen extends Component {
             onConfirm={this.handleConfirmEnd}
             onCancel={this.hideDatePickerEnd}
             minimumDate={new Date(this.state.startDateFuture)}
+            date={new Date(this.state.startDateFuture)}
+            maximumDate={new Date('2999-12-31')}
             // date={new Date(this.state.endDate)}
           />
         </View>
@@ -290,7 +305,7 @@ export default class HomeScreen extends Component {
               visibleModalT2: false,
               isVisibleT2: false,
               endDate: 'End Date',
-              endColor: 'grey'
+              endColor: 'grey',
             }),
           )}
         </View>
@@ -313,6 +328,8 @@ export default class HomeScreen extends Component {
               marginTop: 8,
             }}
             multiline={true}
+            allowFontScaling={true}
+            number={10}
           />
         </View>
       ) : null}
@@ -381,53 +398,6 @@ export default class HomeScreen extends Component {
     </View>
   )
 
-  // btnDate = () => {
-  //   // this.setState({
-  //   //     visibleModal: false,isDatePickerVisible:false,setDatePickerVisibility:false
-  //   // })
-
-  //   const showDatePicker = () => {
-  //     this.setState({setDatePickerVisibility: true, isDatePickerVisible: true})
-  //   }
-
-  //   const hideDatePicker = () => {
-  //     this.setState({
-  //       setDatePickerVisibility: false,
-  //       isDatePickerVisible: false,
-  //     })
-  //   }
-
-  //   const handleConfirm = date => {
-  //     console.warn('A date has been picked: ', date)
-  //     hideDatePicker()
-  //   }
-
-  //   return (
-  //     <View>
-  //       <Text style={{paddingBottom: 10}}>FROM</Text>
-  //       {this.condition()}
-  //       <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
-
-  //       <TouchableOpacity
-  //         onPress={showDatePicker}
-  //         style={{
-  //           borderBottomColor: '#000000',
-  //           borderBottomWidth: 1,
-  //           width: '100%',
-  //         }}>
-  //         <Text style={{color: 'gray'}}> End date</Text>
-  //       </TouchableOpacity>
-  //       <DateTimePickerModal
-  //         isVisible={this.state.isDatePickerVisible}
-  //         mode='date'
-  //         onConfirm={handleConfirm}
-  //         onCancel={hideDatePicker}
-  //         minimumDate={this.state.pickerdate}
-  //       />
-  //     </View>
-  //   )
-  // }
-
   render () {
     const intime = this.props.navigation.getParam('timein', 'nothing sent')
     const outputDate = moment().format('YYYY-MM-DD')
@@ -446,7 +416,7 @@ export default class HomeScreen extends Component {
       'November',
       'December',
     ]
-    var days = [
+    var days = [ 
       'Sunday',
       'Monday',
       'Tuesday',
@@ -458,101 +428,192 @@ export default class HomeScreen extends Component {
     var dayName = days[d.getDay()]
 
     return (
-      <View style={styles.view}>
-        {/* <Text>{intime}</Text> */}
-        <TouchableHighlight
-          onPress={() =>
-            this.props.navigation.dispatch(DrawerActions.openDrawer(), {
-              timein: intime,
-            })
-          }
-          style={styles.touchableHighlight}
-          underlayColor={'rgba(0,0,0,0.8)'}>
-          <Image
-            source={require('../assets/menu.png')}
-            style={{height: 30, width: 30}}
-          />
-        </TouchableHighlight>
-        <View
-          style={{
-            width: '100%',
-            height: 40,
-            backgroundColor: '#008ECC',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 25,
-              color: 'white',
-            }}>
-            {dayName + ', ' + monthNames[d.getMonth()] + ' ' + this.state.date}
-          </Text>
+      <View style={styles.maincontainer}>
+        <View style={styles.container}>
+          <View style={styles.container1}>
+            <View style={styles.viewStyleOne}>
+              <TouchableHighlight
+                onPress={() =>
+                  this.props.navigation.dispatch(DrawerActions.openDrawer())
+                }
+                style={styles.touchableHighlight}
+                underlayColor={'rgba(0,0,0,0.8)'}>
+                <Image
+                  source={require('../assets/menu.png')}
+                  style={{height: 30, width: 30}}
+                />
+              </TouchableHighlight>
+            </View>
+            <View style={styles.viewStyleTwo}>
+              <Text style={styles.text}>HOME</Text>
+            </View>
+            {/* <View style={styles.viewStyleThree}>
+          <Text style={styles.textStyle}> 3 </Text>
+        </View> */}
+          </View>
         </View>
-        <Modal isVisible={this.state.visibleModal === 1}>
-          {this.renderModalContent()}
-        </Modal>
+        {/* ----------------CALENDAR---------------------- */}
+        <View style={styles.container2}>
+          <View
+            style={{
+              width: wp('100%'),
+              height: hp('5%'),
+              backgroundColor: '#008ECC',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 25,
+                color: 'white',
+              }}>
+              {dayName +
+                ', ' +
+                monthNames[d.getMonth()] +
+                ' ' +
+                this.state.date}
+            </Text>
+          </View>
+          <Modal isVisible={this.state.visibleModal === 1}>
+            {this.renderModalContent()}
+          </Modal>
+          <View style={styles.calendarContainer}>
+            <Calendar
+              // Handler which gets executed on day press. Default = undefined
+              onDayPress={day => {
+                this.setState({
+                  visibleModal: 1,
+                  clickedDate: moment(day.dateString).format('MMMM DD, YYYY'),
+                  pressedDate: moment(day.dateString).format('YY MM DD'),
+                  pickerdate: moment(day.dateString).toDate(),
+                  startDateFuture: moment(day.dateString).format(
+                    'MMMM DD, YYYY',
+                  ),
+                })
+              }}
+              // onDayPress={(day) => { datePressed = day }}
+              // Handler which gets executed on day long press. Default = undefined
+              onDayLongPress={day => {
+                console.log('selected day', day)
+              }}
+              // Handler which gets executed when visible month changes in calendar. Default = undefined
+              onMonthChange={month => {
+                console.log('month changed', month)
+              }}
+              markedDates={{
+                [outputDate]: {selected: true, selectedColor: 'orange'},
+                '2020-02-15': {
+                  periods: [{startingDay: true, color: 'blue'}],
+                },
+                '2020-02-16': {
+                  periods: [{color: 'blue'}],
+                },
+                '2020-02-17': {
+                  periods: [{color: 'blue'}],
+                },
+                '2020-02-18': {
+                  periods: [{color: 'blue'}],
+                },
+                '2020-02-19': {
+                  periods: [{endingDay: true, color: 'blue'}],
+                },
+                // [datePressed]: {selected: true, selectedColor: 'blue' }
+              }}
+              // Date marking style [simple/period/multi-dot/custom]. Default = 'simple'
+              markingType='multi-period'
+              style={{
+                width: wp('95%'),
+              }}
+              // Specify theme properties to override specific styles for calendar parts. Default = {}
+              theme={{
+                backgroundColor: '#ffffff',
+                calendarBackground: '#ffffff',
+                textSectionTitleColor: 'black',
+                selectedDayBackgroundColor: '#ff9800',
+                // selectedDayTextColor: 'blue',
+                todayTextColor: 'white',
+                dayTextColor: 'black',
+                textDisabledColor: '#d9e1e8',
+                dotColor: '#00adf5',
+                selectedDotColor: '#ffffff',
+                arrowColor: 'black',
+                monthTextColor: 'grey',
+                indicatorColor: 'grey',
+                textDayFontFamily: 'Arial',
+                textMonthFontFamily: 'Arial',
+                textDayHeaderFontFamily: 'Arial',
+                textDayFontWeight: '300',
+                textMonthFontWeight: 'bold',
+                textDayHeaderFontWeight: '300',
+                textDayFontSize: hp('2%'),
+                textMonthFontSize: hp('2.3%'),
+                textDayHeaderFontSize: hp('1.8%'),
+                'stylesheet.calendar.header': {
+                  week: {
+                    marginTop: 5,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 10,
+                  },
+                },
+              }}
+            />
+          </View>
 
-        <Calendar
-          // Handler which gets executed on day press. Default = undefined
-          onDayPress={day => {
-            this.setState({
-              visibleModal: 1,
-              clickedDate: moment(day.dateString).format('MMMM DD, YYYY'),
-              pressedDate: moment(day.dateString).format('YY MM DD'),
-              pickerdate: moment(day.dateString).toDate(),
-              startDateFuture: moment(day.dateString).format('MMMM DD, YYYY'),
-            })
-          }}
-          // onDayPress={(day) => { datePressed = day }}
-          // Handler which gets executed on day long press. Default = undefined
-          onDayLongPress={day => {
-            console.log('selected day', day)
-          }}
-          // Handler which gets executed when visible month changes in calendar. Default = undefined
-          onMonthChange={month => {
-            console.log('month changed', month)
-          }}
-          markedDates={{
-            [outputDate]: {selected: true, selectedColor: 'orange'},
-            // [datePressed]: {selected: true, selectedColor: 'blue' }
-          }}
-          style={{
-            width: '90%',
-          }}
-          // Specify theme properties to override specific styles for calendar parts. Default = {}
-          theme={{
-            backgroundColor: '#ffffff',
-            calendarBackground: '#ffffff',
-            textSectionTitleColor: 'black',
-            selectedDayBackgroundColor: '#ff9800',
-            // selectedDayTextColor: 'blue',
-            todayTextColor: 'white',
-            dayTextColor: 'black',
-            textDisabledColor: '#d9e1e8',
-            dotColor: '#00adf5',
-            selectedDotColor: '#ffffff',
-            arrowColor: 'black',
-            monthTextColor: 'grey',
-            indicatorColor: 'grey',
-            textDayFontFamily: 'Arial',
-            textMonthFontFamily: 'Arial',
-            textDayHeaderFontFamily: 'Arial',
-            textDayFontWeight: '300',
-            textMonthFontWeight: 'bold',
-            textDayHeaderFontWeight: '300',
-            textDayFontSize: 16,
-            textMonthFontSize: 16,
-            textDayHeaderFontSize: 15,
-            'stylesheet.calendar.header': {
-              week: {
-                marginTop: 5,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              },
-            },
-          }}
-        />
+          <View style={{marginLeft: 10}}>
+            <Text style={{marginVertical: 5}}>LEGENDS:</Text>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <View
+                style={{
+                  backgroundColor: 'blue',
+                  height: 15,
+                  width: 15,
+                  borderRadius: 15,
+                }}></View>
+              <Text> Vacation Leave</Text>
+            </View>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <View
+                style={{
+                  backgroundColor: 'grey',
+                  height: 15,
+                  width: 15,
+                  borderRadius: 15,
+                }}></View>
+              <Text> Out of the Office Access</Text>
+            </View>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <View
+                style={{
+                  backgroundColor: 'pink',
+                  height: 15,
+                  width: 15,
+                  borderRadius: 15,
+                }}></View>
+              <Text> Holiday</Text>
+            </View>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <View
+                style={{
+                  backgroundColor: 'orange',
+                  height: 15,
+                  width: 15,
+                  borderRadius: 15,
+                }}></View>
+              <Text> Internal Event</Text>
+            </View>
+            <View style={{flexDirection: 'row', marginVertical: 5}}>
+              <View
+                style={{
+                  backgroundColor: 'yellow',
+                  height: 15,
+                  width: 15,
+                  borderRadius: 15,
+                }}></View>
+              <Text> Meeting</Text>
+            </View>
+          </View>
+        </View>
       </View>
     )
   }
@@ -560,37 +621,17 @@ export default class HomeScreen extends Component {
 
 const styles = StyleSheet.create({
   view: {
-    flex: 1,
+    flex: 65,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     backgroundColor: 'white',
-  },
-  text: {
-    fontSize: 26,
-    color: 'purple',
-  },
-  touchableHighlight: {
-    width: 50,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    left: 10,
-    top: 40,
   },
   open: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
-  container: {
-    height: 500,
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   button: {
     backgroundColor: '#A9A9A9',
     padding: 8,
@@ -617,5 +658,71 @@ const styles = StyleSheet.create({
   bottomModal: {
     justifyContent: 'flex-end',
     margin: 0,
+  },
+
+  maincontainer: {
+    // flexDirection: 'column', // 70% of height device screen
+    // // width: wp('100%'),
+    // // flexGrow:hp('100%'),
+    // // marginTop: '9%', // 70% of height device screen
+    // height:hp('100%'),
+    // backgroundColor:'grey',
+    // // marginTop:50,
+    // // alignItems:'center',
+    // justifyContent:'center',
+  },
+
+  container: {
+    // flexDirection: 'row', // 70% of height device screen
+    width: wp('100%'),
+    height: hp('7%'),
+    marginTop: '9%', // 70% of height device screen
+    // backgroundColor:'green',
+  },
+  container1: {
+    flexDirection: 'row', // 70% of height device screen
+    width: wp('100%'),
+    height: hp('7%'),
+    // left: 10,
+    borderBottomWidth: hp('.04%'),
+    // backgroundColor:'red',
+  },
+  container2: {
+    width: wp('100%'),
+    // flexGrow:hp('100%'),
+    // marginTop: '9%', // 70% of height device screen
+    height: hp('100%'),
+    // backgroundColor: 'yellow',
+    // marginTop:50,
+    // alignItems:'center',
+    // justifyContent: 'center',
+  },
+  viewStyleOne: {
+    height: hp('6.5%'), // 70% of height device screen
+    width: wp('12%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    // left: 10,
+  },
+  viewStyleTwo: {
+    height: hp('7%'), // 70% of height device screen
+    width: wp('72%'),
+    justifyContent: 'center',
+    alignItems: 'center',
+    left: 13,
+    // backgroundColor:'grey'
+  },
+  text: {
+    fontSize: 24,
+    color: '#008ECC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: 'bold',
+  },
+  calendarContainer: {
+    marginTop: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
