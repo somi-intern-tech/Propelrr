@@ -1,6 +1,10 @@
 import React from 'react'
 
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen'
 
 const DismissKeyboardHOC = (Comp) => {
   return ({ children, ...props }) => (
@@ -143,16 +147,10 @@ export default class Login extends React.Component {
 
           alert(responseJson.validation + " --" + time)
           this.props.navigation.navigate('Home', { timein: time })
-        // this.props.navigation.navigate('App',{timein:time})
         }
         else {
           alert("error")
         }
-        //alert(JSON.stringify(JSON.parse(responseJson)))
-
-
-        // this.props.navigation.navigate('App')
-
 
       })
       .catch((error) => {
@@ -223,6 +221,7 @@ export default class Login extends React.Component {
                 placeholder='Password'
                 secureTextEntry
                 onChangeText={this.handlePasswordChange}
+                
               />
 
             </View>
@@ -260,7 +259,7 @@ export default class Login extends React.Component {
 
 
             >
-              <Text style={{ fontWeight: 'bold', color: 'white' }}> LOGIN </Text>
+              <Text style={{ fontWeight: 'bold', color: 'white',fontSize:hp('2%') }}> LOGIN </Text>
             </TouchableOpacity>
           </View>
         </DismissKeyboardView>
@@ -275,7 +274,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    height:hp('100%'),
     backgroundColor: '#ff9800',
     alignItems: 'center',
     justifyContent: 'center'
@@ -284,34 +283,31 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: '#ef6730',
-    padding: 15,
-    width: 300,
+    padding: hp('1.5%'),
+    width: wp('80%'),
     marginTop: 10
-  },
-
-  background: {
-    width: 500,
-    height: 200,
-    backgroundColor: 'skyblue'
   },
 
   image: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: 250,
-    width: 250,
-    resizeMode: 'stretch',
+    height: hp('30%'),
+    width: wp('70%'),
+    resizeMode: 'contain',
     marginBottom: 15
   },
 
   input: {
-    width: 300,
-    height: 40,
+    width:wp('80%'),
+    height: hp('6%'),
     borderRadius: 5,
     margin: 5,
     backgroundColor: '#eee',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontSize:hp('2%'),
+    fontStyle: "normal",
+
 
   },
   container1: {
@@ -323,7 +319,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 8, height: 8, },
     shadowColor: 'black',
     shadowOpacity: .3,
-    padding: 25
+    padding: 25,
+    width:wp('90%')
   },
   con: {
     justifyContent: 'center',

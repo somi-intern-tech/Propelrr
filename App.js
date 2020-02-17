@@ -53,13 +53,14 @@ const AuthStackNavigation = createStackNavigator(
 
 
 const DrawerNav = createDrawerNavigator({
+  Login: { screen: Login },
+
   Home: { screen: (HomeScreen) },
   Profile: { screen: Profile,navigationOptions:{
     title:'PROFILE'
   } },
   MyRequest: { screen: MyRequest },
   ManageEvents: { screen: ManageEvents },
-  Login: { screen: Login }
 
 },
   {

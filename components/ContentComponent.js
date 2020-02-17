@@ -134,7 +134,7 @@ export default class ContentContainer extends Component {
             <View style={styles.header}>
               {/* Profile */}
               <Image
-                source={require('../assets/propelrr.png')}
+                source={require('../assets/logo.png')}
                 style={([styles.headerImage], {height: 85, width: 85})}
               />
 
@@ -160,96 +160,139 @@ export default class ContentContainer extends Component {
                     this.state.date}
                 </Text>
                 <TouchableOpacity
-                  style={{backgroundColor: '#EF5350', width: 150, height: 40}}>
+                  style={{
+                    backgroundColor: '#EF5350',
+                    width: hp('18%'),
+                    height: wp('8%'),
+                  }}>
                   <View
                     style={{
                       flexDirection: 'row',
-                      paddingTop: 8,
-                      paddingLeft: 19,
+                      paddingTop: 4,
+
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}>
                     <Image
                       source={require('../assets/clock.png')}
-                      style={{height: 20, width: 20}}
+                      style={{
+                        height: hp('3%'),
+                        width: wp('3%'),
+                        resizeMode: 'contain',
+                      }}
                     />
                     <Text
-                      style={{fontSize: 18, paddingLeft: 3, color: 'white'}}>
+                      style={{
+                        fontSize: hp('2%'),
+                        paddingLeft: 3,
+                        color: 'white',
+                      }}>
                       TIME OUT
                     </Text>
                   </View>
                 </TouchableOpacity>
-                <Text style={styles.bordertext}>Timed-in at: {intime}</Text>
+                <View
+                  style={{
+                    // width: hp('25%'),
+                    // height: wp('10%'),
+                    backgroundColor: '#d3d3d3',
+                    borderRadius: 15,
+                    margin: 5,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap',
+                    padding: 10,
+                  }}>
+                  <Text style={{fontSize: hp('1.8%')}}>
+                    Timed-in at: {intime}
+                  </Text>
+                </View>
               </View>
             </View>
 
-            <View style={{paddingTop: 30}}>
+            <View style={{marginTop: 10}}>
               {/* Home */}
-              <TouchableHighlight
-                underlayColor={'rgba(0,0,0,0.2)'}
-                onPress={() => this.props.navigation.navigate('Home')}>
-                <View style={styles.row}>
-                  <Image
-                    source={require('../assets/house.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>Home</Text>
-                </View>
-              </TouchableHighlight>
-
+              <View
+                style={{
+                  marginTop: hp('2%'),
+                }}>
+                <TouchableHighlight
+                  underlayColor={'rgba(0,0,0,0.2)'}
+                  onPress={() => this.props.navigation.navigate('Home')}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/house.png')}
+                      style={styles.icon}
+                    />
+                    <Text style={styles.text}>Home</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
               <View style={styles.line}></View>
               {/* Profile */}
-              <TouchableHighlight
-                underlayColor={'rgba(0,0,0,0.2)'}
-                onPress={() => this.props.navigation.navigate('Profile')}>
-                <View style={styles.row}>
-                  <Image
-                    source={require('../assets/avatar.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>Profile</Text>
-                </View>
-              </TouchableHighlight>
+              <View>
+                <TouchableHighlight
+                  underlayColor={'rgba(0,0,0,0.2)'}
+                  onPress={() => this.props.navigation.navigate('Profile')}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/avatar.png')}
+                      style={styles.icon}
+                    />
+                    <Text style={styles.text}>Profile</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
 
               <View style={styles.line}></View>
               {/* My Requests */}
-              <TouchableHighlight
-                underlayColor={'rgba(0,0,0,0.2)'}
-                onPress={() => this.props.navigation.navigate('MyRequest')}>
-                <View style={styles.row}>
-                  <Image
-                    source={require('../assets/list.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>My Requests</Text>
-                </View>
-              </TouchableHighlight>
+              <View>
+                <TouchableHighlight
+                  underlayColor={'rgba(0,0,0,0.2)'}
+                  onPress={() => this.props.navigation.navigate('MyRequest')}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/list.png')}
+                      style={styles.icon}
+                    />
+                    <Text style={styles.text}>My Requests</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
 
               <View style={styles.line}></View>
               {/* Manage Events */}
-              <TouchableHighlight
-                underlayColor={'rgba(0,0,0,0.2)'}
-                onPress={() => this.props.navigation.navigate('ManageEvents')}>
-                <View style={styles.row}>
-                  <Image
-                    source={require('../assets/manageevents.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>Manage Events</Text>
-                </View>
-              </TouchableHighlight>
+              <View>
+                <TouchableHighlight
+                  underlayColor={'rgba(0,0,0,0.2)'}
+                  onPress={() =>
+                    this.props.navigation.navigate('ManageEvents')
+                  }>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/manageevents.png')}
+                      style={styles.icon}
+                    />
+                    <Text style={styles.text}>Manage Events</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
 
               <View style={styles.line}></View>
               {/* Log out */}
-              <TouchableHighlight
-                underlayColor={'rgba(0,0,0,0.2)'}
-                onPress={() => this.props.navigation.navigate('Login')}>
-                <View style={styles.row}>
-                  <Image
-                    source={require('../assets/logout.png')}
-                    style={styles.icon}
-                  />
-                  <Text style={styles.text}>Log out</Text>
-                </View>
-              </TouchableHighlight>
+              <View>
+                <TouchableHighlight
+                  underlayColor={'rgba(0,0,0,0.2)'}
+                  onPress={() => this.props.navigation.navigate('Login')}>
+                  <View style={styles.row}>
+                    <Image
+                      source={require('../assets/logout.png')}
+                      style={styles.icon}
+                    />
+                    <Text style={styles.text}>Log out</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
             </View>
           </ScrollView>
         </TouchableOpacity>
@@ -270,25 +313,25 @@ const styles = StyleSheet.create({
   },
   header: {
     width: wp('70%'),
-    height:hp('50'),
+    height: hp('50'),
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 80,
   },
   headerImage: {
-    borderRadius: 100,
   },
   icon: {
-    height: 25,
-    width: 25,
+    height: hp('7%'),
+    width: wp('7%'),
+    resizeMode: 'contain',
   },
   row: {
     flexDirection: 'row',
     paddingVertical: 2,
     paddingLeft: 10,
   },
-  
+
   name: {
     marginTop: 5,
     fontSize: hp('3%'),
@@ -298,13 +341,16 @@ const styles = StyleSheet.create({
     fontSize: hp('2.5%'),
     color: '#111',
     marginLeft: 15,
+    marginTop:15
+  
+
   },
   line: {
-    width:wp('100%'),
+    width: wp('100%'),
     alignSelf: 'center',
     height: hp('.04%'),
     backgroundColor: 'gray',
-    margin: 15,
+    margin: 1,
   },
   MainContainer: {
     alignItems: 'center',
@@ -319,7 +365,7 @@ const styles = StyleSheet.create({
   bordertext: {
     backgroundColor: '#d3d3d3',
     borderRadius: 15,
-    fontSize: 13,
+    fontSize: hp('2%'),
     paddingLeft: 25,
     paddingRight: 25,
     padding: 10,
