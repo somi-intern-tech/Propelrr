@@ -28,8 +28,22 @@ export default class Login extends React.Component {
       username: '',
       password: '',
       a: '',
-      time: ''
+      time: '',
+      animating: false,
+      align: 'center',
+      login: false,
+      splashScreen: true,
     }
+    setTimeout(
+      () =>
+        this.setState({ align: 'flex-start' }, function () {
+          this.setState({
+            login: true,
+            splashScreen: false
+          });
+        }),
+      3000
+    );
   }
   // componentDidMount() {
 
@@ -192,77 +206,92 @@ export default class Login extends React.Component {
     return (
 
       <View style={styles.container}>
-
-        <DismissKeyboardView>
-          <View style={styles.con}>
-            <Image source={require('../assets/propelrrlogo.png')}
-              style={styles.image} />
-          </View>
-          <View style={styles.container1}>
-            <Text style={{ color: 'red' }}>{this.state.a}</Text>
-            <View style={styles.input}>
-
-
-              <TextInput
-                name='username'
-                value={this.state.username}
-                placeholder='Username'
-                autoCapitalize='none'
-                onChangeText={this.handleUsernameChange}
-
-
-              />
+        {!this.state.splashScreen ? null : (
+          <View>
+            <View style={styles.con}>
+              <Image source={require('../assets/propelrrlogo.png')}
+                style={styles.image} />
             </View>
-            <View style={styles.input}>
-
-              <TextInput
-                name='password'
-                value={this.state.password}
-                placeholder='Password'
-                secureTextEntry
-                onChangeText={this.handlePasswordChange}
-                
-              />
-
-            </View>
-
-            <TouchableOpacity style={styles.button}
-              onPress={() => {
-                const {
-                  username,
-                  password
-                } = this.state
-                // this.state.dataSource.map((val) => {
-
-                //   if (username == val.user && password == val.password) {
-                //     this.onLogin()
-                //   }
-                //   else if (username.length == 0 || password.length == 0) {
-                //     // this.setState.a = "Please enter your user and password"
-                //     this.errorto()
-
-                //   }
-                //   else {
-                //     this.errorto()
-
-                //   }
-
-
-
-                // })\
-                this.errorto()
-              }
-
-
-
-              }
-
-
-            >
-              <Text style={{ fontWeight: 'bold', color: 'white',fontSize:hp('2%') }}> LOGIN </Text>
-            </TouchableOpacity>
+            <Text style={{fontSize: 28, color: 'white', fontWeight: 'bold', fontFamily: 'Times New Roman'}}>
+              Drive Digital Differently
+            </Text>
           </View>
-        </DismissKeyboardView>
+        )}
+        {!this.state.login ? null : (
+          <View>
+            <DismissKeyboardView>
+              <View style={styles.con}>
+                <Image source={require('../assets/propelrrlogo.png')}
+                  style={styles.image} />
+              </View>
+              <View style={styles.container1}>
+                <Text style={{ color: 'red' }}>{this.state.a}</Text>
+                <View style={styles.input}>
+
+
+                  <TextInput
+                    name='username'
+                    value={this.state.username}
+                    placeholder='Username'
+                    autoCapitalize='none'
+                    onChangeText={this.handleUsernameChange}
+
+
+                  />
+                </View>
+                <View style={styles.input}>
+
+                  <TextInput
+                    name='password'
+                    value={this.state.password}
+                    placeholder='Password'
+                    secureTextEntry
+                    onChangeText={this.handlePasswordChange}
+
+                  />
+
+                </View>
+
+                <TouchableOpacity style={styles.button}
+                  onPress={() => {
+                    const {
+                      username,
+                      password
+                    } = this.state
+                    // this.state.dataSource.map((val) => {
+
+                    //   if (username == val.user && password == val.password) {
+                    //     this.onLogin()
+                    //   }
+                    //   else if (username.length == 0 || password.length == 0) {
+                    //     // this.setState.a = "Please enter your user and password"
+                    //     this.errorto()
+
+                    //   }
+                    //   else {
+                    //     this.errorto()
+
+                    //   }
+
+
+
+                    // })\
+                    this.errorto()
+                  }
+
+
+
+                  }
+
+
+                >
+                  <Text style={{ fontWeight: 'bold', color: 'white', fontSize: hp('2%') }}> LOGIN </Text>
+                </TouchableOpacity>
+              </View>
+            </DismissKeyboardView>
+          </View>
+        )}
+
 
       </View>
 
@@ -274,7 +303,7 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
 
   container: {
-    height:hp('100%'),
+    height: hp('100%'),
     backgroundColor: '#ff9800',
     alignItems: 'center',
     justifyContent: 'center'
@@ -298,14 +327,14 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    width:wp('80%'),
+    width: wp('80%'),
     height: hp('6%'),
     borderRadius: 5,
     margin: 5,
     backgroundColor: '#eee',
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize:hp('2%'),
+    fontSize: hp('2%'),
     fontStyle: "normal",
 
 
@@ -320,7 +349,7 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: .3,
     padding: 25,
-    width:wp('90%')
+    width: wp('90%')
   },
   con: {
     justifyContent: 'center',
