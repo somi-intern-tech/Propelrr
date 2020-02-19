@@ -42,18 +42,7 @@ export default class Profile extends Component {
     //   })
     // {this.fetchProfile}.
 
-    return fetch('http://demo6819551.mockable.io/userdate')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.profile,
-        })
-      })
-
-      .catch(error => {
-        console.log(error)
-      })
+    return this.fetchProfile()
   }
 
   fetchHours () {
@@ -65,7 +54,6 @@ export default class Profile extends Component {
           dataSource: responseJson.data,
         })
       })
-      .done()
 
       .catch(error => {
         console.log(error)
@@ -92,6 +80,80 @@ export default class Profile extends Component {
       dataSource: null,
       datedata: null,
       nameholder: null,
+      viewOne: 1,
+    }
+  }
+
+  datacontainer () {
+    let name = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.name}</Text>
+    ))
+    let position = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.position}</Text>
+    ))
+    let idnum = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.id}</Text>
+    ))
+    let birthday = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.birthday}</Text>
+    ))
+    let number = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.number}</Text>
+    ))
+
+    let altnumber = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.altnumber}</Text>
+    ))
+    let email = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.email}</Text>
+    ))
+    let team = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.team}</Text>
+    ))
+    let address = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.address}</Text>
+    ))
+    let SSS = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.SSS}</Text>
+    ))
+    let BIR = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.BIR}</Text>
+    ))
+    let phealth = this.state.dataSource.map(dataSource => (
+      <Text key={dataSource.id}>{dataSource.Philhealth}</Text>
+    ))
+    if (this.state.viewOne===0) {
+      this.setState({
+        viewOne: 0,
+      })
+      return (
+        <View>
+          <Text style={styles.info}>{idnum}</Text>
+          <Text style={styles.info}>{birthday}</Text>
+          <Text style={styles.info}>{number}</Text>
+          <Text style={styles.info}>{altnumber}</Text>
+         
+          </View>
+      )
+    }
+    else{
+      // this.setState({
+      //   viewOne: 1,
+      // })
+      return (
+        <View>
+          <Text style={styles.info}>{idnum}</Text>
+          <Text style={styles.info}>{birthday}</Text>
+          <Text style={styles.info}>{number}</Text>
+          <Text style={styles.info}>{altnumber}</Text>
+          <Text style={styles.info}>{email}</Text>
+          <Text style={styles.info}>{team}</Text>
+          <Text style={styles.info}>{address}</Text>
+          <Text style={styles.info}>{SSS}</Text>
+          <Text style={styles.info}>{BIR}</Text>
+          <Text style={styles.info}>{phealth}</Text>
+          </View>
+      )
     }
   }
 
@@ -105,7 +167,6 @@ export default class Profile extends Component {
       <View style={{height: 0.5, width: '100%', backgroundColor: '#606070'}} />
     )
   }
-  data () {}
 
   render () {
     // return (
@@ -330,7 +391,8 @@ export default class Profile extends Component {
           <View style={styles.viewStyleFive}>
             <TouchableOpacity
               style={styles.profilebtn}
-              underlayColor={'rgba(0,0,0,0.8)'}>
+              underlayColor={'rgba(0,0,0,0.8)'}
+              onPress={this.fetchProfile}>
               <Text
                 style={{
                   fontSize: hp('2%'),
@@ -343,7 +405,8 @@ export default class Profile extends Component {
 
             <TouchableOpacity
               style={styles.profilebtn}
-              underlayColor={'rgba(0,0,0,0.8)'}>
+              underlayColor={'rgba(0,0,0,0.8)'}
+              onPress={this.fetchHours}>
               <Text
                 style={{
                   fontSize: hp('2%'),
@@ -354,19 +417,7 @@ export default class Profile extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-
-          <View style={styles.viewStyleSix}>
-          <Text style={styles.info}>{idnum}</Text>
-          <Text style={styles.info}>{birthday}</Text>
-          <Text style={styles.info}>{number}</Text>
-          <Text style={styles.info}>{altnumber}</Text>
-          <Text style={styles.info}>{email}</Text>
-          <Text style={styles.info}>{team}</Text>
-          <Text style={styles.info}>{address}</Text>
-          <Text style={styles.info}>{SSS}</Text>
-          <Text style={styles.info}>{BIR}</Text>
-          <Text style={styles.info}>{phealth}</Text>
-          </View>
+          <View style={styles.viewStyleSix}>{this.datacontainer()}</View>
         </View>
       )
     }
