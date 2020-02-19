@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, { Component, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,9 +10,8 @@ import {
   TextInput,
   Button,
 } from 'react-native'
-import {DrawerActions} from 'react-navigation-drawer'
-import {LocaleConfig} from 'react-native-calendars'
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars'
+import { DrawerActions } from 'react-navigation-drawer'
+import { Calendar, LocaleConfig } from 'react-native-calendars'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
@@ -20,6 +19,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
+
+
+
 
 LocaleConfig.locales['en'] = {
   monthNames: [
@@ -69,11 +71,11 @@ export default class HomeScreen extends Component {
     drawerIcon: () => (
       <Image
         source={require('../assets/propelrr.png')}
-        style={{height: 30, width: 30}}
+        style={{ height: 30, width: 30 }}
       />
     ),
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       items: {},
@@ -92,25 +94,38 @@ export default class HomeScreen extends Component {
       endDate: 'End Date',
       confirmID: null,
       handle: '',
+      marked: null,
       startDateFuture: null,
       endColor: 'grey',
+      marked: null,
+      nextDay: [],
+      array:[],
+      endDateHolder: '',
+      startDateHolder: '',
+      eventHolder: []
     }
   }
+  markedDate = () => {
+    this.setState({ 
+      nextDay:this.state.nextDay.push(this.state.startDateHolder, this.state.endDateHolder), 
+      marked: this.state.nextDay.reduce((c, v) => Object.assign(c, { [v]: { periods: [{ color: 'blue' }] } }), {})
+    });
+    alert(this.state.nextDay)
+  }
+  componentDidMount() {
 
-  componentDidMount () {
     var that = this
-
     var date = new Date().getDate() //Current Date
     var year = new Date().getFullYear() //Current Year
     that.setState({
       //Setting the value of the date time
-      date: date + ',' + year,
+      date: date + ', ' + year,
     })
   }
   renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
-        <Text style={{color: 'white'}}>{text}</Text>
+        <Text style={{ color: 'white' }}>{text}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -135,13 +150,13 @@ export default class HomeScreen extends Component {
     })
   }
   handleConfirmStartPast = date => {
-    this.setState({startDate: moment(date).format('MMMM DD, YYYY')})
+    this.setState({ startDate: moment(date).format('MMMM DD, YYYY'), startDateHolder: moment(date).format('YYYY-MM-DD') })
 
     // console.warn('A date has been picked: ', this.state.startDate)
     this.hideDatePickerStart()
   }
   handleConfirmStartFuture = date => {
-    this.setState({startDateFuture: moment(date).format('MMMM DD, YYYY')})
+    this.setState({ startDateFuture: moment(date).format('MMMM DD, YYYY'), startDateHolder: moment(date).format('YYYY-MM-DD') })
 
     // console.warn('A date has been picked: ', this.state.startDate)
     this.hideDatePickerStart()
@@ -167,7 +182,8 @@ export default class HomeScreen extends Component {
   handleConfirmEnd = date => {
     this.setState({
       endDate: moment(date).format('MMMM DD, YYYY'),
-      endColor: 'black',
+      endColor: 'black', 
+      endDateHolder: moment(date).format('YYYY-MM-DD')
     })
 
     // console.warn('A date has been picked: ', this.state.startDate)
@@ -181,7 +197,7 @@ export default class HomeScreen extends Component {
       //past
       return (
         <View>
-          <Text style={{paddingBottom: 10}}>FROM</Text>
+          <Text style={{ paddingBottom: 10 }}>FROM</Text>
           <TouchableOpacity
             onPress={this.showDatePickerStart}
             style={{
@@ -192,7 +208,7 @@ export default class HomeScreen extends Component {
             <Text>{this.state.startDate}</Text>
           </TouchableOpacity>
 
-          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+          <Text style={{ paddingTop: 10, paddingBottom: 10 }}>TO</Text>
 
           <TouchableOpacity
             onPress={this.showDatePickerEnd}
@@ -201,7 +217,7 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>
+            <Text style={{ color: this.state.endColor }}>
               {this.state.endDate}
             </Text>
           </TouchableOpacity>
@@ -225,16 +241,17 @@ export default class HomeScreen extends Component {
             minimumDate={new Date(this.state.startDateFuture)}
             date={new Date(this.state.startDateFuture)}
             maximumDate={new Date('2999-12-31')}
-            // date={new Date(this.state.endDate)}
+          // date={new Date(this.state.endDate)}
           />
         </View>
       )
+      
     } else {
       // future
 
       return (
         <View>
-          <Text style={{paddingBottom: 10}}>FROM</Text>
+          <Text style={{ paddingBottom: 10 }}>FROM</Text>
           <TouchableOpacity
             onPress={this.showDatePickerStart}
             style={{
@@ -245,7 +262,7 @@ export default class HomeScreen extends Component {
             <Text>{this.state.startDateFuture}</Text>
           </TouchableOpacity>
 
-          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+          <Text style={{ paddingTop: 10, paddingBottom: 10 }}>TO</Text>
 
           <TouchableOpacity
             onPress={this.showDatePickerEnd}
@@ -254,7 +271,7 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>
+            <Text style={{ color: this.state.endColor }}>
               {this.state.endDate}
             </Text>
           </TouchableOpacity>
@@ -278,7 +295,7 @@ export default class HomeScreen extends Component {
             minimumDate={new Date(this.state.startDateFuture)}
             date={new Date(this.state.startDateFuture)}
             maximumDate={new Date('2999-12-31')}
-            // date={new Date(this.state.endDate)}
+          // date={new Date(this.state.endDate)}
           />
         </View>
       )
@@ -288,16 +305,16 @@ export default class HomeScreen extends Component {
   renderModalContent = () => (
     <View style={styles.modalContent}>
       <View style={styles.modalHeader}>
-        <View style={{alignItems: 'center', flexDirection: 'row'}}>
+        <View style={{ alignItems: 'center', flexDirection: 'row' }}>
           <Image
             source={require('../assets/calendar.png')}
-            style={{height: 23, width: 23}}
+            style={{ height: 23, width: 23 }}
           />
-          <Text style={{fontSize: 22, paddingLeft: 4}}>
+          <Text style={{ fontSize: 22, paddingLeft: 4 }}>
             {this.state.clickedDate}
           </Text>
         </View>
-        <View style={{alignItems: 'flex-end'}}>
+        <View style={{ alignItems: 'flex-end' }}>
           {this.renderButton('CLOSE', () =>
             this.setState({
               visibleModal: null,
@@ -313,10 +330,7 @@ export default class HomeScreen extends Component {
 
       {this.state.isVisibleT2 ? (
         <View
-          style={{width: '100%', justifyContent: 'flex-start', marginTop: 20}}>
-          {/* <Modal isVisible={this.state.visibleModalT2 === 2} style={styles.bottomModal}> */}
-          {/* {this.datePicker()} */}
-
+          style={{ width: '100%', justifyContent: 'flex-start', marginTop: 20 }}>
           {this.condition()}
 
           <TextInput
@@ -352,9 +366,9 @@ export default class HomeScreen extends Component {
               })
             }>
             <TouchableOpacity
-            // onPress={}
+              onPress={this.markedDate}
             >
-              <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+              <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                 SUBMIT REQUEST
               </Text>
             </TouchableOpacity>
@@ -370,7 +384,7 @@ export default class HomeScreen extends Component {
               })
             }>
             <TouchableOpacity onPress={this.ToggleFunction}>
-              <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+              <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                 CANCEL
               </Text>
             </TouchableOpacity>
@@ -380,7 +394,7 @@ export default class HomeScreen extends Component {
 
       {this.state.isVisibleT1 ? (
         <View style={[styles.modalFooter]}>
-          <View style={{height: 150}}></View>
+          <View style={{ height: 150 }}></View>
           <TouchableOpacity
             style={{
               alignItems: 'center',
@@ -389,7 +403,7 @@ export default class HomeScreen extends Component {
               backgroundColor: '#ff9800',
             }}
             onPress={this.ToggleFunction}>
-            <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+            <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
               REQUEST LEAVE
             </Text>
           </TouchableOpacity>
@@ -398,7 +412,7 @@ export default class HomeScreen extends Component {
     </View>
   )
 
-  render () {
+  render() {
     const intime = this.props.navigation.getParam('timein', 'nothing sent')
     const outputDate = moment().format('YYYY-MM-DD')
     const d = new Date()
@@ -416,7 +430,7 @@ export default class HomeScreen extends Component {
       'November',
       'December',
     ]
-    var days = [ 
+    var days = [
       'Sunday',
       'Monday',
       'Tuesday',
@@ -440,7 +454,7 @@ export default class HomeScreen extends Component {
                 underlayColor={'rgba(0,0,0,0.8)'}>
                 <Image
                   source={require('../assets/menu.png')}
-                  style={{height: 30, width: 30}}
+                  style={{ height: 30, width: 30 }}
                 />
               </TouchableHighlight>
             </View>
@@ -489,6 +503,7 @@ export default class HomeScreen extends Component {
                   startDateFuture: moment(day.dateString).format(
                     'MMMM DD, YYYY',
                   ),
+                  startDateHolder: moment(day.dateString).format('YYYY-MM-DD')
                 })
               }}
               // onDayPress={(day) => { datePressed = day }}
@@ -500,26 +515,7 @@ export default class HomeScreen extends Component {
               onMonthChange={month => {
                 console.log('month changed', month)
               }}
-              markedDates={{
-                [outputDate]: {selected: true, selectedColor: 'orange'},
-                '2020-02-15': {
-                  periods: [{startingDay: true, color: 'blue'}],
-                },
-                '2020-02-16': {
-                  periods: [{color: 'blue'}],
-                },
-                '2020-02-17': {
-                  periods: [{color: 'blue'}],
-                },
-                '2020-02-18': {
-                  periods: [{color: 'blue'}],
-                },
-                '2020-02-19': {
-                  periods: [{endingDay: true, color: 'blue'}],
-                },
-                // [datePressed]: {selected: true, selectedColor: 'blue' }
-              }}
-              // Date marking style [simple/period/multi-dot/custom]. Default = 'simple'
+              markedDates={this.state.marked}
               markingType='multi-period'
               style={{
                 width: wp('95%'),
@@ -560,9 +556,9 @@ export default class HomeScreen extends Component {
             />
           </View>
 
-          <View style={{marginLeft: 10}}>
-            <Text style={{marginVertical: 5}}>LEGENDS:</Text>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
+          <View style={{ marginLeft: 10 }}>
+            <Text style={{ marginVertical: 5 }}>LEGENDS:</Text>
+            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
               <View
                 style={{
                   backgroundColor: 'blue',
@@ -572,7 +568,7 @@ export default class HomeScreen extends Component {
                 }}></View>
               <Text> Vacation Leave</Text>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
               <View
                 style={{
                   backgroundColor: 'grey',
@@ -582,7 +578,7 @@ export default class HomeScreen extends Component {
                 }}></View>
               <Text> Out of the Office Access</Text>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
               <View
                 style={{
                   backgroundColor: 'pink',
@@ -592,7 +588,7 @@ export default class HomeScreen extends Component {
                 }}></View>
               <Text> Holiday</Text>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
               <View
                 style={{
                   backgroundColor: 'orange',
@@ -602,7 +598,7 @@ export default class HomeScreen extends Component {
                 }}></View>
               <Text> Internal Event</Text>
             </View>
-            <View style={{flexDirection: 'row', marginVertical: 5}}>
+            <View style={{ flexDirection: 'row', marginVertical: 5 }}>
               <View
                 style={{
                   backgroundColor: 'yellow',
@@ -726,3 +722,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
