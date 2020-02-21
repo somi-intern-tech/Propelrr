@@ -1,5 +1,16 @@
 import React, {Component} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  FlatList,
+  Alert,
+  ActivityIndicator,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native'
 import {DrawerActions} from 'react-navigation-drawer'
 import {
   widthPercentageToDP as wp,
@@ -16,34 +27,186 @@ export default class MyRequest extends Component {
       />
     ),
   }
+  constructor (props) {
+    super(props)
+    this.state = {
+      isLoading: true,
+      dataSource: null,
+      statusColor:null,
+    }
+  }
+  async componentDidMount () {
+    try {
+      const response = await fetch('http://demo6819551.mockable.io/requests')
+      const responseJson = await response.json()
+      this.setState({
+        isLoading: false,
+        dataSource: responseJson.data,
+      })
+      // alert(dataSource)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  setColor (colorstate) {
+    this.setState({
+      statusColor: colorstate,
+    })
+    // alert(colorstate)
+  }
   render () {
-    return (
-      <View style={styles.maincontainer}>
-        <View style={styles.container}>
-          <View style={styles.container1}>
-            <View style={styles.viewStyleOne}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.dispatch(DrawerActions.openDrawer())
-                }
-                style={styles.touchableHighlight}
-                underlayColor={'rgba(0,0,0,0.8)'}>
-                <Image
-                  source={require('../assets/menu.png')}
-                  style={{height: hp('7%'), width: wp('7%'), resizeMode: 'contain',}}
-                />
-              </TouchableOpacity>
+    
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.maincontainer}>
+          <View style={styles.container}>
+            <View style={styles.container1}>
+              <View style={styles.viewStyleOne}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.dispatch(DrawerActions.openDrawer())
+                  }
+                  style={styles.touchableHighlight}
+                  underlayColor={'rgba(0,0,0,0.8)'}>
+                  <Image
+                    source={require('../assets/menu.png')}
+                    style={{
+                      height: hp('7%'),
+                      width: wp('7%'),
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.viewStyleTwo}>
+                <Text style={styles.text}>MY REQUESTS</Text>
+              </View>
             </View>
-            <View style={styles.viewStyleTwo}>
-              <Text style={styles.text}>MY REQUESTS</Text>
+
+            <View style={styles.viewStyleThree}>
+              {/* <FlatList
+                data={this.state.dataSource}
+                //dataSource to add data in the list
+                ItemSeparatorComponent={this.ListViewItemSeparator}
+                //List Item separator
+                renderItem={({item}) => (
+                  //Rendering Single Row
+                  <TouchableOpacity
+                    style={styles.rowViewContainer}
+                    // onPress={this.showItem.bind(
+                    //   this,
+                    //   item.category,
+                    //   // item.hours,
+                    //   // item.timein,
+                    //   // item.timeout,
+                    //   // item.overtime,
+                    // )}
+                  >
+                    <View style={{flexDirection: 'column', marginRight: 45}}>
+                      <Text>{item.category}</Text>
+                      <Text style={{marginBottom: 5}}>
+                        {item.start} - {item.end}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={{color: this.state.statusColor}}>
+                        {item.status}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                // keyExtractor={(item, index) => index}
+                keyExtractor={(item, index) => index.toString()}
+              /> */}
+              <ActivityIndicator/>
             </View>
-            {/* <View style={styles.viewStyleThree}>
-        <Text style={styles.textStyle}> 3 </Text>
-      </View> */}
           </View>
         </View>
-      </View>
-    )
+      )
+    }
+    else{
+      let stat = this.state.dataSource.map(dataSource => {
+        <Text key={0}>{dataSource.status}</Text>
+  
+        if (stat == 'APPROVED') {
+          this.setColor.bind(this, 'black')
+
+        } else if (dataSource.status == 'DECLINED') {
+        }
+        else{
+          this.setColor.bind(this, 'black')
+        }
+        // alert(this.state.statusColor)
+
+      })
+              // alert(this.state.statusColor)
+
+      return (
+        <View style={styles.maincontainer}>
+          <View style={styles.container}>
+            <View style={styles.container1}>
+              <View style={styles.viewStyleOne}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.dispatch(DrawerActions.openDrawer())
+                  }
+                  style={styles.touchableHighlight}
+                  underlayColor={'rgba(0,0,0,0.8)'}>
+                  <Image
+                    source={require('../assets/menu.png')}
+                    style={{
+                      height: hp('7%'),
+                      width: wp('7%'),
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.viewStyleTwo}>
+                <Text style={styles.text}>MY REQUESTS</Text>
+              </View>
+            </View>
+
+            <View style={styles.viewStyleThree}>
+              <FlatList
+                data={this.state.dataSource}
+                //dataSource to add data in the list
+                ItemSeparatorComponent={this.ListViewItemSeparator}
+                //List Item separator
+                renderItem={({item}) => (
+                  //Rendering Single Row
+                  <TouchableOpacity
+                    style={styles.rowViewContainer}
+                    // onPress={this.showItem.bind(
+                    //   this,
+                    //   item.category,
+                    //   // item.hours,
+                    //   // item.timein,
+                    //   // item.timeout,
+                    //   // item.overtime,
+                    // )}
+                  >
+                    <View style={{flexDirection: 'column', marginRight: 45}}>
+                      <Text>{item.category}</Text>
+                      <Text style={{marginBottom: 5}}>
+                        {item.start} - {item.end}
+                      </Text>
+                    </View>
+                    <View>
+                      <Text style={{fontWeight:'bold'}}>
+                        {item.status}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                // keyExtractor={(item, index) => index}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            </View>
+          </View>
+        </View>
+      )
+    }
   }
 }
 
@@ -101,11 +264,34 @@ const styles = StyleSheet.create({
     left: 13,
     // backgroundColor:'grey'
   },
+  viewStyleThree: {
+    height: hp('100%'), // 70% of height device screen
+    width: wp('100%'),
+    // backgroundColor: '#ff9501',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // backgroundColor: '#ededed',
+    // flexDirection: 'row',
+    marginTop: 10,
+  },
   text: {
     fontSize: 24,
     color: '#008ECC',
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
+  },
+
+  rowViewContainer: {
+    padding: 10,
+    fontSize: 18,
+    // height: 44,
+    marginLeft: 3,
+    borderWidth: 1,
+    borderRadius: 10,
+    margin: 3,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })

@@ -53,7 +53,7 @@ const AuthStackNavigation = createStackNavigator(
 
 
 const DrawerNav = createDrawerNavigator({
-  Login: { screen: Login },
+  // Login: { screen: Login },
 
   Home: { screen: (HomeScreen) },
   Profile: { screen: Profile,navigationOptions:{
@@ -64,7 +64,7 @@ const DrawerNav = createDrawerNavigator({
 
 },
   {
-    // initialRouteName: 'Home',
+    // initialRouteName: 'MyRequest',
     contentComponent: ContentComponent,
     drawerWidth: Dimensions.get('window').width,
     drawerPosition: 'left',

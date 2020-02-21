@@ -31,21 +31,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount () {
-    // return fetch('http://demo6513183.mockable.io/profiledata')
-    //   .then(response => response.json())
-    //   .then(responseJson => {
-    //     this.setState({
-    //       isLoading: false,
-    //       dataSource: responseJson.data,
-    //     })
-    //   })
-
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
-    // {this.fetchProfile}.
-
-    return this.datacontainer()
+    return this.fetchProfile()
   }
 
   async fetchHours () {
@@ -62,7 +48,7 @@ export default class Profile extends Component {
   }
   async fetchProfile () {
     try {
-      const response = await fetch('http://demo6819551.mockable.io/userdate')
+      const response = await fetch('http://demo6819551.mockable.io/profiledata')
       const responseJson = await response.json()
       this.setState({
         isLoading: false,
@@ -102,7 +88,7 @@ export default class Profile extends Component {
 
     if (this.state.showForm === 0) {
       if (this.state.isLoading) {
-        ;<ActivityIndicator color='orange' />
+        <ActivityIndicator color='orange' />
       } else {
         this.fetchProfile()
         let name = this.state.dataSource.map(dataSource => (
@@ -212,7 +198,9 @@ export default class Profile extends Component {
                     padding: 5,
                     width: wp('70%'),
                     marginTop: 3,
-                  }}>
+
+                  }}
+                  onPress={{}}>
                   <Image
                     source={require('../assets/placeholder.png')}
                     style={{
@@ -364,7 +352,8 @@ export default class Profile extends Component {
         <Text key={dataSource.id}>{dataSource.position}</Text>
       ))
       if (this.state.isLoading2) {
-        ;<ActivityIndicator color='orange' />
+        
+      <ActivityIndicator color='orange' />
       } else {
         return (
           <View style={styles.viewStyleSix}>
@@ -375,14 +364,14 @@ export default class Profile extends Component {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   backgroundColor: 'orange',
-                  height: hp('3%'),
+                  height: hp('3.2%'),
                 }}>
                 <Text
                   style={{
                     fontWeight: '500',
                     fontSize: hp('2%'),
                     marginLeft: 25,
-                    marginTop: 3,
+                    marginTop: 2,
                   }}>
                   Date
                 </Text>
@@ -571,8 +560,16 @@ export default class Profile extends Component {
           </View>
 
           <View style={styles.viewStyleThree}></View>
-          <View>
-            <ActivityIndicator />
+          <View style={styles.viewStyleSix}>
+            <View
+              style={{
+                width: wp('100%'),
+                height: hp('30%'),
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <ActivityIndicator color='orange' />
+            </View>
           </View>
         </View>
       )
@@ -748,7 +745,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#ededed',
+    // backgroundColor: '#ededed',
     // flexDirection: 'row',
   },
   viewStyleFour: {
@@ -812,7 +809,7 @@ const styles = StyleSheet.create({
 
   profilebtn: {
     width: wp('50%'),
-    backgroundColor: '#ededed',
+    // backgroundColor: '#ededed',
     borderRightWidth: 0.5,
     borderRightColor: 'black',
     alignItems: 'center',
