@@ -200,7 +200,7 @@ export default class Profile extends Component {
                     marginTop: 3,
 
                   }}
-                  onPress={{}}>
+                  >
                   <Image
                     source={require('../assets/placeholder.png')}
                     style={{

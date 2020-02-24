@@ -1,11 +1,34 @@
 import React from 'react'
-
-import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Animated, StatusBar } from 'react-native'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
+import TextAnimator from './TextAnimator'
+const FadeInView = (props) => {
+  const [fadeAnim] = React.useState(new Animated.Value(0))  // Initial value for opacity: 0
 
+  React.useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 3000,
+      }
+    ).start();
+  }, [])
+
+  return (
+    <Animated.View                 // Special animatable View
+      style={{
+        ...props.style,
+        opacity: fadeAnim,         // Bind opacity to animated value
+      }}
+    >
+      {props.children}
+    </Animated.View>
+  );
+}
 const DismissKeyboardHOC = (Comp) => {
   return ({ children, ...props }) => (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -42,7 +65,7 @@ export default class Login extends React.Component {
             splashScreen: false
           });
         }),
-      3000
+      9000
     );
   }
   // componentDidMount() {
@@ -207,15 +230,19 @@ export default class Login extends React.Component {
 
       <View style={styles.container}>
         {!this.state.splashScreen ? null : (
-          <View>
+          <FadeInView>
             <View style={styles.con}>
               <Image source={require('../assets/propelrrlogo.png')}
                 style={styles.image} />
             </View>
-            <Text style={{fontSize: 28, color: 'white', fontWeight: 'bold', fontFamily: 'Times New Roman'}}>
-              Drive Digital Differently
-            </Text>
-          </View>
+            <StatusBar hidden />
+            <TextAnimator                      
+              content="Drive Digital Differently"
+              textStyle={{fontSize: 28, color: 'white', fontWeight: 'bold', fontFamily: 'Times New Roman'}}
+              timing={500}
+            onFinish={this._onFinish}
+            />
+          </FadeInView>
         )}
         {!this.state.login ? null : (
           <View>

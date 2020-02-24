@@ -6,13 +6,15 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Picker,
 } from 'react-native'
 import {DrawerActions} from 'react-navigation-drawer'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-import {Searchbar} from 'react-native-paper'
+import {Searchbar, TextInput} from 'react-native-paper'
+import Modal from 'react-native-modal'
 
 export default class ManageEvents extends Component {
   static navigationOptions = {
@@ -30,7 +32,15 @@ export default class ManageEvents extends Component {
       isLoading: true,
       dataSource: null,
       firstQuery: '',
+      visibleModal: null,
+
+      language: 'haxe',
+      firstLanguage: 'java',
+      secondLanguage: 'js',
     }
+  }
+  renderButton = () => {
+    this.setState({visibleModal: null})
   }
   async componentDidMount () {
     try {
@@ -70,6 +80,9 @@ export default class ManageEvents extends Component {
             <View style={styles.viewStyleTwo}>
               <Text style={styles.text}>MANAGE EVENTS</Text>
             </View>
+            {/* <View style={{margin:10}}>
+              <Text style={styles.text}>+</Text>
+            </View> */}
           </View>
           <View style={styles.viewStyleThree}>
             {/* <Searchbar
@@ -113,16 +126,149 @@ export default class ManageEvents extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          {/* <View style={{backgroundColor:'yellow',width:50,}}>
-          <TouchableOpacity style={{backgroundColor:'yellow',width:50,height:50}}>
-            <Text>HJi</Text>
-          </TouchableOpacity>
-        </View> */}
+          <View style={{}}>
+            <TouchableOpacity
+              onPress={this.setModal}
+              style={{
+                marginTop: hp('-2%'),
+                marginLeft: wp('75%'),
+                backgroundColor: '#ff9501',
+                borderBottomLeftRadius:20,
+                borderTopLeftRadius:20
+              }}>
+              <Image
+                source={require('../assets/add.png')}
+                style={{
+                  height: 65,
+                  width: 65,
+                  resizeMode: 'stretch',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-       
+        <Modal
+          isVisible={this.state.visibleModal === 1}
+          animationIn='fadeIn'
+          animationOut='fadeOut'>
+          {this.renderModalContent()}
+        </Modal>
       </View>
     )
   }
+
+  setModal = () => this.setState({visibleModal: 1})
+
+  renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom:5
+          // alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            backgroundColor: '#008ECC',
+            width: wp('90%'),
+            flexDirection: 'row',
+            justifyContent:'space-between',
+            height:hp('5%')
+
+          }}>
+          <Text
+            style={{
+              fontWeight: '400',
+              fontSize: hp('3%'),
+              color: 'white',
+              marginLeft: 10,
+              marginTop: 5,
+
+
+            }}>
+            Create Event
+          </Text>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              // alignItems: 'center',
+              // justifyContent: 'center',
+              // backgroundColor: 'grey',
+              marginTop: 5,
+              marginRight:10
+            }}
+            onPress={this.renderButton}>
+            <Text style={{color: 'white',fontWeight:'bold',fontSize:hp('3%')}}>X</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 5,
+            paddingLeft: 5,
+          }}>
+          <Text style={{}}>Event type</Text>
+          <Text style={{}}>Event name</Text>
+          <Text> </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            width: wp('90%'),
+            height: hp('5%'),
+            marginTop: 5,
+          }}>
+          <TextInput style={{width: wp('40%'),marginLeft:5}}></TextInput>
+          <TextInput style={{width:  wp('45%'),marginLeft:5}}></TextInput>
+        </View>
+        <View
+          style={{
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            marginTop: 5,
+            
+            // backgroundColor: 'grey',
+          }}>
+          <Text style={{marginLeft:5}}>Event Description</Text>
+          <TextInput style={{width: wp('86%'),height: hp('5%'),marginLeft:5}}></TextInput>
+          <Text style={{marginLeft:5}}>Venue</Text>
+          <TextInput style={{width: wp('86%'),height: hp('5%'),marginLeft:5}}></TextInput>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            marginTop: 5,
+            // backgroundColor:'grey',
+            // width:wp('35%'),
+            alignItems:'center',
+            justifyContent:'center'       }}>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'orange',
+              borderRadius: 5,
+              padding: 5,
+              marginTop: 5,
+              width:wp('50%')
+            }}
+            onPress={this.renderButton}>
+            <Text style={{color: 'white'}}>CREATE</Text>
+          </TouchableOpacity>
+
+         
+        </View>
+
+        {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -193,7 +339,7 @@ const styles = StyleSheet.create({
   viewStyleFour: {
     height: hp('70%'), // 70% of height device screen
     width: wp('100%'),
-    backgroundColor: '#ff9501',
+    // backgroundColor: '#ff9501',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
@@ -219,5 +365,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     fontWeight: 'bold',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    // padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    width: wp('90%'),
+  },
+  picker: {
+    width: 200,
+    backgroundColor: '#FFF0E0',
+    borderColor: 'black',
+    borderWidth: 1,
   },
 })

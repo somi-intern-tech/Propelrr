@@ -38,6 +38,7 @@
 
     "react-native-search-bar": "^3.5.1",
     "react-native-slideable-calendar-strip": "^0.4.0",
+    "react-native-table-component": "^1.2.1",
     "react-native-ui-xg": "0.0.6",
     "react-native-vector-icons": "^6.6.0",
     "react-native-whc-calendar": "^1.0.6",
