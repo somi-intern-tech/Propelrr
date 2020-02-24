@@ -64,7 +64,7 @@ const DrawerNav = createDrawerNavigator({
 
 },
   {
-    // initialRouteName: 'MyRequest',
+    initialRouteName: 'MyRequest',
     contentComponent: ContentComponent,
     drawerWidth: Dimensions.get('window').width,
     drawerPosition: 'left',

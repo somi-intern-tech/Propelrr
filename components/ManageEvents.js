@@ -222,8 +222,8 @@ export default class ManageEvents extends Component {
             height: hp('5%'),
             marginTop: 5,
           }}>
-          <TextInput style={{width: wp('40%'),marginLeft:5}}></TextInput>
-          <TextInput style={{width:  wp('45%'),marginLeft:5}}></TextInput>
+          <TextInput style={{width: wp('40%'),marginLeft:5,height: hp('5%')}}></TextInput>
+          <TextInput style={{width:  wp('45%'),marginLeft:5,height: hp('5%')}}></TextInput>
         </View>
         <View
           style={{

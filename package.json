@@ -31,12 +31,10 @@
     "react-native-responsive-screen": "^1.4.0",
     "react-native-safe-area-context": "^0.6.4",
     "react-native-screens": "^1.0.0-alpha.23",
-<<<<<<< HEAD
 
     "react-native-search-bar": "^3.5.1",
     "react-native-slideable-calendar-strip": "^0.4.0",
-=======
->>>>>>> 61750129342956d3d41a64e40da7228058256145
+
     "react-native-table-component": "^1.2.1",
     "react-native-ui-xg": "0.0.6",
     "react-navigation": "^4.1.0",
