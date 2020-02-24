@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   Picker,
+  ActivityIndicator,
 } from 'react-native'
 import {DrawerActions} from 'react-navigation-drawer'
 import {
@@ -37,7 +38,9 @@ export default class ManageEvents extends Component {
       language: 'haxe',
       firstLanguage: 'java',
       secondLanguage: 'js',
+      text: '',
     }
+    this.arrayholder = []
   }
   renderButton = () => {
     this.setState({visibleModal: null})
@@ -54,6 +57,49 @@ export default class ManageEvents extends Component {
     } catch (error) {
       console.log(error)
     }
+    return fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(responseJson => {
+        this.setState(
+          {
+            isLoading: false,
+            dataSource: responseJson,
+          },
+          function () {
+            this.arrayholder = responseJson
+          },
+        )
+      })
+      .catch(error => {
+        console.error(error)
+      })
+  }
+  SearchFilterFunction (text) {
+    //passing the inserted text in textinput
+    const newData = this.arrayholder.filter(function (item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase()
+      const textData = text.toUpperCase()
+      return itemData.indexOf(textData) > -1
+    })
+    this.setState({
+      //setting the filtered newData on datasource
+      //After setting the data it will automatically re-render the view
+      dataSource: newData,
+      text: text,
+    })
+  }
+  ListViewItemSeparator = () => {
+    //Item sparator view
+    return (
+      <View
+        style={{
+          height: 0.3,
+          width: '90%',
+          backgroundColor: '#080808',
+        }}
+      />
+    )
   }
   render () {
     return (
@@ -80,23 +126,42 @@ export default class ManageEvents extends Component {
             <View style={styles.viewStyleTwo}>
               <Text style={styles.text}>MANAGE EVENTS</Text>
             </View>
-            {/* <View style={{margin:10}}>
-              <Text style={styles.text}>+</Text>
-            </View> */}
-          </View>
-          <View style={styles.viewStyleThree}>
-            {/* <Searchbar
-              placeholder='Search'
-              onChangeText={query => {
-                this.setState({firstQuery: query})
-              }}
-              value={this.state.firstQuery}
-            /> */}
-            {/* <Text>hihihiihhi</Text> */}
           </View>
 
+          {/* <View style={styles.viewStyleThree}> */}
+          {/* <TextInput
+              style={{
+                height: hp('5%'),
+                width: wp('80%'),
+                marginLeft: 10,
+              }}></TextInput> */}
+          <View style={styles.viewStyleThree}>
+            {/* <View style={{flexDirection: 'row'}}> */}
+              <TextInput
+                style={styles.textInputStyle}
+                onChangeText={text => this.SearchFilterFunction(text)}
+                value={this.state.text}
+                // underlineColorAndroid='transparent'
+                placeholder='Search Here'
+              />
+              <TouchableOpacity onPress={this.setSettingModal}>
+                <Image
+                  source={require('../assets/settings.png')}
+                  style={{
+                    height: hp('7%'),
+                    width: wp('7%'),
+                    resizeMode: 'contain',
+                    marginLeft: 5,
+                  }}
+                />
+              </TouchableOpacity>
+            {/* </View> */}
+          </View>
+
+          {/* </View> */}
+
           <View style={styles.viewStyleFour}>
-            <FlatList
+            {/* <FlatList
               data={this.state.dataSource}
               //dataSource to add data in the list
               ItemSeparatorComponent={this.ListViewItemSeparator}
@@ -124,17 +189,30 @@ export default class ManageEvents extends Component {
               )}
               // keyExtractor={(item, index) => index}
               keyExtractor={(item, index) => index.toString()}
+            /> */}
+            <FlatList
+              data={this.state.dataSource}
+              ItemSeparatorComponent={this.ListViewItemSeparator}
+              renderItem={({item}) => ( <TouchableOpacity
+                style={styles.rowViewContainer}>
+                <Text style={styles.textStyle}>{item.title}</Text>
+                </TouchableOpacity>
+              )}
+              enableEmptySections={true}
+              style={{marginTop: 10}}
+              keyExtractor={(item, index) => index.toString()}
             />
           </View>
           <View style={{}}>
             <TouchableOpacity
               onPress={this.setModal}
               style={{
-                marginTop: hp('-2%'),
+                marginTop: hp('-12%'),
                 marginLeft: wp('75%'),
                 backgroundColor: '#ff9501',
-                borderBottomLeftRadius:20,
-                borderTopLeftRadius:20
+                borderBottomLeftRadius: 20,
+                borderTopLeftRadius: 20,
+                height:65
               }}>
               <Image
                 source={require('../assets/add.png')}
@@ -153,18 +231,26 @@ export default class ManageEvents extends Component {
           animationOut='fadeOut'>
           {this.renderModalContent()}
         </Modal>
+        <Modal
+          isVisible={this.state.visibleModal === 2}
+          animationIn='fadeIn'
+          animationOut='fadeOut'>
+          {this.renderSettingModal()}
+        </Modal>
       </View>
     )
   }
 
   setModal = () => this.setState({visibleModal: 1})
 
-  renderModalContent = () => (
+  setSettingModal = () => this.setState({visibleModal: 2})
+
+  renderSettingModal = () => (
     <View style={styles.modalContent}>
       <View
         style={{
           flexDirection: 'column',
-          marginBottom:5
+          marginBottom: 5,
           // alignItems: 'center',
           // justifyContent: 'center',
         }}>
@@ -173,9 +259,8 @@ export default class ManageEvents extends Component {
             backgroundColor: '#008ECC',
             width: wp('90%'),
             flexDirection: 'row',
-            justifyContent:'space-between',
-            height:hp('5%')
-
+            justifyContent: 'space-between',
+            height: hp('5%'),
           }}>
           <Text
             style={{
@@ -184,8 +269,175 @@ export default class ManageEvents extends Component {
               color: 'white',
               marginLeft: 10,
               marginTop: 5,
+            }}>
+            Advanced Search
+          </Text>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              // alignItems: 'center',
+              // justifyContent: 'center',
+              // backgroundColor: 'grey',
+              marginTop: 5,
+              marginRight: 10,
+            }}
+            onPress={this.renderButton}>
+            <Text
+              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              X
+            </Text>
+          </TouchableOpacity>
+        </View>
 
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 5,
+            paddingLeft: 5,
+          }}>
+          <Text style={{}}>Event name</Text>
+          <Text style={{}}>Event type</Text>
+          <Text> </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            width: wp('90%'),
+            height: hp('5%'),
+            marginTop: 5,
+          }}>
+          <TextInput
+            style={{
+              width: wp('40%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+          <TextInput
+            style={{
+              width: wp('45%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 5,
+            paddingLeft: 5,
+          }}>
+          <Text style={{}}>From</Text>
+          <Text style={{}}>To</Text>
+          <Text> </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            width: wp('90%'),
+            height: hp('5%'),
+            marginTop: 5,
+          }}>
+          <TextInput
+            style={{
+              width: wp('40%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+          <TextInput
+            style={{
+              width: wp('45%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginTop: 5,
+            paddingLeft: 5,
+          }}>
+          <Text style={{}}>Role</Text>
+          <Text style={{}}>Status</Text>
+          <Text> </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            width: wp('90%'),
+            height: hp('5%'),
+            marginTop: 5,
+          }}>
+          <TextInput
+            style={{
+              width: wp('40%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+          <TextInput
+            style={{
+              width: wp('45%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            marginTop: 5,
+            // backgroundColor:'grey',
+            // width:wp('35%'),
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'orange',
+              borderRadius: 5,
+              padding: 5,
+              marginTop: 5,
+              width: wp('50%'),
+            }}
+            onPress={this.renderButton}>
+            <Text style={{color: 'white'}}>SEARCH</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  )
 
+  renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom: 5,
+          // alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            backgroundColor: '#008ECC',
+            width: wp('90%'),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            height: hp('5%'),
+          }}>
+          <Text
+            style={{
+              fontWeight: '400',
+              fontSize: hp('3%'),
+              color: 'white',
+              marginLeft: 10,
+              marginTop: 5,
             }}>
             Create Event
           </Text>
@@ -196,10 +448,13 @@ export default class ManageEvents extends Component {
               // justifyContent: 'center',
               // backgroundColor: 'grey',
               marginTop: 5,
-              marginRight:10
+              marginRight: 10,
             }}
             onPress={this.renderButton}>
-            <Text style={{color: 'white',fontWeight:'bold',fontSize:hp('3%')}}>X</Text>
+            <Text
+              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              X
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -222,21 +477,41 @@ export default class ManageEvents extends Component {
             height: hp('5%'),
             marginTop: 5,
           }}>
-          <TextInput style={{width: wp('40%'),marginLeft:5,height: hp('5%')}}></TextInput>
-          <TextInput style={{width:  wp('45%'),marginLeft:5,height: hp('5%')}}></TextInput>
+          <TextInput
+            style={{
+              width: wp('40%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+          <TextInput
+            style={{
+              width: wp('45%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
         </View>
         <View
           style={{
             flexDirection: 'column',
             justifyContent: 'space-between',
             marginTop: 5,
-            
+
             // backgroundColor: 'grey',
           }}>
-          <Text style={{marginLeft:5}}>Event Description</Text>
-          <TextInput style={{width: wp('86%'),height: hp('5%'),marginLeft:5}}></TextInput>
-          <Text style={{marginLeft:5}}>Venue</Text>
-          <TextInput style={{width: wp('86%'),height: hp('5%'),marginLeft:5}}></TextInput>
+          <Text style={{marginLeft: 5}}>Event Description</Text>
+          <TextInput
+            style={{
+              width: wp('86%'),
+              height: hp('5%'),
+              marginLeft: 5,
+            }}></TextInput>
+          <Text style={{marginLeft: 5}}>Venue</Text>
+          <TextInput
+            style={{
+              width: wp('86%'),
+              height: hp('5%'),
+              marginLeft: 5,
+            }}></TextInput>
         </View>
         <View
           style={{
@@ -245,8 +520,9 @@ export default class ManageEvents extends Component {
             marginTop: 5,
             // backgroundColor:'grey',
             // width:wp('35%'),
-            alignItems:'center',
-            justifyContent:'center'       }}>
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
           <TouchableOpacity
             style={{
               // borderWidth: 1,
@@ -256,16 +532,12 @@ export default class ManageEvents extends Component {
               borderRadius: 5,
               padding: 5,
               marginTop: 5,
-              width:wp('50%')
+              width: wp('50%'),
             }}
             onPress={this.renderButton}>
             <Text style={{color: 'white'}}>CREATE</Text>
           </TouchableOpacity>
-
-         
         </View>
-
-        {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
       </View>
     </View>
   )
@@ -296,7 +568,7 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: hp('7%'),
     // left: 10,
-    borderBottomWidth: hp('.04%'),
+    borderBottomWidth: hp('.05%'),
     // backgroundColor:'red',
   },
   container2: {
@@ -328,24 +600,24 @@ const styles = StyleSheet.create({
   viewStyleThree: {
     height: hp('5%'), // 70% of height device screen
     width: wp('100%'),
-    backgroundColor: 'grey',
-    flexDirection: 'column',
+    // backgroundColor: 'grey',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'space-between',
     // backgroundColor: '#ededed',
     // flexDirection: 'row',
-    // marginTop: 10,
+    marginTop: 5,
   },
   viewStyleFour: {
-    height: hp('70%'), // 70% of height device screen
+    height: hp('80%'), // 70% of height device screen
     width: wp('100%'),
-    // backgroundColor: '#ff9501',
+    // backgroundColor: 'grey',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     // backgroundColor: '#ededed',
     // flexDirection: 'row',
-    marginTop: 10,
+    // marginTop: 5,
   },
 
   rowViewContainer: {
@@ -380,5 +652,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF0E0',
     borderColor: 'black',
     borderWidth: 1,
+  },
+  textStyle: {
+    padding: 10,
+  },
+  textInputStyle: {
+    borderWidth: 1,
+    // paddingLeft: 10,
+    borderColor: '#009688',
+    backgroundColor: '#FFFFFF',
+    width: wp('88%'),
+    height:30,
+    marginLeft:5
+  },
+  viewStyle: {
+    // justifyContent: 'center',
+    // flex: 1,
+    // marginTop: 40,
+    // padding: 16,
   },
 })

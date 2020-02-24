@@ -118,7 +118,7 @@ export default class MyRequest extends Component {
                 // keyExtractor={(item, index) => index}
                 keyExtractor={(item, index) => index.toString()}
               /> */}
-              <ActivityIndicator/>
+              <ActivityIndicator color='orange'/>
             </View>
           </View>
         </View>
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     // backgroundColor:'grey'
   },
   viewStyleThree: {
-    height: hp('100%'), // 70% of height device screen
+    height: hp('90%'), // 70% of height device screen
     width: wp('100%'),
     // backgroundColor: '#ff9501',
     flexDirection: 'column',
