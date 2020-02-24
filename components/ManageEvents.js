@@ -96,9 +96,6 @@ export default class ManageEvents extends Component {
                   //   this,
                   //   item.category,
                   //   // item.hours,
-                  //   // item.timein,
-                  //   // item.timeout,
-                  //   // item.overtime,
                   // )}
                 >
                   <View style={{flexDirection: 'column', marginRight: 45}}>
@@ -116,11 +113,11 @@ export default class ManageEvents extends Component {
               keyExtractor={(item, index) => index.toString()}
             />
           </View>
-          <View style={{backgroundColor:'yellow',width:50,}}>
+          {/* <View style={{backgroundColor:'yellow',width:50,}}>
           <TouchableOpacity style={{backgroundColor:'yellow',width:50,height:50}}>
             <Text>HJi</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         </View>
        
       </View>
@@ -131,13 +128,13 @@ export default class ManageEvents extends Component {
 const styles = StyleSheet.create({
   maincontainer: {
     // flexDirection: 'column', // 70% of height device screen
-    // // width: wp('100%'),
-    // // flexGrow:hp('100%'),
-    // // marginTop: '9%', // 70% of height device screen
+    // width: wp('100%'),
+    // flexGrow:hp('100%'),
+    // marginTop: '9%', // 70% of height device screen
     // height:hp('100%'),
     // backgroundColor:'grey',
-    // // marginTop:50,
-    // // alignItems:'center',
+    // marginTop:50,
+    // alignItems:'center',
     // justifyContent:'center',
   },
 

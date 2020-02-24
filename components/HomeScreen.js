@@ -310,7 +310,7 @@ export default class HomeScreen extends Component {
             source={require('../assets/calendar.png')}
             style={{ height: 23, width: 23 }}
           />
-          <Text style={{ fontSize: 22, paddingLeft: 4 }}>
+          <Text style={{ fontSize: hp('3%'), paddingLeft: 4 }}>
             {this.state.clickedDate}
           </Text>
         </View>
@@ -624,13 +624,13 @@ const styles = StyleSheet.create({
   },
   open: {
     color: 'white',
-    fontSize: 16,
+    fontSize: hp('2%'),
     fontWeight: 'bold',
   },
 
   button: {
     backgroundColor: '#A9A9A9',
-    padding: 8,
+    padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2,
