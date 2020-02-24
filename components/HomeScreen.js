@@ -20,9 +20,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
 
-
-
-
 LocaleConfig.locales['en'] = {
   monthNames: [
     'January',
@@ -94,26 +91,21 @@ export default class HomeScreen extends Component {
       endDate: 'End Date',
       confirmID: null,
       handle: '',
-      marked: null,
       startDateFuture: null,
       endColor: 'grey',
       marked: null,
       nextDay: [],
-      array:[],
+      array: [],
       endDateHolder: '',
       startDateHolder: '',
-      eventHolder: []
+      eventHolder: [],
+      dataSource: null,
+      dateValue: '',
+      eventType: ''
     }
   }
-  markedDate = () => {
-    this.setState({ 
-      nextDay:this.state.nextDay.push(this.state.startDateHolder, this.state.endDateHolder), 
-      marked: this.state.nextDay.reduce((c, v) => Object.assign(c, { [v]: { periods: [{ color: 'blue' }] } }), {})
-    });
-    alert(this.state.nextDay)
-  }
-  componentDidMount() {
 
+  componentDidMount() {
     var that = this
     var date = new Date().getDate() //Current Date
     var year = new Date().getFullYear() //Current Year
@@ -121,6 +113,54 @@ export default class HomeScreen extends Component {
       //Setting the value of the date time
       date: date + ', ' + year,
     })
+    return fetch('https://demo2276663.mockable.io/events')
+      .then((response) => response.json())
+      .then((responseJson) => {
+
+        this.setState({
+          isLoading: false,
+          dataSource: responseJson.dates,
+        })
+      })
+
+      .catch((error) => {
+        console.log(error)
+      });
+  }
+  markedDate = () => {
+    // alert("yo")
+    
+    this.state.dataSource.map((val) => {
+      // this.setState({ marked: this.state.startDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'orange' } }), {}) })
+      const result = Object.values(val.events)
+        .length;
+      if (result == 1) {
+        { this.singleEvent() }
+      }
+      else if (result > 1) {
+        { this.multiEvents() }
+      }
+    });
+  }
+  multiEvents = () => {
+    this.state.dataSource.map((val) => {
+      this.setState({
+        // dateValue: val.events,
+        // nextDay: this.state.nextDay.push(this.dateValue),
+        marked: val.events.reduce((c, v) => Object.assign(c, { [v]: { periods: [{ color: 'blue' }] } }), {}),
+        eventType: 'multi-period'
+      });
+    });
+  }
+  singleEvent = () => {
+    this.state.dataSource.map((val) => {
+      this.setState({
+        // dateValue: val.events,
+        // nextDay: this.state.nextDay.push(this.dateValue),
+        marked: val.events.reduce((c, v) => Object.assign(c, { [v]: { marked: true, color: 'blue' } }), {}),
+        eventType: ''
+      });
+    });
   }
   renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
@@ -182,7 +222,7 @@ export default class HomeScreen extends Component {
   handleConfirmEnd = date => {
     this.setState({
       endDate: moment(date).format('MMMM DD, YYYY'),
-      endColor: 'black', 
+      endColor: 'black',
       endDateHolder: moment(date).format('YYYY-MM-DD')
     })
 
@@ -245,7 +285,7 @@ export default class HomeScreen extends Component {
           />
         </View>
       )
-      
+
     } else {
       // future
 
@@ -440,9 +480,10 @@ export default class HomeScreen extends Component {
       'Saturday',
     ]
     var dayName = days[d.getDay()]
-
+    { this.markedDate() }
     return (
       <View style={styles.maincontainer}>
+
         <View style={styles.container}>
           <View style={styles.container1}>
             <View style={styles.viewStyleOne}>
@@ -516,7 +557,7 @@ export default class HomeScreen extends Component {
                 console.log('month changed', month)
               }}
               markedDates={this.state.marked}
-              markingType='multi-period'
+              markingType={this.state.eventType}
               style={{
                 width: wp('95%'),
               }}
