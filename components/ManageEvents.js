@@ -52,38 +52,38 @@ export default class ManageEvents extends Component {
     this.setState({visibleModal: null})
   }
   async componentDidMount () {
-    // try {
-    //   const response = await fetch('http://demo6819551.mockable.io/events')
-    //   const responseJson = await response.json()
-    //   this.setState(
-    //     {
-    //       isLoading: false,
-    //       dataSource: responseJson.data,
-    //     },
-    //     function () {
-    //       this.arrayholder = responseJson.data
-    //     },
-    //   )
-    //   // alert(dataSource)
-    // } catch (error) {
-    //   console.log(error)
-    // }
-    return fetch('http://demo6819551.mockable.io/events')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState(
-          {
-            isLoading: false,
-            dataSource: responseJson.data,
-          },
-          function () {
-            this.arrayholder = responseJson.data
-          },
-        )
-      })
-      .catch(error => {
-        console.error(error)
-      })
+    try {
+      const response = await fetch('http://demo6819551.mockable.io/events')
+      const responseJson = await response.json()
+     this.setState(
+      {
+        isLoading: false,
+        dataSource: responseJson.data,
+      },
+      function () {
+        this.arrayholder = responseJson.data
+      },
+      )
+      // alert(dataSource)
+    } catch (error) {
+      console.log(error)
+    }
+    // return fetch('https://jsonplaceholder.typicode.com/posts')
+    //   .then(response => response.json())
+    //   .then(responseJson => {
+    //     this.setState(
+    //       {
+    //         isLoading: false,
+    //         dataSource: responseJson.data,
+    //       },
+    //       function () {
+    //         this.arrayholder = responseJson.data
+    //       },
+    //     )
+    //   })
+    //   .catch(error => {
+    //     console.error(error)
+    //   })
   }
   SearchFilterFunction (text) {
     //passing the inserted text in textinput
@@ -124,97 +124,192 @@ export default class ManageEvents extends Component {
     this.setDataModal()
   }
   render () {
-    return (
-      <View style={styles.maincontainer}>
-        <View style={styles.container}>
-          <View style={styles.container1}>
-            <View style={styles.viewStyleOne}>
-              <TouchableOpacity
-                onPress={() =>
-                  this.props.navigation.dispatch(DrawerActions.openDrawer())
-                }
-                style={styles.touchableHighlight}
-                underlayColor={'rgba(0,0,0,0.8)'}>
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.maincontainer}>
+          <View style={styles.container}>
+            <View style={styles.container1}>
+              <View style={styles.viewStyleOne}>
+                <TouchableOpacity
+                  onPress={() =>
+                    this.props.navigation.dispatch(DrawerActions.openDrawer())
+                  }
+                  style={styles.touchableHighlight}
+                  underlayColor={'rgba(0,0,0,0.8)'}>
+                  <Image
+                    source={require('../assets/menu.png')}
+                    style={{
+                      height: hp('7%'),
+                      width: wp('7%'),
+                      resizeMode: 'contain',
+                    }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.viewStyleTwo}>
+                <Text style={styles.text}>MANAGE EVENTS</Text>
+              </View>
+            </View>
+
+            {/* <View style={styles.viewStyleThree}> */}
+            {/* <TextInput
+                style={{
+                  height: hp('5%'),
+                  width: wp('80%'),
+                  marginLeft: 10,
+                }}></TextInput> */}
+            <View style={styles.viewStyleThree}>
+              <TextInput
+                style={styles.textInputStyle}
+                onChangeText={text => this.SearchFilterFunction(text)}
+                value={this.state.text}
+                // underlineColorAndroid='transparent'
+                placeholder='Search Here'
+              />
+              <TouchableOpacity onPress={this.setSettingModal}>
                 <Image
-                  source={require('../assets/menu.png')}
+                  source={require('../assets/settings.png')}
                   style={{
                     height: hp('7%'),
                     width: wp('7%'),
                     resizeMode: 'contain',
+                    marginLeft: 5,
                   }}
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.viewStyleTwo}>
-              <Text style={styles.text}>MANAGE EVENTS</Text>
+
+
+           
+            <View style={styles.viewStyleFour}>
+              <ActivityIndicator color='orange' />
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={this.setModal}
+                style={{
+                  marginTop: hp('-12%'),
+                  marginLeft: wp('75%'),
+                  backgroundColor: '#ff9501',
+                  borderBottomLeftRadius: 20,
+                  borderTopLeftRadius: 20,
+                  height: 65,
+                }}>
+                <Image
+                  source={require('../assets/add.png')}
+                  style={{
+                    height: 65,
+                    width: 65,
+                    resizeMode: 'stretch',
+                  }}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-
-          {/* <View style={styles.viewStyleThree}> */}
-          {/* <TextInput
-              style={{
-                height: hp('5%'),
-                width: wp('80%'),
-                marginLeft: 10,
-              }}></TextInput> */}
-          <View style={styles.viewStyleThree}>
-            {/* <View style={{flexDirection: 'row'}}> */}
-            <TextInput
-              style={styles.textInputStyle}
-              onChangeText={text => this.SearchFilterFunction(text)}
-              value={this.state.text}
-              // underlineColorAndroid='transparent'
-              placeholder='Search Here'
-            />
-            <TouchableOpacity onPress={this.setSettingModal}>
-              <Image
-                source={require('../assets/settings.png')}
-                style={{
-                  height: hp('7%'),
-                  width: wp('7%'),
-                  resizeMode: 'contain',
-                  marginLeft: 5,
-                }}
-              />
-            </TouchableOpacity>
-            {/* </View> */}
-          </View>
-
-          {/* </View> */}
-
-          <View style={styles.viewStyleFour}>
-            <FlatList
-              data={this.state.dataSource}
-              //dataSource to add data in the list
-              ItemSeparatorComponent={this.ListViewItemSeparator}
-              //List Item separator
-              renderItem={({item}) => (
-                //Rendering Single Row
+          <Modal
+            isVisible={this.state.visibleModal === 1}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderModalContent()}
+          </Modal>
+          <Modal
+            isVisible={this.state.visibleModal === 2}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderSettingModal()}
+          </Modal>
+          <Modal
+            isVisible={this.state.visibleModal === 3}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderDataModal()}
+          </Modal>
+        </View>
+      )
+    } 
+    
+    else {
+      return (
+        <View style={styles.maincontainer}>
+          <View style={styles.container}>
+            <View style={styles.container1}>
+              <View style={styles.viewStyleOne}>
                 <TouchableOpacity
-                  style={styles.rowViewContainer}
-                  onPress={this.showItem.bind(
-                    this,
-                    item.event,
-                    item.type,
-                    item.start,
-                    item.end,
-                    item.status,
-                    item.place,
-                  )}>
-                  <View style={{flexDirection: 'column', marginRight: 45}}>
-                    <Text>{item.event}</Text>
-                    <Text style={{marginBottom: 5}}>{item.start} to</Text>
-                    <Text>{item.end}</Text>
-                  </View>
-                  <View>
-                    <Text style={{fontWeight: 'bold'}}>{item.status}</Text>
-                  </View>
+                  onPress={() =>
+                    this.props.navigation.dispatch(DrawerActions.openDrawer())
+                  }
+                  style={styles.touchableHighlight}
+                  underlayColor={'rgba(0,0,0,0.8)'}>
+                  <Image
+                    source={require('../assets/menu.png')}
+                    style={{
+                      height: hp('7%'),
+                      width: wp('7%'),
+                      resizeMode: 'contain',
+                    }}
+                  />
                 </TouchableOpacity>
-              )}
-              // keyExtractor={(item, index) => index}
-              keyExtractor={(item, index) => index.toString()}
-            />
-            {/* <FlatList
+              </View>
+              <View style={styles.viewStyleTwo}>
+                <Text style={styles.text}>MANAGE EVENTS</Text>
+              </View>
+            </View>
+            <View style={styles.viewStyleThree}>
+              <TextInput
+                style={styles.textInputStyle}
+                onChangeText={text => this.SearchFilterFunction(text)}
+                value={this.state.text}
+                // underlineColorAndroid='transparent'
+                placeholder='Search Here'
+              />
+              <TouchableOpacity onPress={this.setSettingModal}>
+                <Image
+                  source={require('../assets/settings.png')}
+                  style={{
+                    height: hp('7%'),
+                    width: wp('7%'),
+                    resizeMode: 'contain',
+                    marginLeft: 5,
+                  }}
+                />
+              </TouchableOpacity>
+              {/* </View> */}
+            </View>
+
+            {/* </View> */}
+
+            <View style={styles.viewStyleFour}>
+              <FlatList
+                data={this.state.dataSource}
+                //dataSource to add data in the list
+                ItemSeparatorComponent={this.ListViewItemSeparator}
+                //List Item separator
+                renderItem={({item}) => (
+                  //Rendering Single Row
+                  <TouchableOpacity
+                    style={styles.rowViewContainer}
+                    onPress={this.showItem.bind(
+                      this,
+                      item.event,
+                      item.type,
+                      item.start,
+                      item.end,
+                      item.status,
+                      item.place,
+                    )}>
+                    <View style={{flexDirection: 'column', marginRight: 45}}>
+                      <Text>{item.event}</Text>
+                      <Text style={{marginBottom: 5}}>{item.start} to</Text>
+                      <Text>{item.end}</Text>
+                    </View>
+                    <View>
+                      <Text style={{fontWeight: 'bold'}}>{item.status}</Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+              {/* <FlatList
               data={this.state.dataSource}
               ItemSeparatorComponent={this.ListViewItemSeparator}
               renderItem={({item}) => ( <TouchableOpacity
@@ -226,51 +321,51 @@ export default class ManageEvents extends Component {
               style={{marginTop: 10}}
               keyExtractor={(item, index) => index.toString()}
             /> */}
-          </View>
-          <View style={{}}>
-            <TouchableOpacity
-              onPress={this.setModal}
-              style={{
-                marginTop: hp('-12%'),
-                marginLeft: wp('75%'),
-                backgroundColor: '#ff9501',
-                borderBottomLeftRadius: 20,
-                borderTopLeftRadius: 20,
-                height: 65,
-              }}>
-              <Image
-                source={require('../assets/add.png')}
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={this.setModal}
                 style={{
+                  marginTop: hp('-12%'),
+                  marginLeft: wp('75%'),
+                  backgroundColor: '#ff9501',
+                  borderBottomLeftRadius: 20,
+                  borderTopLeftRadius: 20,
                   height: 65,
-                  width: 65,
-                  resizeMode: 'stretch',
-                }}
-              />
-            </TouchableOpacity>
+                }}>
+                <Image
+                  source={require('../assets/add.png')}
+                  style={{
+                    height: 65,
+                    width: 65,
+                    resizeMode: 'stretch',
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
+          <Modal
+            isVisible={this.state.visibleModal === 1}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderModalContent()}
+          </Modal>
+          <Modal
+            isVisible={this.state.visibleModal === 2}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderSettingModal()}
+          </Modal>
+          <Modal
+            isVisible={this.state.visibleModal === 3}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderDataModal()}
+          </Modal>
         </View>
-        <Modal
-          isVisible={this.state.visibleModal === 1}
-          animationIn='fadeIn'
-          animationOut='fadeOut'>
-          {this.renderModalContent()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 2}
-          animationIn='fadeIn'
-          animationOut='fadeOut'>
-          {this.renderSettingModal()}
-        </Modal>
-        <Modal
-          isVisible={this.state.visibleModal === 3}
-          animationIn='fadeIn'
-          animationOut='fadeOut'>
-          {this.renderDataModal()}
-        </Modal>
-      </View>
-    )
+      )
+    }
   }
-
   setModal = () => this.setState({visibleModal: 1})
 
   setSettingModal = () => this.setState({visibleModal: 2})
@@ -466,7 +561,7 @@ export default class ManageEvents extends Component {
           <Text
             style={{
               fontWeight: '400',
-              fontSize: hp('3%'),
+              fontSize: hp('3.5%'),
               color: 'white',
               marginLeft: 10,
               marginTop: 5,
@@ -624,20 +719,25 @@ export default class ManageEvents extends Component {
             marginTop: 5,
             paddingLeft: 5,
           }}>
-          <View style={{flexDirection: 'column',marginRight:wp('8%')
-}}>
-            <Text style={{fontSize: hp('2%'),margin:3}}>WHAT:</Text>
-            <Text style={{fontSize: hp('2%'),margin:3}}>WHERE:</Text>
+          <View style={{flexDirection: 'column', marginRight: wp('8%')}}>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>WHAT:</Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>WHERE:</Text>
 
-            <Text style={{fontSize: hp('2%'),margin:3}}>WHEN:</Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>WHEN:</Text>
           </View>
           <View style={{flexDirection: 'column'}}>
-            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellEvent}</Text>
-            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellPlace}</Text>
-            <Text style={{fontSize: hp('2%'),margin:3}}>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>
+              {this.state.cellEvent}
+            </Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>
+              {this.state.cellPlace}
+            </Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>
               {this.state.cellStart} to
             </Text>
-            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellEnd}</Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}>
+              {this.state.cellEnd}
+            </Text>
           </View>
         </View>
       </View>
@@ -715,8 +815,8 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     // backgroundColor: 'grey',
     flexDirection: 'column',
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
     // backgroundColor: '#ededed',
     // flexDirection: 'row',
     marginTop: 5,

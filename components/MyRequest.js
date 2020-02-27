@@ -365,6 +365,7 @@ const styles = StyleSheet.create({
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width:wp('100%')
   },
   modalContent: {
     backgroundColor: 'white',
