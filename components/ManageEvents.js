@@ -39,6 +39,12 @@ export default class ManageEvents extends Component {
       firstLanguage: 'java',
       secondLanguage: 'js',
       text: '',
+      cellEvent: null,
+      cellType: null,
+      cellStart: null,
+      cellEnd: null,
+      cellStatus: null,
+      cellPlace: null,
     }
     this.arrayholder = []
   }
@@ -46,27 +52,32 @@ export default class ManageEvents extends Component {
     this.setState({visibleModal: null})
   }
   async componentDidMount () {
-    try {
-      const response = await fetch('http://demo6819551.mockable.io/events')
-      const responseJson = await response.json()
-      this.setState({
-        isLoading: false,
-        dataSource: responseJson.data,
-      })
-      // alert(dataSource)
-    } catch (error) {
-      console.log(error)
-    }
-    return fetch('https://jsonplaceholder.typicode.com/posts')
+    // try {
+    //   const response = await fetch('http://demo6819551.mockable.io/events')
+    //   const responseJson = await response.json()
+    //   this.setState(
+    //     {
+    //       isLoading: false,
+    //       dataSource: responseJson.data,
+    //     },
+    //     function () {
+    //       this.arrayholder = responseJson.data
+    //     },
+    //   )
+    //   // alert(dataSource)
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    return fetch('http://demo6819551.mockable.io/events')
       .then(response => response.json())
       .then(responseJson => {
         this.setState(
           {
             isLoading: false,
-            dataSource: responseJson,
+            dataSource: responseJson.data,
           },
           function () {
-            this.arrayholder = responseJson
+            this.arrayholder = responseJson.data
           },
         )
       })
@@ -78,7 +89,7 @@ export default class ManageEvents extends Component {
     //passing the inserted text in textinput
     const newData = this.arrayholder.filter(function (item) {
       //applying filter for the inserted text in search bar
-      const itemData = item.title ? item.title.toUpperCase() : ''.toUpperCase()
+      const itemData = item.event ? item.event.toUpperCase() : ''.toUpperCase()
       const textData = text.toUpperCase()
       return itemData.indexOf(textData) > -1
     })
@@ -100,6 +111,17 @@ export default class ManageEvents extends Component {
         }}
       />
     )
+  }
+  showItem (rowData, rowData2, rowData3, rowData4, rowData5, rowData6) {
+    this.setState({
+      cellEvent: rowData.toString(),
+      cellType: rowData2.toString(),
+      cellStart: rowData3.toString(),
+      cellEnd: rowData4.toString(),
+      cellStatus: rowData5.toString(),
+      cellPlace: rowData6.toString(),
+    })
+    this.setDataModal()
   }
   render () {
     return (
@@ -137,31 +159,31 @@ export default class ManageEvents extends Component {
               }}></TextInput> */}
           <View style={styles.viewStyleThree}>
             {/* <View style={{flexDirection: 'row'}}> */}
-              <TextInput
-                style={styles.textInputStyle}
-                onChangeText={text => this.SearchFilterFunction(text)}
-                value={this.state.text}
-                // underlineColorAndroid='transparent'
-                placeholder='Search Here'
+            <TextInput
+              style={styles.textInputStyle}
+              onChangeText={text => this.SearchFilterFunction(text)}
+              value={this.state.text}
+              // underlineColorAndroid='transparent'
+              placeholder='Search Here'
+            />
+            <TouchableOpacity onPress={this.setSettingModal}>
+              <Image
+                source={require('../assets/settings.png')}
+                style={{
+                  height: hp('7%'),
+                  width: wp('7%'),
+                  resizeMode: 'contain',
+                  marginLeft: 5,
+                }}
               />
-              <TouchableOpacity onPress={this.setSettingModal}>
-                <Image
-                  source={require('../assets/settings.png')}
-                  style={{
-                    height: hp('7%'),
-                    width: wp('7%'),
-                    resizeMode: 'contain',
-                    marginLeft: 5,
-                  }}
-                />
-              </TouchableOpacity>
+            </TouchableOpacity>
             {/* </View> */}
           </View>
 
           {/* </View> */}
 
           <View style={styles.viewStyleFour}>
-            {/* <FlatList
+            <FlatList
               data={this.state.dataSource}
               //dataSource to add data in the list
               ItemSeparatorComponent={this.ListViewItemSeparator}
@@ -170,17 +192,19 @@ export default class ManageEvents extends Component {
                 //Rendering Single Row
                 <TouchableOpacity
                   style={styles.rowViewContainer}
-                  // onPress={this.showItem.bind(
-                  //   this,
-                  //   item.category,
-                  //   // item.hours,
-                  // )}
-                >
+                  onPress={this.showItem.bind(
+                    this,
+                    item.event,
+                    item.type,
+                    item.start,
+                    item.end,
+                    item.status,
+                    item.place,
+                  )}>
                   <View style={{flexDirection: 'column', marginRight: 45}}>
                     <Text>{item.event}</Text>
-                    <Text style={{marginBottom: 5}}>
-                      {item.start} - {item.end}
-                    </Text>
+                    <Text style={{marginBottom: 5}}>{item.start} to</Text>
+                    <Text>{item.end}</Text>
                   </View>
                   <View>
                     <Text style={{fontWeight: 'bold'}}>{item.status}</Text>
@@ -189,8 +213,8 @@ export default class ManageEvents extends Component {
               )}
               // keyExtractor={(item, index) => index}
               keyExtractor={(item, index) => index.toString()}
-            /> */}
-            <FlatList
+            />
+            {/* <FlatList
               data={this.state.dataSource}
               ItemSeparatorComponent={this.ListViewItemSeparator}
               renderItem={({item}) => ( <TouchableOpacity
@@ -201,7 +225,7 @@ export default class ManageEvents extends Component {
               enableEmptySections={true}
               style={{marginTop: 10}}
               keyExtractor={(item, index) => index.toString()}
-            />
+            /> */}
           </View>
           <View style={{}}>
             <TouchableOpacity
@@ -212,7 +236,7 @@ export default class ManageEvents extends Component {
                 backgroundColor: '#ff9501',
                 borderBottomLeftRadius: 20,
                 borderTopLeftRadius: 20,
-                height:65
+                height: 65,
               }}>
               <Image
                 source={require('../assets/add.png')}
@@ -237,6 +261,12 @@ export default class ManageEvents extends Component {
           animationOut='fadeOut'>
           {this.renderSettingModal()}
         </Modal>
+        <Modal
+          isVisible={this.state.visibleModal === 3}
+          animationIn='fadeIn'
+          animationOut='fadeOut'>
+          {this.renderDataModal()}
+        </Modal>
       </View>
     )
   }
@@ -244,6 +274,8 @@ export default class ManageEvents extends Component {
   setModal = () => this.setState({visibleModal: 1})
 
   setSettingModal = () => this.setState({visibleModal: 2})
+
+  setDataModal = () => this.setState({visibleModal: 3})
 
   renderSettingModal = () => (
     <View style={styles.modalContent}>
@@ -541,6 +573,76 @@ export default class ManageEvents extends Component {
       </View>
     </View>
   )
+  renderDataModal = () => (
+    <View style={styles.modalContent}>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom: 5,
+          // alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            backgroundColor: '#008ECC',
+            width: wp('90%'),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            height: hp('5%'),
+          }}>
+          <Text
+            style={{
+              fontWeight: '400',
+              fontSize: hp('3%'),
+              color: 'white',
+              marginLeft: 10,
+              marginTop: 5,
+            }}>
+            {this.state.cellType}
+          </Text>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              // alignItems: 'center',
+              // justifyContent: 'center',
+              // backgroundColor: 'grey',
+              marginTop: 5,
+              marginRight: 10,
+            }}
+            onPress={this.renderButton}>
+            <Text
+              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              X
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            marginTop: 5,
+            paddingLeft: 5,
+          }}>
+          <View style={{flexDirection: 'column',marginRight:wp('8%')
+}}>
+            <Text style={{fontSize: hp('2%'),margin:3}}>WHAT:</Text>
+            <Text style={{fontSize: hp('2%'),margin:3}}>WHERE:</Text>
+
+            <Text style={{fontSize: hp('2%'),margin:3}}>WHEN:</Text>
+          </View>
+          <View style={{flexDirection: 'column'}}>
+            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellEvent}</Text>
+            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellPlace}</Text>
+            <Text style={{fontSize: hp('2%'),margin:3}}>
+              {this.state.cellStart} to
+            </Text>
+            <Text style={{fontSize: hp('2%'),margin:3}}>{this.state.cellEnd}</Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -613,23 +715,23 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     // backgroundColor: 'grey',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     // backgroundColor: '#ededed',
     // flexDirection: 'row',
-    // marginTop: 5,
+    marginTop: 5,
   },
 
   rowViewContainer: {
     padding: 10,
     fontSize: 18,
     // height: 44,
-    marginLeft: 3,
     borderWidth: 1,
     borderRadius: 10,
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    width: wp('98%'),
   },
   text: {
     fontSize: 24,
@@ -662,8 +764,8 @@ const styles = StyleSheet.create({
     borderColor: '#009688',
     backgroundColor: '#FFFFFF',
     width: wp('88%'),
-    height:30,
-    marginLeft:5
+    height: 30,
+    marginLeft: 5,
   },
   viewStyle: {
     // justifyContent: 'center',

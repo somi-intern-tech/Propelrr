@@ -548,6 +548,8 @@ export default class HomeScreen extends Component {
               <View style={styles.viewStyleTwo}>
                 <Text style={styles.text}>HOME</Text>
               </View>
+            </View>
+            <View style={styles.container3}>
               <ActivityIndicator color='orange' />
             </View>
           </View>

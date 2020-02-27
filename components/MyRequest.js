@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
+import Modal from 'react-native-modal'
 
 export default class MyRequest extends Component {
   static navigationOptions = {
@@ -33,6 +34,10 @@ export default class MyRequest extends Component {
       isLoading: true,
       dataSource: null,
       statusColor:null,
+      cellDate: null,
+      visibleModal: null,
+
+
     }
   }
   async componentDidMount () {
@@ -54,6 +59,67 @@ export default class MyRequest extends Component {
     })
     // alert(colorstate)
   }
+
+
+
+  showItem (rowData) {
+    this.setState({
+      cellDate: rowData.toString(),
+      
+    })
+    this.setModal()
+  }
+  ListViewItemSeparator = () => {
+    return (
+      //List Item separator View
+      <View style={{height: 0.5, width: '100%', backgroundColor: '#606070'}} />
+    )
+  }
+
+  renderButton = () => {
+    this.setState({visibleModal: null})
+  }
+
+  setModal = () => this.setState({visibleModal: 1})
+  renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <View
+        style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            backgroundColor: '#008ECC',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: wp('90%'),
+          }}>
+          <Text
+            style={{fontWeight: 'bold', fontSize: hp('3%'), color: 'white'}}>
+            {this.state.cellDate}
+          </Text>
+        </View>
+      </View>
+     
+      <TouchableOpacity
+        style={{
+          borderWidth: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'orange',
+          borderRadius: 10,
+          padding: 5,
+          marginTop: 5,
+        }}
+        onPress={this.renderButton}>
+        <Text style={{fontWeight: 'bold'}}>CLOSE</Text>
+      </TouchableOpacity>
+      {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
+    </View>
+  )
+
   render () {
     
     if (this.state.isLoading) {
@@ -204,6 +270,12 @@ export default class MyRequest extends Component {
               />
             </View>
           </View>
+          <Modal
+                isVisible={this.state.visibleModal === 1}
+                animationIn='fadeIn'
+                animationOut='fadeOut'>
+                {this.renderModalContent()}
+              </Modal>
         </View>
       )
     }
@@ -293,5 +365,14 @@ const styles = StyleSheet.create({
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+    width: wp('90%'),
   },
 })
