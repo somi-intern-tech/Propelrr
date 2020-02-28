@@ -72,7 +72,9 @@ export default class Profile extends Component {
       showForm: 0,
       visibleModal: null,
 
-      cellDate: null,
+
+
+
       cellHours: null,
       cellTimein: null,
       cellTimeout: null,

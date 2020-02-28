@@ -8,6 +8,7 @@ import {
   FlatList,
   Picker,
   ActivityIndicator,
+  Alert,
 } from 'react-native'
 import {DrawerActions} from 'react-navigation-drawer'
 import {
@@ -16,7 +17,15 @@ import {
 } from 'react-native-responsive-screen'
 import {Searchbar, TextInput} from 'react-native-paper'
 import Modal from 'react-native-modal'
+import RNPickerSelect from 'react-native-picker-select'
 
+var respo = [
+  'Gary Viray - Going',
+  'Mitchelle Viray - Going',
+  'Vino Bolisay - Pending',
+  'Dexter Loor - Going',
+  'Allen Cerezo - Pending',
+]
 export default class ManageEvents extends Component {
   static navigationOptions = {
     drawerLabel: 'Manage Events',
@@ -45,8 +54,62 @@ export default class ManageEvents extends Component {
       cellEnd: null,
       cellStatus: null,
       cellPlace: null,
+      holder: 'bianca -going',
+      selectEvent: undefined,
+      items: [
+        {
+          label: 'Holiday',
+          value: 'holiday',
+        },
+        {
+          label: 'Internal Event',
+          value: 'internal event',
+        },
+      ],
+      eventName: undefined,
+      items2: [
+        {
+          label: 'Creator',
+          value: 'creator',
+        },
+        {
+          label: 'Guest',
+          value: 'guest',
+        },
+      ],
+      eventType: undefined,
+      items3: [
+        {
+          label: 'Holiday',
+          value: 'holiday',
+        },
+        {
+          label: 'Internal Event',
+          value: 'internal event',
+        },
+        {
+          label: 'Meeting',
+          value: 'eventmeeting',
+        },
+      ],
+      statusName: undefined,
+      items4: [
+        {
+          label: 'Pending',
+          value: 'pending',
+        },
+        {
+          label: 'Going',
+          value: 'going',
+        },
+        {
+          label: 'Not Going',
+          value: 'not going',
+        },
+      ],
     }
     this.arrayholder = []
+    this.inputRefs = {}
   }
   renderButton = () => {
     this.setState({visibleModal: null})
@@ -55,19 +118,31 @@ export default class ManageEvents extends Component {
     try {
       const response = await fetch('http://demo6819551.mockable.io/events')
       const responseJson = await response.json()
-     this.setState(
-      {
-        isLoading: false,
-        dataSource: responseJson.data,
-      },
-      function () {
-        this.arrayholder = responseJson.data
-      },
+      this.setState(
+        {
+          isLoading: false,
+          dataSource: responseJson.data,
+        },
+        function () {
+          this.arrayholder = responseJson.data
+        },
       )
       // alert(dataSource)
     } catch (error) {
       console.log(error)
     }
+    setTimeout(() => {
+      this.setState({
+        selectEvent: undefined,
+      })
+    }, 1000)
+
+    // parent can also update the `items` prop
+    setTimeout(() => {
+      this.setState({
+        items: this.state.items.concat([{value: 'meeting', label: 'Meeting'}]),
+      })
+    }, 2000)
     // return fetch('https://jsonplaceholder.typicode.com/posts')
     //   .then(response => response.json())
     //   .then(responseJson => {
@@ -179,8 +254,6 @@ export default class ManageEvents extends Component {
               </TouchableOpacity>
             </View>
 
-
-           
             <View style={styles.viewStyleFour}>
               <ActivityIndicator color='orange' />
             </View>
@@ -226,9 +299,7 @@ export default class ManageEvents extends Component {
           </Modal>
         </View>
       )
-    } 
-    
-    else {
+    } else {
       return (
         <View style={styles.maincontainer}>
           <View style={styles.container}>
@@ -298,7 +369,7 @@ export default class ManageEvents extends Component {
                       item.place,
                     )}>
                     <View style={{flexDirection: 'column', marginRight: 45}}>
-                      <Text>{item.event}</Text>
+                      <Text style={{fontWeight: 'bold'}}>{item.event}</Text>
                       <Text style={{marginBottom: 5}}>{item.start} to</Text>
                       <Text>{item.end}</Text>
                     </View>
@@ -388,6 +459,7 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             height: hp('5%'),
+            marginLeft:2.2
           }}>
           <Text
             style={{
@@ -433,20 +505,38 @@ export default class ManageEvents extends Component {
             // justifyContent: 'space-between',
             width: wp('90%'),
             height: hp('5%'),
-            marginTop: 5,
+            marginTop: 5,marginLeft:5
           }}>
           <TextInput
             style={{
-              width: wp('40%'),
+              width: wp('38%'),
               marginLeft: 5,
               height: hp('5%'),
             }}></TextInput>
-          <TextInput
-            style={{
-              width: wp('45%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
+          <RNPickerSelect
+            placeholder={{
+              label: 'Select an event...',
+              value: null,
+            }}
+            items={this.state.items3}
+            onValueChange={value => {
+              this.setState({
+                eventType: value,
+              })
+            }}
+            onUpArrow={() => {
+              this.inputRefs.picker.togglePicker()
+            }}
+            onDownArrow={() => {
+              this.inputRefs.company.focus()
+            }}
+            style={{...pickerSelectStyles}}
+            value={this.state.eventType}
+            ref={el => {
+              this.inputRefs.picker2 = el
+            }}
+            useNativeAndroidPickerStyle={true} //android only
+          />
         </View>
         <View
           style={{
@@ -499,18 +589,57 @@ export default class ManageEvents extends Component {
             height: hp('5%'),
             marginTop: 5,
           }}>
-          <TextInput
-            style={{
-              width: wp('40%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
-          <TextInput
-            style={{
-              width: wp('45%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
+          <RNPickerSelect
+            placeholder={{
+              label: 'Select a role...',
+              value: null,
+             
+            }}
+            items={this.state.items2}
+            onValueChange={value => {
+              this.setState({
+                eventName: value,
+              })
+            }}
+            onUpArrow={() => {
+              this.inputRefs.picker.togglePicker()
+            }}
+            onDownArrow={() => {
+              this.inputRefs.company.focus()
+            }}
+            style={{...pickerSelectStyles}}
+            value={this.state.eventName}
+            ref={el => {
+              this.inputRefs.picker2 = el
+            }}
+            useNativeAndroidPickerStyle={true} //android only
+          />
+          <RNPickerSelect
+            placeholder={{
+              label: 'Select a status...',
+              value: null,
+             
+            }}
+            items={this.state.items4}
+            onValueChange={value => {
+              this.setState({
+                statusName: value,
+              })
+            }}
+            onUpArrow={() => {
+              this.inputRefs.picker.togglePicker()
+            }}
+            onDownArrow={() => {
+              this.inputRefs.company.focus()
+            }}
+            style={{...pickerSelectStyles}}
+            value={this.state.statusName}
+            ref={el => {
+              this.inputRefs.picker2 = el
+            }}
+            useNativeAndroidPickerStyle={true} //android only
+          />
+          
         </View>
         <View
           style={{
@@ -604,12 +733,31 @@ export default class ManageEvents extends Component {
             height: hp('5%'),
             marginTop: 5,
           }}>
-          <TextInput
-            style={{
-              width: wp('40%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
+          <RNPickerSelect
+            placeholder={{
+              label: 'Select an event...',
+              value: null,
+            }}
+            items={this.state.items}
+            onValueChange={value => {
+              this.setState({
+                selectEvent: value,
+              })
+            }}
+            onUpArrow={() => {
+              this.inputRefs.name.focus()
+            }}
+            onDownArrow={() => {
+              this.inputRefs.picker2.togglePicker()
+            }}
+            style={{...pickerSelectStyles}}
+            value={this.state.selectEvent}
+            ref={el => {
+              this.inputRefs.picker = el
+            }}
+            useNativeAndroidPickerStyle={false} //android only
+            // hideIcon={true}
+          />
           <TextInput
             style={{
               width: wp('45%'),
@@ -724,6 +872,11 @@ export default class ManageEvents extends Component {
             <Text style={{fontSize: hp('2%'), margin: 3}}>WHERE:</Text>
 
             <Text style={{fontSize: hp('2%'), margin: 3}}>WHEN:</Text>
+            <Text style={{fontSize: hp('2%'), margin: 3}}></Text>
+
+            <Text style={{fontSize: hp('2%'), margin: 3, marginTop: 6}}>
+              WHO:
+            </Text>
           </View>
           <View style={{flexDirection: 'column'}}>
             <Text style={{fontSize: hp('2%'), margin: 3}}>
@@ -738,11 +891,48 @@ export default class ManageEvents extends Component {
             <Text style={{fontSize: hp('2%'), margin: 3}}>
               {this.state.cellEnd}
             </Text>
+            {respo.map((item, key) => (
+              <Text key={key} style={{fontSize: hp('2%'), marginTop: 3}}>
+                {item}
+              </Text>
+            ))}
           </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            // justifyContent: 'space-between',
+            marginTop: 5,
+            // backgroundColor:'grey'
+          }}>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              // backgroundColor: 'grey',
+              marginTop: 5,
+              marginLeft: wp('60%'),
+              backgroundColor: 'orange',
+              width: wp('25%'),
+              borderRadius: 5,
+              padding: 2,
+            }}
+            onPress={this.AddItemsToArray}>
+            {/* // onPress={this.renderButton}> */}
+            <Text style={{color: 'white', fontSize: 20}}>JOIN</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
   )
+}
+
+AddItemsToArray = () => {
+  //Adding Items To Array.
+  respo.push(holder)
+  alert(respo)
+  // Showing the complete Array on Screen Using Alert.
 }
 
 const styles = StyleSheet.create({
@@ -872,5 +1062,22 @@ const styles = StyleSheet.create({
     // flex: 1,
     // marginTop: 40,
     // padding: 16,
+  },
+})
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    // paddingTop: 13,
+    // paddingHorizontal: 10,
+    // paddingBottom: 12,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    backgroundColor: 'white',
+    color: 'black',
+    width:wp('40%'),
+    marginLeft:5,
+    height:hp('5%')
+
   },
 })
