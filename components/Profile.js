@@ -774,7 +774,7 @@ const styles = StyleSheet.create({
   },
   viewStyleSix: {
     width: wp('100%'),
-    height: hp('80%'), // 70% of height device screen
+    height: hp('50%'), // 70% of height device screen
     // backgroundColor: 'yellow',
     // flexDirection: 'row',
     // alignItems: 'center',

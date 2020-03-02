@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,7 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native'
-import {DrawerActions} from 'react-navigation-drawer'
+import { DrawerActions } from 'react-navigation-drawer'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -24,23 +24,29 @@ export default class MyRequest extends Component {
     drawerIcon: () => (
       <Image
         source={require('../assets/propelrr.png')}
-        style={{height: 30, width: 30}}
+        style={{ height: 30, width: 30 }}
       />
     ),
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
       dataSource: null,
-      statusColor:null,
+      statusColor: null,
       cellDate: null,
       visibleModal: null,
+
+      cellCategory: null,
+      cellStart: null,
+      cellEnd: null,
+      cellStatus: null,
+      cellReason: null
 
 
     }
   }
-  async componentDidMount () {
+  async componentDidMount() {
     try {
       const response = await fetch('http://www.amock.io/api/intern/requests')
       const responseJson = await response.json()
@@ -53,7 +59,7 @@ export default class MyRequest extends Component {
       console.log(error)
     }
   }
-  setColor (colorstate) {
+  setColor(colorstate) {
     this.setState({
       statusColor: colorstate,
     })
@@ -62,25 +68,25 @@ export default class MyRequest extends Component {
 
 
 
-  showItem (rowData) {
+  showItem(rowData) {
     this.setState({
       cellDate: rowData.toString(),
-      
+
     })
     this.setModal()
   }
   ListViewItemSeparator = () => {
     return (
       //List Item separator View
-      <View style={{height: 0.5, width: '100%', backgroundColor: '#606070'}} />
+      <View style={{ height: 0.5, width: '100%', backgroundColor: '#606070' }} />
     )
   }
 
   renderButton = () => {
-    this.setState({visibleModal: null})
+    this.setState({ visibleModal: null })
   }
 
-  setModal = () => this.setState({visibleModal: 1})
+  setModal = () => this.setState({ visibleModal: 1 })
   renderModalContent = () => (
     <View style={styles.modalContent}>
       <View
@@ -97,12 +103,12 @@ export default class MyRequest extends Component {
             width: wp('90%'),
           }}>
           <Text
-            style={{fontWeight: 'bold', fontSize: hp('3%'), color: 'white'}}>
+            style={{ fontWeight: 'bold', fontSize: hp('3%'), color: 'white' }}>
             {this.state.cellDate}
           </Text>
         </View>
       </View>
-     
+
       <TouchableOpacity
         style={{
           borderWidth: 1,
@@ -114,14 +120,114 @@ export default class MyRequest extends Component {
           marginTop: 5,
         }}
         onPress={this.renderButton}>
-        <Text style={{fontWeight: 'bold'}}>CLOSE</Text>
+        <Text style={{ fontWeight: 'bold' }}>CLOSE</Text>
       </TouchableOpacity>
       {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
     </View>
   )
 
-  render () {
-    
+  showItem(rowData, rowData2, rowData3, rowData4, rowData5) {
+    this.setState({
+      cellCategory: rowData.toString(),
+      cellStart: rowData2.toString(),
+      cellEnd: rowData3.toString(),
+      cellStatus: rowData4.toString(),
+      cellReason: rowData5.toString()
+
+    })
+    this.setModal()
+  }
+  setModal = () => this.setState({ visibleModal: 1 })
+
+  renderModalContent = () => (
+    <View style={styles.modalContent}>
+      <View
+        style={{
+          flexDirection: 'column',
+          marginBottom: 5,
+          // alignItems: 'center',
+          // justifyContent: 'center',
+        }}>
+        <View
+          style={{
+            backgroundColor: '#008ECC',
+            width: wp('90%'),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            height: hp('5%'),
+          }}>
+          <Text
+            style={{
+              fontWeight: '400',
+              fontSize: hp('3.5%'),
+              color: 'white',
+              marginLeft: 10,
+              marginTop: 5,
+            }}>
+            {/* {this.state.cellCategory} */}
+            REQUEST
+          </Text>
+          <TouchableOpacity
+            style={{
+              // borderWidth: 1,
+              // alignItems: 'center',
+              // justifyContent: 'center',
+              // backgroundColor: 'grey',
+              marginRight: 10,
+            }}
+            onPress={this.renderButton}>
+            <Text
+              style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%'), marginTop: 5 }}>
+              X
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flexDirection: 'column' }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 15,
+              paddingLeft: 5,
+            }}>
+            <Text style={{ fontWeight: 'bold' }}> Start date</Text>
+            <Text style={{ marginLeft: 100, fontWeight: 'bold' }}> End date</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 5,
+              paddingLeft: 5,
+            }}>
+            <Text style={{}}> {this.state.cellStart}</Text>
+            <Text style={{ marginLeft: 115 }}> {this.state.cellEnd}</Text>
+          </View>
+          <View style={{borderBottomWidth:1}}>
+          <Text style={{ fontWeight: 'bold', paddingLeft: 5, marginTop: 10 }}> Reason</Text>
+          <Text style={{ paddingLeft: 10, marginTop: 5,marginBottom:10 }}>{this.state.cellReason}</Text>
+          </View>
+          <View style={{ width: wp('80%'), justifyContent: 'center', alignItems: 'center', padding: 5, flexDirection: 'row', marginLeft: 15, }}>
+            <Image
+              source={require('../assets/check.png')}
+              style={{
+                height: hp('7%'),
+                width: wp('7%'),
+                resizeMode: 'contain',
+                marginRight:5
+                // backgroundColor:'yellow'
+              }} />
+            <Text style={{marginRight:10}}> Your request for {this.state.cellCategory} has been approved.</Text>
+          </View>
+
+
+
+        </View>
+      </View>
+    </View>
+
+
+  )
+  render() {
+
     if (this.state.isLoading) {
       return (
         <View style={styles.maincontainer}>
@@ -150,62 +256,28 @@ export default class MyRequest extends Component {
             </View>
 
             <View style={styles.viewStyleThree}>
-              {/* <FlatList
-                data={this.state.dataSource}
-                //dataSource to add data in the list
-                ItemSeparatorComponent={this.ListViewItemSeparator}
-                //List Item separator
-                renderItem={({item}) => (
-                  //Rendering Single Row
-                  <TouchableOpacity
-                    style={styles.rowViewContainer}
-                    // onPress={this.showItem.bind(
-                    //   this,
-                    //   item.category,
-                    //   // item.hours,
-                    //   // item.timein,
-                    //   // item.timeout,
-                    //   // item.overtime,
-                    // )}
-                  >
-                    <View style={{flexDirection: 'column', marginRight: 45}}>
-                      <Text>{item.category}</Text>
-                      <Text style={{marginBottom: 5}}>
-                        {item.start} - {item.end}
-                      </Text>
-                    </View>
-                    <View>
-                      <Text style={{color: this.state.statusColor}}>
-                        {item.status}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-                // keyExtractor={(item, index) => index}
-                keyExtractor={(item, index) => index.toString()}
-              /> */}
-              <ActivityIndicator color='orange'/>
+              <ActivityIndicator color='orange' />
             </View>
           </View>
         </View>
       )
     }
-    else{
+    else {
       let stat = this.state.dataSource.map(dataSource => {
         <Text key={0}>{dataSource.status}</Text>
-  
+
         if (stat == 'APPROVED') {
           this.setColor.bind(this, 'black')
 
         } else if (dataSource.status == 'DECLINED') {
         }
-        else{
+        else {
           this.setColor.bind(this, 'black')
         }
         // alert(this.state.statusColor)
 
       })
-              // alert(this.state.statusColor)
+      // alert(this.state.statusColor)
 
       return (
         <View style={styles.maincontainer}>
@@ -239,27 +311,27 @@ export default class MyRequest extends Component {
                 //dataSource to add data in the list
                 ItemSeparatorComponent={this.ListViewItemSeparator}
                 //List Item separator
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   //Rendering Single Row
                   <TouchableOpacity
                     style={styles.rowViewContainer}
-                    // onPress={this.showItem.bind(
-                    //   this,
-                    //   item.category,
-                    //   // item.hours,
-                    //   // item.timein,
-                    //   // item.timeout,
-                    //   // item.overtime,
-                    // )}
+                    onPress={this.showItem.bind(
+                      this,
+                      item.category,
+                      item.start,
+                      item.end,
+                      item.status,
+                      item.reason
+                    )}
                   >
-                    <View style={{flexDirection: 'column', marginRight: 45}}>
+                    <View style={{ flexDirection: 'column', marginRight: 45 }}>
                       <Text>{item.category}</Text>
-                      <Text style={{marginBottom: 5}}>
+                      <Text style={{ marginBottom: 5 }}>
                         {item.start} - {item.end}
                       </Text>
                     </View>
-                    <View>
-                      <Text style={{fontWeight:'bold'}}>
+                    <View style={{ backgroundColor: 'orange', padding: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                      <Text style={{ fontWeight: 'bold',color:'white' }}>
                         {item.status}
                       </Text>
                     </View>
@@ -271,11 +343,11 @@ export default class MyRequest extends Component {
             </View>
           </View>
           <Modal
-                isVisible={this.state.visibleModal === 1}
-                animationIn='fadeIn'
-                animationOut='fadeOut'>
-                {this.renderModalContent()}
-              </Modal>
+            isVisible={this.state.visibleModal === 1}
+            animationIn='fadeIn'
+            animationOut='fadeOut'>
+            {this.renderModalContent()}
+          </Modal>
         </View>
       )
     }
@@ -365,11 +437,11 @@ const styles = StyleSheet.create({
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width:wp('98%')
+    width: wp('98%')
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 15,
+    // padding: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
