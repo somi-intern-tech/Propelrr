@@ -18,6 +18,8 @@ import {
 import { Searchbar, TextInput } from 'react-native-paper'
 import Modal from 'react-native-modal'
 import RNPickerSelect from 'react-native-picker-select'
+import DateTimePickerModal from 'react-native-modal-datetime-picker'
+import moment from 'moment'
 
 var respo = [
   'Gary Viray - Going',
@@ -43,7 +45,14 @@ export default class ManageEvents extends Component {
       dataSource: null,
       firstQuery: '',
       visibleModal: null,
-
+      startDate: '',
+      startDateHolder: '',
+      endDate: '',
+      endDateHolder: '',
+      isDatePickerVisibleStart: false,
+      setDatePickerVisibilityStart: false,
+      isDatePickerVisibleEnd: false,
+      setDatePickerVisibilityEnd: false,
       language: 'haxe',
       firstLanguage: 'java',
       secondLanguage: 'js',
@@ -112,7 +121,18 @@ export default class ManageEvents extends Component {
     this.inputRefs = {}
   }
   renderButton = () => {
-    this.setState({ visibleModal: null })
+    this.setState({ visibleModal: null, startDate: '', endDate: '' })
+  }
+
+  createEvent = () => {
+    if (this.state.eventType == '' || this.state.eventName == '') {
+      alert('please fill up fields')
+    }
+    else {
+      alert('successfuly created an event')
+      this.setState({ visibleModal: null })
+
+    }
   }
   async componentDidMount() {
     try {
@@ -198,6 +218,55 @@ export default class ManageEvents extends Component {
     })
     this.setDataModal()
   }
+  //---------START DATE-----------
+  showDatePickerStart = () => {
+    this.setState(state => ({
+      setDatePickerVisibilityStart: !state.setDatePickerVisibilityStart,
+      isDatePickerVisibleStart: !state.isDatePickerVisibleStart,
+    }))
+  }
+  hideDatePickerStart = () => {
+    this.setState({
+      setDatePickerVisibilityStart: false,
+      isDatePickerVisibleStart: false,
+    })
+  }
+  handleConfirmStart = date => {
+    this.setState({
+      startDate: moment(date).format('MMMM DD, YYYY'),
+      startDateHolder: moment(date).format('YYYY-MM-DD'),
+    })
+    // console.warn('A date has been picked: ', this.state.startDate)
+    this.hideDatePickerStart()
+  }
+
+  //------------------------------
+
+  // --------END DATE-------------
+  showDatePickerEnd = () => {
+    this.setState(state => ({
+      setDatePickerVisibilityEnd: !state.setDatePickerVisibilityEnd,
+      isDatePickerVisibleEnd: !state.isDatePickerVisibleEnd,
+    }))
+  }
+
+  hideDatePickerEnd = () => {
+    this.setState({
+      setDatePickerVisibilityEnd: false,
+      isDatePickerVisibleEnd: false,
+    })
+  }
+
+  handleConfirmEnd = date => {
+    this.setState({
+      endDate: moment(date).format('MMMM DD, YYYY'),
+      endDateHolder: moment(date).format('YYYY-MM-DD'),
+    })
+
+    // console.warn('A date has been picked: ', this.state.startDate)
+    this.hideDatePickerEnd()
+  }
+  // -----------------------------
   render() {
     if (this.state.isLoading) {
       return (
@@ -297,6 +366,7 @@ export default class ManageEvents extends Component {
             animationOut='fadeOut'>
             {this.renderDataModal()}
           </Modal>
+
         </View>
       )
     } else {
@@ -357,24 +427,24 @@ export default class ManageEvents extends Component {
                 //List Item separator
                 renderItem={({ item }) => (
                   //Rendering Single Row
-                  <View style={{flexDirection:'row',justifyContent:'space-between',width:wp('98%'),borderWidth:1,padding:3,marginBottom:5}}>
-                    <View style={{ flexDirection: 'column'}}>
-                    <Text style={{ }}>EVENT NAME</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: wp('98%'), borderWidth: 1, padding: 3, marginBottom: 5 }}>
+                    <View style={{ flexDirection: 'column' }}>
+                      <Text style={{}}>EVENT NAME</Text>
 
-                      <Text style={{ fontWeight: 'bold' ,marginBottom:5,fontSize:20}}>{item.event}</Text>
+                      <Text style={{ fontWeight: 'bold', marginBottom: 5, fontSize: 20 }}>{item.event}</Text>
                       {/* <Text style={{ marginBottom: 5 }}>{item.start} to</Text>
                       <Text>{item.end}</Text> */}
                     </View>
                     <View style={{}}>
-                    <Text style={{ }}>STATUS</Text>
+                      <Text style={{}}>STATUS</Text>
 
-                      <Text style={{ fontWeight: 'bold', fontSize:15}}>{item.status}</Text>
-                      <Text style={{ }}>ROLE</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.status}</Text>
+                      <Text style={{}}>ROLE</Text>
 
-                      <Text style={{ fontWeight: 'bold', fontSize:15}}>{item.role}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.role}</Text>
 
                     </View>
-                   
+
 
                     <TouchableOpacity
                       style={styles.rowViewContainer}
@@ -387,7 +457,7 @@ export default class ManageEvents extends Component {
                         item.status,
                         item.place,
                       )}>
-                      <Text style={{ fontWeight: 'bold' ,color:'white'}}>VIEW</Text>
+                      <Text style={{ fontWeight: 'bold', color: 'white' }}>VIEW</Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -571,18 +641,28 @@ export default class ManageEvents extends Component {
             height: hp('5%'),
             marginTop: 5,
           }}>
-          <TextInput
+          <TouchableOpacity
+            onPress={this.showDatePickerStart}
             style={{
-              width: wp('40%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
-          <TextInput
-            style={{
+              borderBottomColor: '#000000',
+              borderBottomWidth: 1,
               width: wp('45%'),
-              marginLeft: 5,
-              height: hp('5%'),
-            }}></TextInput>
+            }}>
+            <Text>
+              {this.state.startDate}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.showDatePickerEnd}
+            style={{
+              borderBottomColor: '#000000',
+              borderBottomWidth: 1,
+              width: wp('45%'),
+            }}>
+            <Text>
+              {this.state.endDate}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{
@@ -681,6 +761,25 @@ export default class ManageEvents extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      <DateTimePickerModal
+        isVisible={this.state.isDatePickerVisibleStart}
+        mode='date'
+        onConfirm={this.handleConfirmStart}
+        onCancel={this.hideDatePickerStart}
+        minimumDate={new Date('1990-01-01')}
+        date={moment().toDate()}
+        maximumDate={new Date('2999-12-31')}
+      />
+      {/* Datepicker of End */}
+      <DateTimePickerModal
+        isVisible={this.state.isDatePickerVisibleEnd}
+        mode='date'
+        onConfirm={this.handleConfirmEnd}
+        onCancel={this.hideDatePickerEnd}
+        minimumDate={new Date(this.state.startDateHolder)}
+        date={moment().toDate()}
+        maximumDate={new Date('2999-12-31')}
+      />
     </View>
   )
 
@@ -823,7 +922,7 @@ export default class ManageEvents extends Component {
               marginTop: 5,
               width: wp('50%'),
             }}
-            onPress={this.renderButton}>
+            onPress={this.createEvent}>
             <Text style={{ color: 'white' }}>CREATE</Text>
           </TouchableOpacity>
         </View>
@@ -1034,7 +1133,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     justifyContent: 'center',
-     alignItems: 'center',
+    alignItems: 'center',
     backgroundColor: 'orange'
   },
   text: {
