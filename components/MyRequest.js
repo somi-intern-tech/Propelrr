@@ -86,45 +86,6 @@ export default class MyRequest extends Component {
     this.setState({ visibleModal: null })
   }
 
-  setModal = () => this.setState({ visibleModal: 1 })
-  renderModalContent = () => (
-    <View style={styles.modalContent}>
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: '#008ECC',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: wp('90%'),
-          }}>
-          <Text
-            style={{ fontWeight: 'bold', fontSize: hp('3%'), color: 'white' }}>
-            {this.state.cellDate}
-          </Text>
-        </View>
-      </View>
-
-      <TouchableOpacity
-        style={{
-          borderWidth: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'orange',
-          borderRadius: 10,
-          padding: 5,
-          marginTop: 5,
-        }}
-        onPress={this.renderButton}>
-        <Text style={{ fontWeight: 'bold' }}>CLOSE</Text>
-      </TouchableOpacity>
-      {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
-    </View>
-  )
 
   showItem(rowData, rowData2, rowData3, rowData4, rowData5) {
     this.setState({
@@ -138,91 +99,265 @@ export default class MyRequest extends Component {
     this.setModal()
   }
   setModal = () => this.setState({ visibleModal: 1 })
-
-  renderModalContent = () => (
-    <View style={styles.modalContent}>
-      <View
-        style={{
-          flexDirection: 'column',
-          marginBottom: 5,
-          // alignItems: 'center',
-          // justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            backgroundColor: '#008ECC',
-            width: wp('90%'),
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            height: hp('5%'),
-          }}>
-          <Text
+  condition() {
+    if (this.state.cellStatus == "APPROVED") {
+      return (
+        <View style={styles.modalContent}>
+          <View
             style={{
-              fontWeight: '400',
-              fontSize: hp('3.5%'),
-              color: 'white',
-              marginLeft: 10,
-              marginTop: 5,
-            }}>
-            {/* {this.state.cellCategory} */}
-            REQUEST
-          </Text>
-          <TouchableOpacity
-            style={{
-              // borderWidth: 1,
+              flexDirection: 'column',
+              marginBottom: 5,
               // alignItems: 'center',
               // justifyContent: 'center',
-              // backgroundColor: 'grey',
-              marginRight: 10,
-            }}
-            onPress={this.renderButton}>
-            <Text
-              style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%'), marginTop: 5 }}>
-              X
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flexDirection: 'column' }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 15,
-              paddingLeft: 5,
             }}>
-            <Text style={{ fontWeight: 'bold' }}> Start date</Text>
-            <Text style={{ marginLeft: 100, fontWeight: 'bold' }}> End date</Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 5,
-              paddingLeft: 5,
-            }}>
-            <Text style={{}}> {this.state.cellStart}</Text>
-            <Text style={{ marginLeft: 115 }}> {this.state.cellEnd}</Text>
-          </View>
-          <View style={{borderBottomWidth:1}}>
-          <Text style={{ fontWeight: 'bold', paddingLeft: 5, marginTop: 10 }}> Reason</Text>
-          <Text style={{ paddingLeft: 10, marginTop: 5,marginBottom:10 }}>{this.state.cellReason}</Text>
-          </View>
-          <View style={{ width: wp('80%'), justifyContent: 'center', alignItems: 'center', padding: 5, flexDirection: 'row', marginLeft: 15, }}>
-            <Image
-              source={require('../assets/check.png')}
+            <View
               style={{
-                height: hp('7%'),
-                width: wp('7%'),
-                resizeMode: 'contain',
-                marginRight:5
-                // backgroundColor:'yellow'
-              }} />
-            <Text style={{marginRight:10}}> Your request for {this.state.cellCategory} has been approved.</Text>
+                backgroundColor: '#008ECC',
+                width: wp('90%'),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                height: hp('5%'),
+              }}>
+              <Text
+                style={{
+                  fontWeight: '400',
+                  fontSize: hp('3.5%'),
+                  color: 'white',
+                  marginLeft: 10,
+                  marginTop: 5,
+                }}>
+                {/* {this.state.cellCategory} */}
+                REQUEST
+          </Text>
+              <TouchableOpacity
+                style={{
+                  // borderWidth: 1,
+                  // alignItems: 'center',
+                  // justifyContent: 'center',
+                  // backgroundColor: 'grey',
+                  marginRight: 10,
+                }}
+                onPress={this.renderButton}>
+                <Text
+                  style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%'), marginTop: 5 }}>
+                  X
+            </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 15,
+                  paddingLeft: 5,
+                }}>
+                <Text style={{ fontWeight: 'bold' }}> Start date</Text>
+                <Text style={{ marginLeft: 100, fontWeight: 'bold' }}> End date</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 5,
+                  paddingLeft: 5,
+                }}>
+                <Text style={{}}> {this.state.cellStart}</Text>
+                <Text style={{ marginLeft: 115 }}> {this.state.cellEnd}</Text>
+              </View>
+              <View style={{ borderBottomWidth: 1 }}>
+                <Text style={{ fontWeight: 'bold', paddingLeft: 5, marginTop: 10 }}> Reason</Text>
+                <Text style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}>{this.state.cellReason}</Text>
+              </View>
+              <View style={{ width: wp('80%'), justifyContent: 'center', alignItems: 'center', padding: 5, flexDirection: 'row', marginLeft: 15, }}>
+                <Image
+                  source={require('../assets/check.png')}
+                  style={{
+                    height: hp('7%'),
+                    width: wp('7%'),
+                    resizeMode: 'contain',
+                    marginRight: 5
+                    // backgroundColor:'yellow'
+                  }} />
+                <Text style={{ marginRight: 10 }}> Your request for {this.state.cellCategory} has been approved.</Text>
+              </View>
+            </View>
           </View>
-
-
-
+        </View>
+      )
+    }
+    else if (this.state.cellStatus == "REJECTED") {
+      return (
+        <View style={styles.modalContent}>
+          <View
+            style={{
+              flexDirection: 'column',
+              marginBottom: 5,
+              // alignItems: 'center',
+              // justifyContent: 'center',
+            }}>
+            <View
+              style={{
+                backgroundColor: '#008ECC',
+                width: wp('90%'),
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                height: hp('5%'),
+              }}>
+              <Text
+                style={{
+                  fontWeight: '400',
+                  fontSize: hp('3.5%'),
+                  color: 'white',
+                  marginLeft: 10,
+                  marginTop: 5,
+                }}>
+                {/* {this.state.cellCategory} */}
+                REQUEST
+          </Text>
+              <TouchableOpacity
+                style={{
+                  // borderWidth: 1,
+                  // alignItems: 'center',
+                  // justifyContent: 'center',
+                  // backgroundColor: 'grey',
+                  marginRight: 10,
+                }}
+                onPress={this.renderButton}>
+                <Text
+                  style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%'), marginTop: 5 }}>
+                  X
+            </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: 'column' }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 15,
+                  paddingLeft: 5,
+                }}>
+                <Text style={{ fontWeight: 'bold' }}> Start date</Text>
+                <Text style={{ marginLeft: 100, fontWeight: 'bold' }}> End date</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 5,
+                  paddingLeft: 5,
+                }}>
+                <Text style={{}}> {this.state.cellStart}</Text>
+                <Text style={{ marginLeft: 115 }}> {this.state.cellEnd}</Text>
+              </View>
+              <View style={{ borderBottomWidth: 1 }}>
+                <Text style={{ fontWeight: 'bold', paddingLeft: 5, marginTop: 10 }}> Reason</Text>
+                <Text style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}>{this.state.cellReason}</Text>
+              </View>
+              <View style={{ width: wp('80%'), justifyContent: 'center', alignItems: 'center', padding: 5, flexDirection: 'row', marginLeft: 15, }}>
+                {/* <Image
+                  source={require('../assets/check.png')}
+                  style={{
+                    height: hp('7%'),
+                    width: wp('7%'),
+                    resizeMode: 'contain',
+                    marginRight: 5
+                    // backgroundColor:'yellow'
+                  }} /> */}
+                <Text style={{ marginRight: 10 }}> Your request for {this.state.cellCategory} has been declined.</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      )
+    }
+    else {
+      return (
+        <View style={styles.modalContent}>
+        <View
+          style={{
+            flexDirection: 'column',
+            marginBottom: 5,
+            // alignItems: 'center',
+            // justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              backgroundColor: '#008ECC',
+              width: wp('90%'),
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              height: hp('5%'),
+            }}>
+            <Text
+              style={{
+                fontWeight: '400',
+                fontSize: hp('3.5%'),
+                color: 'white',
+                marginLeft: 10,
+                marginTop: 5,
+              }}>
+              {/* {this.state.cellCategory} */}
+              REQUEST
+        </Text>
+            <TouchableOpacity
+              style={{
+                // borderWidth: 1,
+                // alignItems: 'center',
+                // justifyContent: 'center',
+                // backgroundColor: 'grey',
+                marginRight: 10,
+              }}
+              onPress={this.renderButton}>
+              <Text
+                style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%'), marginTop: 5 }}>
+                X
+          </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{ flexDirection: 'column' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 15,
+                paddingLeft: 5,
+              }}>
+              <Text style={{ fontWeight: 'bold' }}> Start date</Text>
+              <Text style={{ marginLeft: 100, fontWeight: 'bold' }}> End date</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                marginTop: 5,
+                paddingLeft: 5,
+              }}>
+              <Text style={{}}> {this.state.cellStart}</Text>
+              <Text style={{ marginLeft: 115 }}> {this.state.cellEnd}</Text>
+            </View>
+            <View style={{ borderBottomWidth: 1 }}>
+              <Text style={{ fontWeight: 'bold', paddingLeft: 5, marginTop: 10 }}> Reason</Text>
+              <Text style={{ paddingLeft: 10, marginTop: 5, marginBottom: 10 }}>{this.state.cellReason}</Text>
+            </View>
+            <View style={{ width: wp('80%'), justifyContent: 'center', alignItems: 'center', padding: 5, flexDirection: 'row', marginLeft: 15, }}>
+              {/* <Image
+                source={require('../assets/check.png')}
+                style={{
+                  height: hp('7%'),
+                  width: wp('7%'),
+                  resizeMode: 'contain',
+                  marginRight: 5
+                  // backgroundColor:'yellow'
+                }} /> */}
+              <Text style={{ marginRight: 10 }}> Your request for {this.state.cellCategory} is still on process.</Text>
+            </View>
+          </View>
         </View>
       </View>
-    </View>
+
+      )
+    }
+  }
+  renderModalContent = () => (
+
+
+    this.condition()
 
 
   )
@@ -331,7 +466,7 @@ export default class MyRequest extends Component {
                       </Text>
                     </View>
                     <View style={{ backgroundColor: 'orange', padding: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                      <Text style={{ fontWeight: 'bold',color:'white' }}>
+                      <Text style={{ fontWeight: 'bold', color: 'white' }}>
                         {item.status}
                       </Text>
                     </View>
@@ -346,7 +481,7 @@ export default class MyRequest extends Component {
             isVisible={this.state.visibleModal === 1}
             animationIn='fadeIn'
             animationOut='fadeOut'>
-            {this.renderModalContent()}
+            {this.condition()}
           </Modal>
         </View>
       )

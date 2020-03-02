@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,13 +11,14 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native'
-import {DrawerActions} from 'react-navigation-drawer'
+import { DrawerActions } from 'react-navigation-drawer'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-import {Button} from 'native-base'
+import { Button } from 'native-base'
 import Modal from 'react-native-modal'
+import { TextInput } from 'react-native-paper'
 
 export default class Profile extends Component {
   static navigationOptions = {
@@ -25,16 +26,16 @@ export default class Profile extends Component {
     drawerIcon: () => (
       <Image
         source={require('../assets/propelrr.png')}
-        style={{height: 30, width: 30}}
+        style={{ height: 30, width: 30 }}
       />
     ),
   }
 
-  componentDidMount () {
+  componentDidMount() {
     return this.fetchProfile()
   }
 
-  async fetchHours () {
+  async fetchHours() {
     try {
       const response = await fetch('http://www.amock.io/api/intern/userdate')
       const responseJson = await response.json()
@@ -46,7 +47,7 @@ export default class Profile extends Component {
       console.log(error)
     }
   }
-  async fetchProfile () {
+  async fetchProfile() {
     try {
       const response = await fetch('http://www.amock.io/api/intern/profiledata')
       const responseJson = await response.json()
@@ -58,7 +59,7 @@ export default class Profile extends Component {
       console.log(error)
     }
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
@@ -72,20 +73,27 @@ export default class Profile extends Component {
       showForm: 0,
       visibleModal: null,
 
-
+      isVisibleS1: true,
 
 
       cellHours: null,
       cellTimein: null,
       cellTimeout: null,
       cellOvertime: null,
+
+      dataHolder: null,
     }
   }
   renderButton = () => {
-    this.setState({visibleModal: null})
+    this.setState({ visibleModal: null, isVisibleS1: true, isVisibleS2: false })
   }
-
-  datacontainer () {
+  ToggleFunction = () => {
+    this.setState(state => ({
+      isVisibleS1: !state.isVisibleS1,
+      isVisibleS2: !state.isVisibleS2,
+    }))
+  }
+  datacontainer() {
     this.fetchProfile()
 
     if (this.state.showForm === 0) {
@@ -148,6 +156,7 @@ export default class Profile extends Component {
                   // backgroundColor: 'yellow',
                 }}>
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -171,6 +180,7 @@ export default class Profile extends Component {
                 </TouchableOpacity>
 
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -192,6 +202,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {birthday}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={this.setAddress}
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -202,7 +213,7 @@ export default class Profile extends Component {
                     marginTop: 3,
 
                   }}
-                  >
+                >
                   <Image
                     source={require('../assets/placeholder.png')}
                     style={{
@@ -215,6 +226,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {address}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -236,6 +248,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {email}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={this.setPhonenumber}
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -257,6 +270,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {number}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={this.setTelnumber}
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -278,6 +292,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {altnumber}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -299,6 +314,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {team}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -312,6 +328,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {SSS}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -325,6 +342,7 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {BIR}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  onPress={this.setPersonalModal}
                   style={{
                     borderWidth: 1,
                     flexDirection: 'row',
@@ -338,6 +356,12 @@ export default class Profile extends Component {
                   <Text style={styles.info}> {phealth}</Text>
                 </TouchableOpacity>
               </View>
+              <Modal
+                isVisible={this.state.visibleModal === 2}
+                animationIn='fadeIn'
+                animationOut='fadeOut'>
+                {this.renderPersonalContent()}
+              </Modal>
             </View>
           </View>
         )
@@ -354,12 +378,12 @@ export default class Profile extends Component {
         <Text key={dataSource.id}>{dataSource.position}</Text>
       ))
       if (this.state.isLoading2) {
-        
-      <ActivityIndicator color='orange' />
+
+        <ActivityIndicator color='orange' />
       } else {
         return (
           <View style={styles.viewStyleSix}>
-            <SafeAreaView style={{flex: 1}}>
+            <SafeAreaView style={{ flex: 1 }}>
               <View
                 style={{
                   width: wp('100%'),
@@ -387,13 +411,13 @@ export default class Profile extends Component {
                   Total hours
                 </Text>
               </View>
-              <View style={{width: wp('100%')}}>
+              <View style={{ width: wp('100%') }}>
                 <FlatList
                   data={this.state.dataSource1}
                   //dataSource to add data in the list
                   ItemSeparatorComponent={this.ListViewItemSeparator}
                   //List Item separator
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     //Rendering Single Row
                     <TouchableOpacity
                       style={styles.rowViewContainer}
@@ -406,7 +430,7 @@ export default class Profile extends Component {
                         item.overtime,
                       )}>
                       <Text>{item.date}</Text>
-                      <Text style={{marginRight: 50}}> {item.hours}</Text>
+                      <Text style={{ marginRight: 50 }}> {item.hours}</Text>
                     </TouchableOpacity>
                   )}
                   // keyExtractor={(item, index) => index}
@@ -425,8 +449,102 @@ export default class Profile extends Component {
       }
     }
   }
-
-  setModal = () => this.setState({visibleModal: 1})
+  
+  setAddress = () => {
+    this.setState({ dataHolder: 'address' })
+    this.setPersonalModal()
+  }
+  setTelnumber = () => {
+    this.setState({ dataHolder: 'telnumber' })
+    this.setPersonalModal()
+  }
+  setPhonenumber = () => {
+    this.setState({ dataHolder: 'phonenumber' })
+    this.setPersonalModal()
+  }
+  title(){
+    if(this.state.dataHolder == "address"){
+      return(<View><Text>Address</Text></View>)
+    }
+    else if(this.state.dataHolder == "phonenumber"){
+      return(<View><Text>Phone Number</Text></View>)
+    }
+    else if(this.state.dataHolder == "telnumber"){
+      return(<View><Text>Telephone Number</Text></View>)
+    }
+  }
+  setPersonalModal = () => this.setState({ visibleModal: 2 })
+  renderPersonalContent = () => (
+    <View style={styles.modalContent}>
+      {this.state.isVisibleS1 ? (
+        <View>
+          <Text>Are you sure you want to edit?</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity
+              onPress={this.ToggleFunction}
+              style={{
+                borderWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 10,
+                padding: 5,
+                marginTop: 5,
+              }}>
+              <Text style={{ fontWeight: 'bold' }}>YES</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.renderButton}
+              style={{
+                borderWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 10,
+                padding: 5,
+                marginTop: 5,
+              }}>
+              <Text style={{ fontWeight: 'bold' }}>NO</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
+      {this.state.isVisibleS2 ? (
+        <View>
+          {this.title()}
+          <TextInput
+            style={{
+              width: wp('38%'),
+              marginLeft: 5,
+              height: hp('5%'),
+            }}></TextInput>
+          <TouchableOpacity
+            // onPress={this.ToggleFunction}
+            style={{
+              borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 10,
+              padding: 5,
+              marginTop: 5,
+            }}>
+            <Text style={{ fontWeight: 'bold' }}>Update</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.renderButton}
+            style={{
+              borderWidth: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 10,
+              padding: 5,
+              marginTop: 5,
+            }}>
+            <Text style={{ fontWeight: 'bold' }}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
+      ) : null}
+    </View>
+  )
+  setModal = () => this.setState({ visibleModal: 1 })
   renderModalContent = () => (
     <View style={styles.modalContent}>
       <View
@@ -443,7 +561,7 @@ export default class Profile extends Component {
             width: wp('90%'),
           }}>
           <Text
-            style={{fontWeight: 'bold', fontSize: hp('3%'), color: 'white'}}>
+            style={{ fontWeight: 'bold', fontSize: hp('3%'), color: 'white' }}>
             {this.state.cellDate}
           </Text>
         </View>
@@ -455,7 +573,7 @@ export default class Profile extends Component {
             alignItems: 'center',
             marginTop: 5,
           }}>
-          <Text style={{fontWeight: 'bold'}}>Time-in </Text>
+          <Text style={{ fontWeight: 'bold' }}>Time-in </Text>
           <Text> {this.state.cellTimein} </Text>
         </View>
 
@@ -465,7 +583,7 @@ export default class Profile extends Component {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontWeight: 'bold'}}>Time-out </Text>
+          <Text style={{ fontWeight: 'bold' }}>Time-out </Text>
           <Text>{this.state.cellTimeout} </Text>
         </View>
         <View
@@ -474,7 +592,7 @@ export default class Profile extends Component {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{fontWeight: 'bold'}}>Total hours </Text>
+          <Text style={{ fontWeight: 'bold' }}>Total hours </Text>
           <Text> {this.state.cellHours} </Text>
         </View>
       </View>
@@ -484,7 +602,7 @@ export default class Profile extends Component {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Text style={{fontWeight: 'bold'}}>Overtime </Text>
+        <Text style={{ fontWeight: 'bold' }}>Overtime </Text>
         <Text> {this.state.cellOvertime} </Text>
       </View>
       <TouchableOpacity
@@ -498,13 +616,13 @@ export default class Profile extends Component {
           marginTop: 5,
         }}
         onPress={this.renderButton}>
-        <Text style={{fontWeight: 'bold'}}>CLOSE</Text>
+        <Text style={{ fontWeight: 'bold' }}>CLOSE</Text>
       </TouchableOpacity>
       {/* {this.renderButton('Close', () => this.setState({visibleModal: null}))} */}
     </View>
   )
 
-  showItem (rowData, rowData2, rowData3, rowData4, rowData5) {
+  showItem(rowData, rowData2, rowData3, rowData4, rowData5) {
     this.setState({
       cellDate: rowData.toString(),
       cellHours: rowData2.toString(),
@@ -517,22 +635,22 @@ export default class Profile extends Component {
   ListViewItemSeparator = () => {
     return (
       //List Item separator View
-      <View style={{height: 0.5, width: '100%', backgroundColor: '#606070'}} />
+      <View style={{ height: 0.5, width: '100%', backgroundColor: '#606070' }} />
     )
   }
 
   showProfile = () => {
-    this.setState({showForm: 0})
+    this.setState({ showForm: 0 })
   }
   showHOurs = () => {
-    this.setState({showForm: 1})
+    this.setState({ showForm: 1 })
   }
 
   showDateModal = () => {
-    this.setState({visibleModal: 1})
+    this.setState({ visibleModal: 1 })
   }
 
-  render () {
+  render() {
     if (this.state.isLoading) {
       return (
         <View style={styles.maincontainer}>
@@ -679,6 +797,7 @@ export default class Profile extends Component {
             </TouchableOpacity>
           </View>
           {this.datacontainer()}
+
         </View>
       )
     }
