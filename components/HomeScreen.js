@@ -107,7 +107,7 @@ export default class HomeScreen extends Component {
     }
   }
 
-  componentDidMount () {
+  async componentDidMount () {
     var that = this
     var date = new Date().getDate() //Current Date
     var year = new Date().getFullYear() //Current Year
@@ -115,62 +115,61 @@ export default class HomeScreen extends Component {
       //Setting the value of the date time
       date: date + ', ' + year,
     })
-    return fetch('https://demo2276663.mockable.io/events')
-      .then(response => response.json())
-      .then(responseJson => {
-        this.setState({
-          isLoading: false,
-          dataSource: responseJson.dates,
-        })
-      })
-
-      .catch(error => {
-        console.log(error)
-      })
+    // try {
+    //   const response = await fetch('http://www.amock.io/api/intern/calendar')
+    //   const responseJson = await response.json()
+    //   this.setState({            
+    //     isLoading: false,
+    //     dataSource: responseJson.dates,    
+    //   })
+    // }
+    // catch (error) {
+    //   console.log(error)
+    // }
   }
   markedDate = () => {
-    // alert("yo")
+  //   // alert("yo")
 
-    this.state.dataSource.map(val => {
-      // this.setState({ marked: this.state.startDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'orange' } }), {}) })
-      const result = Object.values(val.events).length
-      if (result == 1) {
-        {
-          this.singleEvent()
-        }
-      } else if (result > 1) {
-        {
-          this.multiEvents()
-        }
-      }
-    })
+  //   this.state.dataSource.map(val => {
+  //     // this.setState({ marked: this.state.startDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'orange' } }), {}) })
+  //     const result = Object.values(val.events).length
+  //     if (result == 1) {
+  //       {
+  //         this.singleEvent()
+  //       }
+  //     } else if (result > 1) {
+  //       {
+  //         this.multiEvents()
+  //       }
+  //     }
+  //   })
   }
-  multiEvents = () => {
-    this.state.dataSource.map(val => {
-      this.setState({
-        // dateValue: val.events,
-        // nextDay: this.state.nextDay.push(this.dateValue),
-        marked: val.events.reduce(
-          (c, v) => Object.assign(c, {[v]: {periods: [{color: 'blue'}]}}),
-          {},
-        ),
-        eventType: 'multi-period',
-      })
-    })
-  }
-  singleEvent = () => {
-    this.state.dataSource.map(val => {
-      this.setState({
-        // dateValue: val.events,
-        // nextDay: this.state.nextDay.push(this.dateValue),
-        marked: val.events.reduce(
-          (c, v) => Object.assign(c, {[v]: {marked: true, color: 'blue'}}),
-          {},
-        ),
-        eventType: '',
-      })
-    })
-  }
+  // multiEvents = () => {
+  //   this.state.dataSource.map(val => {
+  //     this.setState({
+  //       // dateValue: val.events,
+  //       // nextDay: this.state.nextDay.push(this.dateValue),
+  //       marked: val.events.reduce(
+  //         (c, v) => Object.assign(c, {[v]: {periods: [{color: 'blue'}]}}),
+  //         {},
+  //       ),
+  //       eventType: 'multi-period',
+  //     })
+  //   })
+  // }
+  // singleEvent = () => {
+  //   this.state.dataSource.map(val => {
+  //     this.setState({
+  //       // dateValue: val.events,
+  //       // nextDay: this.state.nextDay.push(this.dateValue),
+  //       marked: val.events.reduce(
+  //         (c, v) => Object.assign(c, {[v]: {marked: true, color: 'blue'}}),
+  //         {},
+  //       ),
+  //       eventType: '',
+  //     })
+  //   })
+  // }
   renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
@@ -492,71 +491,72 @@ export default class HomeScreen extends Component {
       'Saturday',
     ]
     var dayName = days[d.getDay()]
-    {
-      if (this.state.isLoading) {
-        return (
-          <View style={styles.maincontainer}>
-            <View style={styles.container}>
-              <View style={styles.container1}>
-                <View style={styles.viewStyleOne}>
-                  <TouchableHighlight
-                    onPress={() =>
-                      this.props.navigation.dispatch(DrawerActions.openDrawer())
-                    }
-                    style={styles.touchableHighlight}
-                    underlayColor={'rgba(0,0,0,0.8)'}>
-                    <Image
-                      source={require('../assets/menu.png')}
-                      style={{height: 30, width: 30}}
-                    />
-                  </TouchableHighlight>
-                </View>
+    // {
+    //   if (this.state.isLoading) {
+    //     return (
+    //       <View style={styles.maincontainer}>
+    //         <View style={styles.container}>
+    //           <View style={styles.container1}>
+    //             <View style={styles.viewStyleOne}>
+    //               <TouchableHighlight
+    //                 onPress={() =>
+    //                   this.props.navigation.dispatch(DrawerActions.openDrawer())
+    //                 }
+    //                 style={styles.touchableHighlight}
+    //                 underlayColor={'rgba(0,0,0,0.8)'}>
+    //                 <Image
+    //                   source={require('../assets/menu.png')}
+    //                   style={{height: 30, width: 30}}
+    //                 />
+    //               </TouchableHighlight>
+    //             </View>
 
-                <View style={styles.viewStyleTwo}>
-                  <Text style={styles.text}>HOME</Text>
-                </View>
-              </View>
+    //             <View style={styles.viewStyleTwo}>
+    //               <Text style={styles.text}>HOME</Text>
+    //             </View>
+    //           </View>
 
-              <View style={styles.container3}>
-                <ActivityIndicator color='orange' />
-              </View>
-            </View>
-          </View>
-        )
-      } else {
-        this.markedDate()
-      }
-    }
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.maincontainer}>
-          <View style={styles.container}>
-            <View style={styles.container1}>
-              <View style={styles.viewStyleOne}>
-                <TouchableHighlight
-                  onPress={() =>
-                    this.props.navigation.dispatch(DrawerActions.openDrawer())
-                  }
-                  style={styles.touchableHighlight}
-                  underlayColor={'rgba(0,0,0,0.8)'}>
-                  <Image
-                    source={require('../assets/menu.png')}
-                    style={{height: 30, width: 30}}
-                  />
-                </TouchableHighlight>
-              </View>
-              <View style={styles.viewStyleTwo}>
-                <Text style={styles.text}>HOME</Text>
-              </View>
-            </View>
-            <View style={styles.container3}>
-              <ActivityIndicator color='orange' />
-            </View>
-          </View>
-        </View>
-      )
-    } else {
-      if (this.state.showForm === 0) {
+    //           <View style={styles.container3}>
+    //             <ActivityIndicator color='orange' />
+    //           </View>
+    //         </View>
+    //       </View>
+    //     )
+    //   } else {
+    //     this.markedDate()
+    //   }
+    // }
+    // if (this.state.isLoading) {
+      // return (
+    //     <View style={styles.maincontainer}>
+    //       <View style={styles.container}>
+    //         <View style={styles.container1}>
+    //           <View style={styles.viewStyleOne}>
+    //             <TouchableHighlight
+    //               onPress={() =>
+    //                 this.props.navigation.dispatch(DrawerActions.openDrawer())
+    //               }
+    //               style={styles.touchableHighlight}
+    //               underlayColor={'rgba(0,0,0,0.8)'}>
+    //               <Image
+    //                 source={require('../assets/menu.png')}
+    //                 style={{height: 30, width: 30}}
+    //               />
+    //             </TouchableHighlight>
+    //           </View>
+    //           <View style={styles.viewStyleTwo}>
+    //             <Text style={styles.text}>HOME</Text>
+    //           </View>
+    //         </View>
+    //         <View style={styles.container3}>
+    //           <ActivityIndicator color='orange' />
+    //         </View>
+    //       </View>
+    //     </View>
+    //   )
+    // } 
+    // else {
+      // if (this.state.showForm === 0) {
         return (
           <View style={styles.maincontainer}>
             <View style={styles.container}>
@@ -734,8 +734,8 @@ export default class HomeScreen extends Component {
         )
       }
     }
-  }
-}
+//   }
+// }
 
 const styles = StyleSheet.create({
   view: {

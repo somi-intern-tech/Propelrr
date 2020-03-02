@@ -36,7 +36,7 @@ export default class Profile extends Component {
 
   async fetchHours () {
     try {
-      const response = await fetch('http://demo0498201.mockable.io/userdate')
+      const response = await fetch('http://www.amock.io/api/intern/userdate')
       const responseJson = await response.json()
       this.setState({
         isLoading2: false,
@@ -48,7 +48,7 @@ export default class Profile extends Component {
   }
   async fetchProfile () {
     try {
-      const response = await fetch('http://demo6819551.mockable.io/profiledata')
+      const response = await fetch('http://www.amock.io/api/intern/profiledata')
       const responseJson = await response.json()
       this.setState({
         isLoading: false,

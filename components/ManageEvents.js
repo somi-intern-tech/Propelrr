@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,12 +10,12 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native'
-import {DrawerActions} from 'react-navigation-drawer'
+import { DrawerActions } from 'react-navigation-drawer'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen'
-import {Searchbar, TextInput} from 'react-native-paper'
+import { Searchbar, TextInput } from 'react-native-paper'
 import Modal from 'react-native-modal'
 import RNPickerSelect from 'react-native-picker-select'
 
@@ -32,11 +32,11 @@ export default class ManageEvents extends Component {
     drawerIcon: () => (
       <Image
         source={require('../assets/propelrr.png')}
-        style={{height: 30, width: 30}}
+        style={{ height: 30, width: 30 }}
       />
     ),
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       isLoading: true,
@@ -112,11 +112,11 @@ export default class ManageEvents extends Component {
     this.inputRefs = {}
   }
   renderButton = () => {
-    this.setState({visibleModal: null})
+    this.setState({ visibleModal: null })
   }
-  async componentDidMount () {
+  async componentDidMount() {
     try {
-      const response = await fetch('http://demo6819551.mockable.io/events')
+      const response = await fetch('http://www.amock.io/api/intern/events')
       const responseJson = await response.json()
       this.setState(
         {
@@ -140,7 +140,7 @@ export default class ManageEvents extends Component {
     // parent can also update the `items` prop
     setTimeout(() => {
       this.setState({
-        items: this.state.items.concat([{value: 'meeting', label: 'Meeting'}]),
+        items: this.state.items.concat([{ value: 'meeting', label: 'Meeting' }]),
       })
     }, 2000)
     // return fetch('https://jsonplaceholder.typicode.com/posts')
@@ -160,7 +160,7 @@ export default class ManageEvents extends Component {
     //     console.error(error)
     //   })
   }
-  SearchFilterFunction (text) {
+  SearchFilterFunction(text) {
     //passing the inserted text in textinput
     const newData = this.arrayholder.filter(function (item) {
       //applying filter for the inserted text in search bar
@@ -187,7 +187,7 @@ export default class ManageEvents extends Component {
       />
     )
   }
-  showItem (rowData, rowData2, rowData3, rowData4, rowData5, rowData6) {
+  showItem(rowData, rowData2, rowData3, rowData4, rowData5, rowData6) {
     this.setState({
       cellEvent: rowData.toString(),
       cellType: rowData2.toString(),
@@ -198,7 +198,7 @@ export default class ManageEvents extends Component {
     })
     this.setDataModal()
   }
-  render () {
+  render() {
     if (this.state.isLoading) {
       return (
         <View style={styles.maincontainer}>
@@ -355,29 +355,43 @@ export default class ManageEvents extends Component {
                 //dataSource to add data in the list
                 ItemSeparatorComponent={this.ListViewItemSeparator}
                 //List Item separator
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   //Rendering Single Row
-                  <TouchableOpacity
-                    style={styles.rowViewContainer}
-                    onPress={this.showItem.bind(
-                      this,
-                      item.event,
-                      item.type,
-                      item.start,
-                      item.end,
-                      item.status,
-                      item.place,
-                    )}>
-                    <View style={{flexDirection: 'column', marginRight: 45}}>
-                      <Text style={{fontWeight: 'bold'}}>{item.event}</Text>
-                      <Text style={{marginBottom: 5}}>{item.start} to</Text>
-                      <Text>{item.end}</Text>
+                  <View style={{flexDirection:'row',justifyContent:'space-between',width:wp('98%'),borderWidth:1,padding:3,marginBottom:5}}>
+                    <View style={{ flexDirection: 'column'}}>
+                    <Text style={{ }}>EVENT NAME</Text>
+
+                      <Text style={{ fontWeight: 'bold' ,marginBottom:5,fontSize:20}}>{item.event}</Text>
+                      {/* <Text style={{ marginBottom: 5 }}>{item.start} to</Text>
+                      <Text>{item.end}</Text> */}
                     </View>
-                    <View>
-                      <Text style={{fontWeight: 'bold'}}>{item.status}</Text>
+                    <View style={{}}>
+                    <Text style={{ }}>STATUS</Text>
+
+                      <Text style={{ fontWeight: 'bold', fontSize:15}}>{item.status}</Text>
+                      <Text style={{ }}>ROLE</Text>
+
+                      <Text style={{ fontWeight: 'bold', fontSize:15}}>{item.role}</Text>
+
                     </View>
-                  </TouchableOpacity>
+                   
+
+                    <TouchableOpacity
+                      style={styles.rowViewContainer}
+                      onPress={this.showItem.bind(
+                        this,
+                        item.event,
+                        item.type,
+                        item.start,
+                        item.end,
+                        item.status,
+                        item.place,
+                      )}>
+                      <Text style={{ fontWeight: 'bold' ,color:'white'}}>VIEW</Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
+
                 keyExtractor={(item, index) => index.toString()}
               />
               {/* <FlatList
@@ -437,11 +451,11 @@ export default class ManageEvents extends Component {
       )
     }
   }
-  setModal = () => this.setState({visibleModal: 1})
+  setModal = () => this.setState({ visibleModal: 1 })
 
-  setSettingModal = () => this.setState({visibleModal: 2})
+  setSettingModal = () => this.setState({ visibleModal: 2 })
 
-  setDataModal = () => this.setState({visibleModal: 3})
+  setDataModal = () => this.setState({ visibleModal: 3 })
 
   renderSettingModal = () => (
     <View style={styles.modalContent}>
@@ -459,7 +473,7 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             height: hp('5%'),
-            marginLeft:2.2
+            marginLeft: 2.2
           }}>
           <Text
             style={{
@@ -482,7 +496,7 @@ export default class ManageEvents extends Component {
             }}
             onPress={this.renderButton}>
             <Text
-              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%') }}>
               X
             </Text>
           </TouchableOpacity>
@@ -505,7 +519,7 @@ export default class ManageEvents extends Component {
             // justifyContent: 'space-between',
             width: wp('90%'),
             height: hp('5%'),
-            marginTop: 5,marginLeft:5
+            marginTop: 5, marginLeft: 5
           }}>
           <TextInput
             style={{
@@ -530,7 +544,7 @@ export default class ManageEvents extends Component {
             onDownArrow={() => {
               this.inputRefs.company.focus()
             }}
-            style={{...pickerSelectStyles}}
+            style={{ ...pickerSelectStyles }}
             value={this.state.eventType}
             ref={el => {
               this.inputRefs.picker2 = el
@@ -593,7 +607,7 @@ export default class ManageEvents extends Component {
             placeholder={{
               label: 'Select a role...',
               value: null,
-             
+
             }}
             items={this.state.items2}
             onValueChange={value => {
@@ -607,7 +621,7 @@ export default class ManageEvents extends Component {
             onDownArrow={() => {
               this.inputRefs.company.focus()
             }}
-            style={{...pickerSelectStyles}}
+            style={{ ...pickerSelectStyles }}
             value={this.state.eventName}
             ref={el => {
               this.inputRefs.picker2 = el
@@ -618,7 +632,7 @@ export default class ManageEvents extends Component {
             placeholder={{
               label: 'Select a status...',
               value: null,
-             
+
             }}
             items={this.state.items4}
             onValueChange={value => {
@@ -632,14 +646,14 @@ export default class ManageEvents extends Component {
             onDownArrow={() => {
               this.inputRefs.company.focus()
             }}
-            style={{...pickerSelectStyles}}
+            style={{ ...pickerSelectStyles }}
             value={this.state.statusName}
             ref={el => {
               this.inputRefs.picker2 = el
             }}
             useNativeAndroidPickerStyle={true} //android only
           />
-          
+
         </View>
         <View
           style={{
@@ -663,7 +677,7 @@ export default class ManageEvents extends Component {
               width: wp('50%'),
             }}
             onPress={this.renderButton}>
-            <Text style={{color: 'white'}}>SEARCH</Text>
+            <Text style={{ color: 'white' }}>SEARCH</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -708,7 +722,7 @@ export default class ManageEvents extends Component {
             }}
             onPress={this.renderButton}>
             <Text
-              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%') }}>
               X
             </Text>
           </TouchableOpacity>
@@ -750,13 +764,13 @@ export default class ManageEvents extends Component {
             onDownArrow={() => {
               this.inputRefs.picker2.togglePicker()
             }}
-            style={{...pickerSelectStyles}}
+            style={{ ...pickerSelectStyles }}
             value={this.state.selectEvent}
             ref={el => {
               this.inputRefs.picker = el
             }}
             useNativeAndroidPickerStyle={false} //android only
-            // hideIcon={true}
+          // hideIcon={true}
           />
           <TextInput
             style={{
@@ -773,14 +787,14 @@ export default class ManageEvents extends Component {
 
             // backgroundColor: 'grey',
           }}>
-          <Text style={{marginLeft: 5}}>Event Description</Text>
+          <Text style={{ marginLeft: 5 }}>Event Description</Text>
           <TextInput
             style={{
               width: wp('86%'),
               height: hp('5%'),
               marginLeft: 5,
             }}></TextInput>
-          <Text style={{marginLeft: 5}}>Venue</Text>
+          <Text style={{ marginLeft: 5 }}>Venue</Text>
           <TextInput
             style={{
               width: wp('86%'),
@@ -810,7 +824,7 @@ export default class ManageEvents extends Component {
               width: wp('50%'),
             }}
             onPress={this.renderButton}>
-            <Text style={{color: 'white'}}>CREATE</Text>
+            <Text style={{ color: 'white' }}>CREATE</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -854,7 +868,7 @@ export default class ManageEvents extends Component {
             }}
             onPress={this.renderButton}>
             <Text
-              style={{color: 'white', fontWeight: 'bold', fontSize: hp('3%')}}>
+              style={{ color: 'white', fontWeight: 'bold', fontSize: hp('3%') }}>
               X
             </Text>
           </TouchableOpacity>
@@ -867,32 +881,32 @@ export default class ManageEvents extends Component {
             marginTop: 5,
             paddingLeft: 5,
           }}>
-          <View style={{flexDirection: 'column', marginRight: wp('8%')}}>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>WHAT:</Text>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>WHERE:</Text>
+          <View style={{ flexDirection: 'column', marginRight: wp('8%') }}>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>WHAT:</Text>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>WHERE:</Text>
 
-            <Text style={{fontSize: hp('2%'), margin: 3}}>WHEN:</Text>
-            <Text style={{fontSize: hp('2%'), margin: 3}}></Text>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>WHEN:</Text>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}></Text>
 
-            <Text style={{fontSize: hp('2%'), margin: 3, marginTop: 6}}>
+            <Text style={{ fontSize: hp('2%'), margin: 3, marginTop: 6 }}>
               WHO:
             </Text>
           </View>
-          <View style={{flexDirection: 'column'}}>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>
+          <View style={{ flexDirection: 'column' }}>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>
               {this.state.cellEvent}
             </Text>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>
               {this.state.cellPlace}
             </Text>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>
               {this.state.cellStart} to
             </Text>
-            <Text style={{fontSize: hp('2%'), margin: 3}}>
+            <Text style={{ fontSize: hp('2%'), margin: 3 }}>
               {this.state.cellEnd}
             </Text>
             {respo.map((item, key) => (
-              <Text key={key} style={{fontSize: hp('2%'), marginTop: 3}}>
+              <Text key={key} style={{ fontSize: hp('2%'), marginTop: 3 }}>
                 {item}
               </Text>
             ))}
@@ -920,7 +934,7 @@ export default class ManageEvents extends Component {
             }}
             onPress={this.AddItemsToArray}>
             {/* // onPress={this.renderButton}> */}
-            <Text style={{color: 'white', fontSize: 20}}>JOIN</Text>
+            <Text style={{ color: 'white', fontSize: 20 }}>JOIN</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -1013,15 +1027,15 @@ const styles = StyleSheet.create({
   },
 
   rowViewContainer: {
-    padding: 10,
+    padding: 8,
     fontSize: 18,
-    // height: 44,
-    borderWidth: 1,
-    borderRadius: 10,
-    margin: 3,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: wp('98%'),
+    height: 40,
+    // borderWidth: .5,
+    borderRadius: 5,
+    marginTop: 10,
+    justifyContent: 'center',
+     alignItems: 'center',
+    backgroundColor: 'orange'
   },
   text: {
     fontSize: 24,
@@ -1075,9 +1089,9 @@ const pickerSelectStyles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: 'white',
     color: 'black',
-    width:wp('40%'),
-    marginLeft:5,
-    height:hp('5%')
+    width: wp('40%'),
+    marginLeft: 5,
+    height: hp('5%')
 
   },
 })

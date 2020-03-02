@@ -171,7 +171,7 @@ export default class Login extends React.Component {
       password, time
     } = this.state
 
-    fetch('http://demo2276663.mockable.io/data', {
+    fetch('http://www.amock.io/api/intern/data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

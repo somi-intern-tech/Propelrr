@@ -42,7 +42,7 @@ export default class MyRequest extends Component {
   }
   async componentDidMount () {
     try {
-      const response = await fetch('http://demo6819551.mockable.io/requests')
+      const response = await fetch('http://www.amock.io/api/intern/requests')
       const responseJson = await response.json()
       this.setState({
         isLoading: false,
