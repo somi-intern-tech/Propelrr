@@ -37,7 +37,7 @@ export default class Profile extends Component {
 
   async fetchHours() {
     try {
-      const response = await fetch('http://www.amock.io/api/intern/userdate')
+      const response = await fetch('http://www.mocky.io/v2/5e5df65431000051002c206f')
       const responseJson = await response.json()
       this.setState({
         isLoading2: false,
@@ -47,9 +47,10 @@ export default class Profile extends Component {
       console.log(error)
     }
   }
+  // http://www.amock.io/api/intern/profiledata
   async fetchProfile() {
     try {
-      const response = await fetch('http://www.amock.io/api/intern/profiledata')
+      const response = await fetch('http://www.mocky.io/v2/5e5df50c310000ea092c2060')
       const responseJson = await response.json()
       this.setState({
         isLoading: false,
@@ -119,6 +120,7 @@ export default class Profile extends Component {
 
         let altnumber = this.state.dataSource.map(dataSource => (
           <Text key={dataSource.id}>{dataSource.altnumber}</Text>
+
         ))
         let email = this.state.dataSource.map(dataSource => (
           <Text key={dataSource.id}>{dataSource.email}</Text>
@@ -464,7 +466,7 @@ export default class Profile extends Component {
   }
   title(){
     if(this.state.dataHolder == "address"){
-      return(<View><Text>Address</Text></View>)
+      return(<View s><Text>Address</Text></View>)
     }
     else if(this.state.dataHolder == "phonenumber"){
       return(<View><Text>Phone Number</Text></View>)
@@ -489,6 +491,8 @@ export default class Profile extends Component {
                 borderRadius: 10,
                 padding: 5,
                 marginTop: 5,
+                marginRight:20,
+                marginLeft:50
               }}>
               <Text style={{ fontWeight: 'bold' }}>YES</Text>
             </TouchableOpacity>
@@ -508,11 +512,10 @@ export default class Profile extends Component {
         </View>
       ) : null}
       {this.state.isVisibleS2 ? (
-        <View>
+        <View style={{width:wp('80%')}}>
           {this.title()}
           <TextInput
             style={{
-              width: wp('38%'),
               marginLeft: 5,
               height: hp('5%'),
             }}></TextInput>
@@ -525,6 +528,7 @@ export default class Profile extends Component {
               borderRadius: 10,
               padding: 5,
               marginTop: 5,
+              backgroundColor:'orange'
             }}>
             <Text style={{ fontWeight: 'bold' }}>Update</Text>
           </TouchableOpacity>
@@ -953,4 +957,5 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0, 0, 0, 0.1)',
     width: wp('90%'),
   },
+
 })

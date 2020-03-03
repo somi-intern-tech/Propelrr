@@ -48,7 +48,7 @@ export default class MyRequest extends Component {
   }
   async componentDidMount() {
     try {
-      const response = await fetch('http://www.amock.io/api/intern/requests')
+      const response = await fetch('http://www.mocky.io/v2/5e5dfc1c3100006ca52c2096')
       const responseJson = await response.json()
       this.setState({
         isLoading: false,

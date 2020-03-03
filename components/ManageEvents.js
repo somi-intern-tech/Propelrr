@@ -64,7 +64,11 @@ export default class ManageEvents extends Component {
       cellStatus: null,
       cellPlace: null,
       holder: 'bianca -going',
-      selectEvent: undefined,
+      eventName: '',
+      ceEventName: '',
+      eventDesc: '',
+      selectEvent: '',
+      venue: '',
       items: [
         {
           label: 'Holiday',
@@ -75,7 +79,7 @@ export default class ManageEvents extends Component {
           value: 'internal event',
         },
       ],
-      eventName: undefined,
+      role: '',
       items2: [
         {
           label: 'Creator',
@@ -86,7 +90,7 @@ export default class ManageEvents extends Component {
           value: 'guest',
         },
       ],
-      eventType: undefined,
+      eventType: '',
       items3: [
         {
           label: 'Holiday',
@@ -101,7 +105,7 @@ export default class ManageEvents extends Component {
           value: 'eventmeeting',
         },
       ],
-      statusName: undefined,
+      status: '',
       items4: [
         {
           label: 'Pending',
@@ -121,22 +125,31 @@ export default class ManageEvents extends Component {
     this.inputRefs = {}
   }
   renderButton = () => {
-    this.setState({ visibleModal: null, startDate: '', endDate: '' })
+    this.setState({ visibleModal: null, startDate: '', endDate: '', role: '', selectEvent: '', status: '', eventType: '',})
   }
-
   createEvent = () => {
-    if (this.state.eventType == '' || this.state.eventName == '') {
+    if (this.state.eventType == '' || this.state.ceEventName == '' || this.state.eventDesc == '' || this.state.venue == '') {
       alert('please fill up fields')
+      console.log('error')
     }
     else {
-      alert('successfuly created an event')
       this.setState({ visibleModal: null })
-
+      console.log('success')
+    }
+  }
+  advancedSearch = () => {
+    if (this.state.role == '' || this.state.event == '' || this.state.startDate == '' || this.state.endDate == '' || this.state.eventName == '') {
+      alert('please fill up fields')
+      console.log('error')
+    }
+    else {
+      this.setState({ visibleModal: null })
+      console.log('success')
     }
   }
   async componentDidMount() {
     try {
-      const response = await fetch('http://www.amock.io/api/intern/events')
+      const response = await fetch('http://www.mocky.io/v2/5e5df572310000c6612c2069')
       const responseJson = await response.json()
       this.setState(
         {
@@ -592,6 +605,7 @@ export default class ManageEvents extends Component {
             marginTop: 5, marginLeft: 5
           }}>
           <TextInput
+            value={this.state.eventName}
             style={{
               width: wp('38%'),
               marginLeft: 5,
@@ -692,7 +706,7 @@ export default class ManageEvents extends Component {
             items={this.state.items2}
             onValueChange={value => {
               this.setState({
-                eventName: value,
+                role: value,
               })
             }}
             onUpArrow={() => {
@@ -702,7 +716,7 @@ export default class ManageEvents extends Component {
               this.inputRefs.company.focus()
             }}
             style={{ ...pickerSelectStyles }}
-            value={this.state.eventName}
+            value={this.state.role}
             ref={el => {
               this.inputRefs.picker2 = el
             }}
@@ -717,7 +731,7 @@ export default class ManageEvents extends Component {
             items={this.state.items4}
             onValueChange={value => {
               this.setState({
-                statusName: value,
+                status: value,
               })
             }}
             onUpArrow={() => {
@@ -727,7 +741,7 @@ export default class ManageEvents extends Component {
               this.inputRefs.company.focus()
             }}
             style={{ ...pickerSelectStyles }}
-            value={this.state.statusName}
+            value={this.state.status}
             ref={el => {
               this.inputRefs.picker2 = el
             }}
@@ -756,7 +770,7 @@ export default class ManageEvents extends Component {
               marginTop: 5,
               width: wp('50%'),
             }}
-            onPress={this.renderButton}>
+            onPress={this.advancedSearch}>
             <Text style={{ color: 'white' }}>SEARCH</Text>
           </TouchableOpacity>
         </View>
@@ -1194,4 +1208,3 @@ const pickerSelectStyles = StyleSheet.create({
 
   },
 })
-
