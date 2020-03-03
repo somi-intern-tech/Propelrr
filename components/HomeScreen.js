@@ -88,6 +88,7 @@ export default class HomeScreen extends Component {
       setDatePickerVisibilityEnd: false,
       pickerdate: '',
       startDate: moment().format('MMMM DD, YYYY'),
+      currentDate: moment().format('YYYY-MM-DD'),
       handlerDate: '',
       endDate: 'End Date',
       confirmID: null,
@@ -104,6 +105,7 @@ export default class HomeScreen extends Component {
       dateValue: '',
       eventType: '',
       isLoading: true,
+      reason: ''
     }
   }
 
@@ -128,6 +130,12 @@ export default class HomeScreen extends Component {
     // }
   }
   markedDate = () => {
+    if (this.state.endDate == 'End Date' || this.state.reason == ''){
+      alert('please fill up fields')
+    }
+    else {
+      this.setState({ visibleModal: null, isVisibleT1: true, visibleModalT2: false, isVisibleT2: false, endDate: 'End Date', endColor: 'grey',})
+    }
   //   // alert("yo")
 
   //   this.state.dataSource.map(val => {
@@ -387,6 +395,7 @@ export default class HomeScreen extends Component {
           {this.condition()}
 
           <TextInput
+          value={this.state.reason}
             placeholder='Reason...'
             style={{
               borderBottomColor: '#000000',
@@ -578,7 +587,7 @@ export default class HomeScreen extends Component {
                   <Text style={styles.text}>HOME</Text>
                 </View>
                 <View style={styles.viewStyleThree}>
-                  <Text style={styles.textStyle}> 3 </Text>
+                  {/* <Text style={styles.textStyle}> 3 </Text> */}
                 </View>
               </View>
             </View>
@@ -635,7 +644,10 @@ export default class HomeScreen extends Component {
                   onMonthChange={month => {
                     console.log('month changed', month)
                   }}
-                  markedDates={this.state.marked}
+                  markedDates={{
+                    [this.state.currentDate]: {selected: true, selectedColor: '#008ECC'},
+                  }}
+                  // markedDates={this.state.marked}
                   markingType={this.state.eventType}
                   style={{
                     width: wp('95%'),

@@ -83,6 +83,16 @@ export default class Profile extends Component {
       cellOvertime: null,
 
       dataHolder: null,
+
+      editValue: '',
+    }
+  }
+  update = () => {
+    if (this.state.editValue == '') {
+      alert('please fill up fields')
+    }
+    else {
+      this.setState({ visibleModal: null })
     }
   }
   renderButton = () => {
@@ -163,9 +173,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                   }}>
                   <Image
                     source={require('../assets/hashtag.png')}
@@ -187,9 +197,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -209,9 +219,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
 
                   }}
@@ -233,9 +243,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -255,9 +265,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -277,9 +287,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -299,9 +309,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -321,9 +331,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> SSS</Text>
@@ -335,9 +345,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> BIR</Text>
@@ -349,9 +359,9 @@ export default class Profile extends Component {
                     borderWidth: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    borderRadius: 10,
+                    // borderRadius: 10,
                     padding: 5,
-                    width: wp('70%'),
+                    width: wp('95%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> PHILHEALTH</Text>
@@ -515,12 +525,13 @@ export default class Profile extends Component {
         <View style={{width:wp('80%')}}>
           {this.title()}
           <TextInput
+          value={this.state.editValue}
             style={{
               marginLeft: 5,
               height: hp('5%'),
             }}></TextInput>
           <TouchableOpacity
-            // onPress={this.ToggleFunction}
+            onPress={this.update}
             style={{
               borderWidth: 1,
               alignItems: 'center',
@@ -926,10 +937,11 @@ const styles = StyleSheet.create({
     height: 44,
     marginLeft: 3,
     borderWidth: 1,
-    borderRadius: 10,
+    // borderRadius: 10,
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
+
   },
 
   profilebtn: {

@@ -465,8 +465,8 @@ export default class MyRequest extends Component {
                         {item.start} - {item.end}
                       </Text>
                     </View>
-                    <View style={{ backgroundColor: 'orange', padding: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                      <Text style={{ fontWeight: 'bold', color: 'white' }}>
+                    <View style={{ backgroundColor: 'orange', padding: 5, alignItems: 'center', justifyContent: 'center', borderRadius: 5, width: wp('25%') }}>
+                      <Text style={{ fontWeight: 'bold', color: 'white'}}>
                         {item.status}
                       </Text>
                     </View>
@@ -568,11 +568,11 @@ const styles = StyleSheet.create({
     // height: 44,
     marginLeft: 3,
     borderWidth: 1,
-    borderRadius: 10,
+    // borderRadius: 10,
     margin: 3,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: wp('98%')
+    width: wp('95%')
   },
   modalContent: {
     backgroundColor: 'white',
