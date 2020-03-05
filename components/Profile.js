@@ -167,7 +167,7 @@ export default class Profile extends Component {
                   alignItems: 'center',
                   // backgroundColor: 'yellow',
                 }}>
-                <TouchableOpacity
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -175,7 +175,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                   }}>
                   <Image
                     source={require('../assets/hashtag.png')}
@@ -189,9 +189,9 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {idnum}</Text>
-                </TouchableOpacity>
+                </View>
 
-                <TouchableOpacity
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -199,7 +199,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -212,7 +212,7 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {birthday}</Text>
-                </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                   onPress={this.setAddress}
                   style={{
@@ -221,7 +221,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
 
                   }}
@@ -236,8 +236,17 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {address}</Text>
+                  <Image
+                  source={require('../assets/pen.png')}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    resizeMode: 'contain',
+                    // marginRight: 10,
+                  }}
+                />
                 </TouchableOpacity>
-                <TouchableOpacity
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -245,7 +254,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -258,7 +267,7 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {email}</Text>
-                </TouchableOpacity>
+                </View>
                 <TouchableOpacity
                   onPress={this.setPhonenumber}
                   style={{
@@ -267,7 +276,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -280,6 +289,15 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {number}</Text>
+                  <Image
+                  source={require('../assets/pen.png')}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    resizeMode: 'contain',
+                    // marginRight: 10,
+                  }}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.setTelnumber}
@@ -289,7 +307,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -302,8 +320,17 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {altnumber}</Text>
+                  <Image
+                  source={require('../assets/pen.png')}
+                  style={{
+                    height: 20,
+                    width: 20,
+                    resizeMode: 'contain',
+                    // marginRight: 10,
+                  }}
+                  />
                 </TouchableOpacity>
-                <TouchableOpacity
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -311,7 +338,7 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Image
@@ -324,8 +351,8 @@ export default class Profile extends Component {
                     }}
                   />
                   <Text style={styles.info}> {team}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </View>
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -333,13 +360,13 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> SSS</Text>
                   <Text style={styles.info}> {SSS}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </View>
+                <View
 
                   style={{
                     borderWidth: 1,
@@ -347,13 +374,13 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> BIR</Text>
                   <Text style={styles.info}> {BIR}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </View>
+                <View
                   onPress={this.setPersonalModal}
                   style={{
                     borderWidth: 1,
@@ -361,12 +388,12 @@ export default class Profile extends Component {
                     justifyContent: 'space-between',
                     // borderRadius: 10,
                     padding: 5,
-                    width: wp('95%'),
+                    width: wp('98%'),
                     marginTop: 3,
                   }}>
                   <Text style={styles.info}> PHILHEALTH</Text>
                   <Text style={styles.info}> {phealth}</Text>
-                </TouchableOpacity>
+                </View>
               </View>
               <Modal
                 isVisible={this.state.visibleModal === 2}

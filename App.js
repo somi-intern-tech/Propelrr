@@ -69,7 +69,7 @@ const DrawerNav = createDrawerNavigator({
     drawerWidth: Dimensions.get('window').width,
     drawerPosition: 'left',
     drawerBackgroundColor: 'transparent',
-    
+
 
   }
 );
