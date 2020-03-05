@@ -109,7 +109,7 @@ export default class Profile extends Component {
 
     if (this.state.showForm === 0) {
       if (this.state.isLoading) {
-        <ActivityIndicator color='orange' />
+        <ActivityIndicator color='grey' size='large'/>
       } else {
         this.fetchProfile()
         let name = this.state.dataSource.map(dataSource => (
@@ -237,14 +237,14 @@ export default class Profile extends Component {
                   />
                   <Text style={styles.info}> {address}</Text>
                   <Image
-                  source={require('../assets/pen.png')}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    resizeMode: 'contain',
-                    // marginRight: 10,
-                  }}
-                />
+                    source={require('../assets/pen.png')}
+                    style={{
+                      height: 20,
+                      width: 20,
+                      resizeMode: 'contain',
+                      // marginRight: 10,
+                    }}
+                  />
                 </TouchableOpacity>
                 <View
 
@@ -279,25 +279,30 @@ export default class Profile extends Component {
                     width: wp('98%'),
                     marginTop: 3,
                   }}>
-                  <Image
-                    source={require('../assets/smartphone.png')}
-                    style={{
-                      height: 20,
-                      width: 20,
-                      resizeMode: 'stretch',
-                      marginLeft: 5,
-                    }}
-                  />
-                  <Text style={styles.info}> {number}</Text>
-                  <Image
-                  source={require('../assets/pen.png')}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    resizeMode: 'contain',
-                    // marginRight: 10,
-                  }}
-                  />
+                  <View>
+                    <Image
+                      source={require('../assets/smartphone.png')}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        resizeMode: 'stretch',
+                        marginLeft: 5,
+                      }}
+                    />
+                  </View>
+
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.info}> {number}</Text>
+                    <Image
+                      source={require('../assets/pen.png')}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        resizeMode: 'contain',
+                        // marginRight: 10,
+                      }}
+                    />
+                  </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.setTelnumber}
@@ -310,25 +315,30 @@ export default class Profile extends Component {
                     width: wp('98%'),
                     marginTop: 3,
                   }}>
-                  <Image
-                    source={require('../assets/telephone.png')}
-                    style={{
-                      height: 20,
-                      width: 20,
-                      resizeMode: 'stretch',
-                      marginLeft: 5,
-                    }}
-                  />
-                  <Text style={styles.info}> {altnumber}</Text>
-                  <Image
-                  source={require('../assets/pen.png')}
-                  style={{
-                    height: 20,
-                    width: 20,
-                    resizeMode: 'contain',
-                    // marginRight: 10,
-                  }}
-                  />
+                  <View>
+                    <Image
+                      source={require('../assets/telephone.png')}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        resizeMode: 'stretch',
+                        marginLeft: 5,
+                      }}
+                    />
+                  </View>
+                  <View style={{ flexDirection: 'row' }}>
+                    <Text style={styles.info}> {altnumber}</Text>
+                    <Image
+                      source={require('../assets/pen.png')}
+                      style={{
+                        height: 20,
+                        width: 20,
+                        resizeMode: 'contain',
+                        // marginRight: 10,
+                      }}
+                    />
+                  </View>
+
                 </TouchableOpacity>
                 <View
 
@@ -418,7 +428,7 @@ export default class Profile extends Component {
       ))
       if (this.state.isLoading2) {
 
-        <ActivityIndicator color='orange' />
+        <ActivityIndicator color='grey' size='large'/>
       } else {
         return (
           <View style={styles.viewStyleSix}>
@@ -488,7 +498,7 @@ export default class Profile extends Component {
       }
     }
   }
-  
+
   setAddress = () => {
     this.setState({ dataHolder: 'address' })
     this.setPersonalModal()
@@ -501,15 +511,15 @@ export default class Profile extends Component {
     this.setState({ dataHolder: 'phonenumber' })
     this.setPersonalModal()
   }
-  title(){
-    if(this.state.dataHolder == "address"){
-      return(<View s><Text>Address</Text></View>)
+  title() {
+    if (this.state.dataHolder == "address") {
+      return (<View s><Text>Address</Text></View>)
     }
-    else if(this.state.dataHolder == "phonenumber"){
-      return(<View><Text>Phone Number</Text></View>)
+    else if (this.state.dataHolder == "phonenumber") {
+      return (<View><Text>Phone Number</Text></View>)
     }
-    else if(this.state.dataHolder == "telnumber"){
-      return(<View><Text>Telephone Number</Text></View>)
+    else if (this.state.dataHolder == "telnumber") {
+      return (<View><Text>Telephone Number</Text></View>)
     }
   }
   setPersonalModal = () => this.setState({ visibleModal: 2 })
@@ -528,8 +538,8 @@ export default class Profile extends Component {
                 borderRadius: 10,
                 padding: 5,
                 marginTop: 5,
-                marginRight:20,
-                marginLeft:50
+                marginRight: 20,
+                marginLeft: 50
               }}>
               <Text style={{ fontWeight: 'bold' }}>YES</Text>
             </TouchableOpacity>
@@ -549,10 +559,10 @@ export default class Profile extends Component {
         </View>
       ) : null}
       {this.state.isVisibleS2 ? (
-        <View style={{width:wp('80%')}}>
+        <View style={{ width: wp('80%') }}>
           {this.title()}
           <TextInput
-          value={this.state.editValue}
+            value={this.state.editValue}
             style={{
               marginLeft: 5,
               height: hp('5%'),
@@ -566,7 +576,7 @@ export default class Profile extends Component {
               borderRadius: 10,
               padding: 5,
               marginTop: 5,
-              backgroundColor:'orange'
+              backgroundColor: 'orange'
             }}>
             <Text style={{ fontWeight: 'bold' }}>Update</Text>
           </TouchableOpacity>
@@ -730,7 +740,7 @@ export default class Profile extends Component {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <ActivityIndicator color='orange' />
+              <ActivityIndicator color='grey' size='large'/>
             </View>
           </View>
         </View>

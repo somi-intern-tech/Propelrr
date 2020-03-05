@@ -391,7 +391,7 @@ export default class MyRequest extends Component {
             </View>
 
             <View style={styles.viewStyleThree}>
-              <ActivityIndicator color='orange' />
+              <ActivityIndicator color='grey' size='large' />
             </View>
           </View>
         </View>

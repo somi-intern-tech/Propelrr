@@ -125,15 +125,15 @@ export default class ManageEvents extends Component {
     this.inputRefs = {}
   }
   renderButton = () => {
-    this.setState({ visibleModal: null, startDate: '', endDate: '', role: '', selectEvent: '', status: '', eventType: '',})
+    this.setState({ visibleModal: null, startDate: '', endDate: '', role: '', status: '', eventType: '', eventName: '', selectEvent: '',ceEventName: '', eventDesc: '', venue: '' })
   }
   createEvent = () => {
-    if (this.state.eventType == '' || this.state.ceEventName == '' || this.state.eventDesc == '' || this.state.venue == '') {
+    if (this.state.selectEvent == '' || this.state.ceEventName == '' || this.state.eventDesc == '' || this.state.venue == '') {
       alert('please fill up fields')
-      console.log('error')
+      console.log(this.state.selectEvent, this.state.ceEventName, this.state.eventDesc, this.state.venue)
     }
     else {
-      this.setState({ visibleModal: null })
+      this.setState({ visibleModal: null, selectEvent: '',ceEventName: '', eventDesc: '', venue: '' })
       console.log('success')
     }
   }
@@ -143,7 +143,10 @@ export default class ManageEvents extends Component {
       console.log('error')
     }
     else {
-      this.setState({ visibleModal: null })
+      this.setState({
+        visibleModal: null, startDate: '', endDate: '', role: ''
+        , status: '', eventType: '', eventName: ''
+      })
       console.log('success')
     }
   }
@@ -325,7 +328,7 @@ export default class ManageEvents extends Component {
               />
               <TouchableOpacity onPress={this.setSettingModal}>
                 <Image
-                  source={require('../assets/settings.png')}
+                  source={require('../assets/setting.png')}
                   style={{
                     height: hp('7%'),
                     width: wp('7%'),
@@ -337,7 +340,7 @@ export default class ManageEvents extends Component {
             </View>
 
             <View style={styles.viewStyleFour}>
-              <ActivityIndicator color='orange' />
+              <ActivityIndicator color='grey' size='large' />
             </View>
             <View>
               <TouchableOpacity
@@ -345,7 +348,7 @@ export default class ManageEvents extends Component {
                 style={{
                   marginTop: hp('-12%'),
                   marginLeft: wp('75%'),
-                  backgroundColor: '#ff9501',
+                  // backgroundColor: '#ff9501',
                   borderBottomLeftRadius: 20,
                   borderTopLeftRadius: 20,
                   height: 65,
@@ -418,7 +421,7 @@ export default class ManageEvents extends Component {
               />
               <TouchableOpacity onPress={this.setSettingModal}>
                 <Image
-                  source={require('../assets/settings.png')}
+                  source={require('../assets/setting.png')}
                   style={{
                     height: hp('7%'),
                     width: wp('7%'),
@@ -441,7 +444,7 @@ export default class ManageEvents extends Component {
                 renderItem={({ item }) => (
                   //Rendering Single Row
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: wp('98%'), borderWidth: 1, padding: 3, marginBottom: 5 }}>
-                    <View style={{ flexDirection: 'column' }}>
+                    <View style={{ flexDirection: 'column', margin: 5 }}>
                       <Text style={{}}>EVENT NAME</Text>
 
                       <Text style={{ fontWeight: 'bold', marginBottom: 5, fontSize: 20 }}>{item.event}</Text>
@@ -449,12 +452,12 @@ export default class ManageEvents extends Component {
                       <Text>{item.end}</Text> */}
                     </View>
                     <View style={{}}>
-                      <Text style={{}}>STATUS</Text>
+                      <Text style={{fontSize: 14}}>STATUS</Text>
 
-                      <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.status}</Text>
-                      <Text style={{}}>ROLE</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.status}</Text>
+                      <Text style={{fontSize: 14}}>ROLE</Text>
 
-                      <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{item.role}</Text>
+                      <Text style={{ fontWeight: 'bold', fontSize: 18 }}>{item.role}</Text>
 
                     </View>
 
@@ -495,10 +498,8 @@ export default class ManageEvents extends Component {
                 onPress={this.setModal}
                 style={{
                   marginTop: hp('-12%'),
-                  marginLeft: wp('75%'),
-                  backgroundColor: '#ff9501',
-                  borderBottomLeftRadius: 20,
-                  borderTopLeftRadius: 20,
+                  marginLeft: wp('78%'),
+                  borderRadius: 50,
                   height: 65,
                 }}>
                 <Image
@@ -539,7 +540,18 @@ export default class ManageEvents extends Component {
   setSettingModal = () => this.setState({ visibleModal: 2 })
 
   setDataModal = () => this.setState({ visibleModal: 3 })
-
+  handleEvent = ceEventName => {
+    this.setState({ ceEventName })
+  }
+  handleEventName = eventName => {
+    this.setState({ eventName })
+  }
+  handlEventDesc = eventDesc => {
+    this.setState({ eventDesc })
+  }
+  handleVenue = venue => {
+    this.setState({ venue })
+  }
   renderSettingModal = () => (
     <View style={styles.modalContent}>
       <View
@@ -590,10 +602,9 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 5,
-            paddingLeft: 5,
           }}>
-          <Text style={{}}>Event name</Text>
-          <Text style={{}}>Event type</Text>
+          <Text style={{paddingLeft: 10}}>Event name</Text>
+          <Text style={{paddingRight: 20}}>Event type</Text>
           <Text> </Text>
         </View>
         <View
@@ -606,10 +617,13 @@ export default class ManageEvents extends Component {
           }}>
           <TextInput
             value={this.state.eventName}
+            onChangeText={this.handleEventName}
             style={{
-              width: wp('38%'),
+              width: wp('40%'),
               marginLeft: 5,
               height: hp('5%'),
+              backgroundColor: 'transparent',
+              borderWidth: .3
             }}></TextInput>
           <RNPickerSelect
             placeholder={{
@@ -641,10 +655,9 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 5,
-            paddingLeft: 5,
           }}>
-          <Text style={{}}>From</Text>
-          <Text style={{}}>To</Text>
+          <Text style={{paddingLeft: 10}}>From</Text>
+          <Text style={{paddingRight: 30}}>To</Text>
           <Text> </Text>
         </View>
         <View
@@ -658,9 +671,9 @@ export default class ManageEvents extends Component {
           <TouchableOpacity
             onPress={this.showDatePickerStart}
             style={{
-              borderBottomColor: '#000000',
-              borderBottomWidth: 1,
-              width: wp('45%'),
+              width: wp('40%'),
+              borderWidth: .3,
+              marginLeft: 10
             }}>
             <Text>
               {this.state.startDate}
@@ -669,9 +682,9 @@ export default class ManageEvents extends Component {
           <TouchableOpacity
             onPress={this.showDatePickerEnd}
             style={{
-              borderBottomColor: '#000000',
-              borderBottomWidth: 1,
-              width: wp('45%'),
+              width: wp('40%'),
+              borderWidth: .3,
+              marginLeft: 10
             }}>
             <Text>
               {this.state.endDate}
@@ -683,10 +696,10 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 5,
-            paddingLeft: 5,
+            
           }}>
-          <Text style={{}}>Role</Text>
-          <Text style={{}}>Status</Text>
+          <Text style={{paddingLeft: 10}}>Role</Text>
+          <Text style={{paddingLeft: 5}}>Status</Text>
           <Text> </Text>
         </View>
         <View
@@ -846,9 +859,8 @@ export default class ManageEvents extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between',
             marginTop: 5,
-            paddingLeft: 5,
           }}>
-          <Text style={{}}>Event type</Text>
+          <Text style={{paddingLeft: 10}}>Event type</Text>
           <Text style={{}}>Event name</Text>
           <Text> </Text>
         </View>
@@ -886,10 +898,14 @@ export default class ManageEvents extends Component {
           // hideIcon={true}
           />
           <TextInput
+            value={this.state.ceEventName}
+            onChangeText={this.handleEvent}
             style={{
-              width: wp('45%'),
-              marginLeft: 5,
+              width: wp('40%'),
+              marginLeft: 10,
               height: hp('5%'),
+              backgroundColor: 'transparent',
+              borderWidth: .3
             }}></TextInput>
         </View>
         <View
@@ -900,19 +916,27 @@ export default class ManageEvents extends Component {
 
             // backgroundColor: 'grey',
           }}>
-          <Text style={{ marginLeft: 5 }}>Event Description</Text>
+          <Text style={{ marginLeft: 10 }}>Event Description</Text>
           <TextInput
+            value={this.state.eventDesc}
+            onChangeText={this.handlEventDesc}
             style={{
-              width: wp('86%'),
+              width: wp('83%'),
               height: hp('5%'),
-              marginLeft: 5,
+              marginLeft: 10,
+              backgroundColor: 'transparent',
+              borderWidth: .3
             }}></TextInput>
-          <Text style={{ marginLeft: 5 }}>Venue</Text>
+          <Text style={{ marginLeft: 10 }}>Venue</Text>
           <TextInput
+            value={this.state.venue}
+            onChangeText={this.handleVenue}
             style={{
-              width: wp('86%'),
+              width: wp('83%'),
               height: hp('5%'),
-              marginLeft: 5,
+              marginLeft: 10,
+              backgroundColor: 'transparent',
+              borderWidth: .3
             }}></TextInput>
         </View>
         <View
@@ -1053,14 +1077,14 @@ export default class ManageEvents extends Component {
       </View>
     </View>
   )
+  AddItemsToArray = () => {
+    this.setState({ visibleModal: null })
+    //Adding Items To Array.
+    // Showing the complete Array on Screen Using Alert.
+  }
 }
 
-AddItemsToArray = () => {
-  //Adding Items To Array.
-  respo.push(holder)
-  alert(respo)
-  // Showing the complete Array on Screen Using Alert.
-}
+
 
 const styles = StyleSheet.create({
   maincontainer: {
@@ -1178,7 +1202,7 @@ const styles = StyleSheet.create({
   textInputStyle: {
     borderWidth: 1,
     // paddingLeft: 10,
-    borderColor: '#009688',
+    // borderColor: '#009688',
     backgroundColor: '#FFFFFF',
     width: wp('88%'),
     height: 30,
@@ -1197,14 +1221,13 @@ const pickerSelectStyles = StyleSheet.create({
     // paddingTop: 13,
     // paddingHorizontal: 10,
     // paddingBottom: 12,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
+    borderWidth: .3,
+    // borderColor: 'gray',
     backgroundColor: 'white',
     color: 'black',
     width: wp('40%'),
-    marginLeft: 5,
+    marginLeft: 10,
     height: hp('5%')
 
-  },
+  }
 })

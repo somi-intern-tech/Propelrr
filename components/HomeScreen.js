@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, { Component, useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,8 @@ import {
   Button,
   ActivityIndicator,
 } from 'react-native'
-import {DrawerActions} from 'react-navigation-drawer'
-import {Calendar, LocaleConfig} from 'react-native-calendars'
+import { DrawerActions } from 'react-navigation-drawer'
+import { Calendar, LocaleConfig } from 'react-native-calendars'
 import moment from 'moment'
 import Modal from 'react-native-modal'
 import DateTimePickerModal from 'react-native-modal-datetime-picker'
@@ -69,11 +69,11 @@ export default class HomeScreen extends Component {
     drawerIcon: () => (
       <Image
         source={require('../assets/propelrr.png')}
-        style={{height: 30, width: 30}}
+        style={{ height: 30, width: 30 }}
       />
     ),
   }
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       items: {},
@@ -109,7 +109,7 @@ export default class HomeScreen extends Component {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     var that = this
     var date = new Date().getDate() //Current Date
     var year = new Date().getFullYear() //Current Year
@@ -130,27 +130,27 @@ export default class HomeScreen extends Component {
     // }
   }
   markedDate = () => {
-    if (this.state.endDate == 'End Date' || this.state.reason == ''){
+    if (this.state.endDate == 'End Date' || this.state.reason == '') {
       alert('please fill up fields')
     }
     else {
-      this.setState({ visibleModal: null, isVisibleT1: true, visibleModalT2: false, isVisibleT2: false, endDate: 'End Date', endColor: 'grey',})
+      this.setState({ visibleModal: null, isVisibleT1: true, visibleModalT2: false, isVisibleT2: false, endDate: 'End Date', endColor: 'grey', })
     }
-  //   // alert("yo")
+    //   // alert("yo")
 
-  //   this.state.dataSource.map(val => {
-  //     // this.setState({ marked: this.state.startDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'orange' } }), {}) })
-  //     const result = Object.values(val.events).length
-  //     if (result == 1) {
-  //       {
-  //         this.singleEvent()
-  //       }
-  //     } else if (result > 1) {
-  //       {
-  //         this.multiEvents()
-  //       }
-  //     }
-  //   })
+    //   this.state.dataSource.map(val => {
+    //     // this.setState({ marked: this.state.startDate.reduce((c, v) => Object.assign(c, { [v]: { selected: true, selectedColor: 'orange' } }), {}) })
+    //     const result = Object.values(val.events).length
+    //     if (result == 1) {
+    //       {
+    //         this.singleEvent()
+    //       }
+    //     } else if (result > 1) {
+    //       {
+    //         this.multiEvents()
+    //       }
+    //     }
+    //   })
   }
   // multiEvents = () => {
   //   this.state.dataSource.map(val => {
@@ -181,7 +181,7 @@ export default class HomeScreen extends Component {
   renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.button}>
-        <Text style={{color: 'white'}}>{text}</Text>
+        <Text style={{ color: 'white', fontSize: 25 }}>{text}</Text>
       </View>
     </TouchableOpacity>
   )
@@ -259,7 +259,7 @@ export default class HomeScreen extends Component {
       //past
       return (
         <View>
-          <Text style={{paddingBottom: 10}}>FROM</Text>
+          <Text style={{ paddingBottom: 10 }}>FROM</Text>
           <TouchableOpacity
             onPress={this.showDatePickerStart}
             style={{
@@ -270,7 +270,7 @@ export default class HomeScreen extends Component {
             <Text>{this.state.startDate}</Text>
           </TouchableOpacity>
 
-          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+          <Text style={{ paddingTop: 10, paddingBottom: 10 }}>TO</Text>
 
           <TouchableOpacity
             onPress={this.showDatePickerEnd}
@@ -279,7 +279,7 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>
+            <Text style={{ color: this.state.endColor }}>
               {this.state.endDate}
             </Text>
           </TouchableOpacity>
@@ -303,7 +303,7 @@ export default class HomeScreen extends Component {
             minimumDate={new Date(this.state.startDateFuture)}
             date={new Date(this.state.startDateFuture)}
             maximumDate={new Date('2999-12-31')}
-            // date={new Date(this.state.endDate)}
+          // date={new Date(this.state.endDate)}
           />
         </View>
       )
@@ -312,7 +312,7 @@ export default class HomeScreen extends Component {
 
       return (
         <View>
-          <Text style={{paddingBottom: 10}}>FROM</Text>
+          <Text style={{ paddingBottom: 10 }}>FROM</Text>
           <TouchableOpacity
             onPress={this.showDatePickerStart}
             style={{
@@ -323,7 +323,7 @@ export default class HomeScreen extends Component {
             <Text>{this.state.startDateFuture}</Text>
           </TouchableOpacity>
 
-          <Text style={{paddingTop: 10, paddingBottom: 10}}>TO</Text>
+          <Text style={{ paddingTop: 10, paddingBottom: 10 }}>TO</Text>
 
           <TouchableOpacity
             onPress={this.showDatePickerEnd}
@@ -332,7 +332,7 @@ export default class HomeScreen extends Component {
               borderBottomWidth: 1,
               width: '100%',
             }}>
-            <Text style={{color: this.state.endColor}}>
+            <Text style={{ color: this.state.endColor }}>
               {this.state.endDate}
             </Text>
           </TouchableOpacity>
@@ -356,7 +356,7 @@ export default class HomeScreen extends Component {
             minimumDate={new Date(this.state.startDateFuture)}
             date={new Date(this.state.startDateFuture)}
             maximumDate={new Date('2999-12-31')}
-            // date={new Date(this.state.endDate)}
+          // date={new Date(this.state.endDate)}
           />
         </View>
       )
@@ -366,17 +366,17 @@ export default class HomeScreen extends Component {
   renderModalContent = () => (
     <View style={styles.modalContent}>
       <View style={styles.modalHeader}>
-        <View style={{alignItems: 'center', flexDirection: 'row'}}>
+        <View style={{ alignItems: 'center', flexDirection: 'row', margin: 10 }}>
           <Image
             source={require('../assets/calendar.png')}
-            style={{height: 23, width: 23}}
+            style={{ height: 23, width: 23 }}
           />
-          <Text style={{fontSize: hp('3%'), paddingLeft: 4}}>
+          <Text style={{ fontSize: hp('3%'), paddingLeft: 4, color: 'white', fontSize: 25 }}>
             {this.state.clickedDate}
           </Text>
         </View>
-        <View style={{alignItems: 'flex-end'}}>
-          {this.renderButton('CLOSE', () =>
+        <View style={{ alignItems: 'flex-end'}}>
+          {this.renderButton('X', () =>
             this.setState({
               visibleModal: null,
               isVisibleT1: true,
@@ -391,11 +391,11 @@ export default class HomeScreen extends Component {
 
       {this.state.isVisibleT2 ? (
         <View
-          style={{width: '100%', justifyContent: 'flex-start', marginTop: 20}}>
+          style={{ width: '90%', justifyContent: 'flex-start', marginTop: 20, margin: 15 }}>
           {this.condition()}
 
           <TextInput
-          value={this.state.reason}
+            value={this.state.reason}
             placeholder='Reason...'
             style={{
               borderBottomColor: '#000000',
@@ -415,7 +415,7 @@ export default class HomeScreen extends Component {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-around',
-            marginTop: 15,
+            margin: 15,
           }}>
           <View
             style={
@@ -428,7 +428,7 @@ export default class HomeScreen extends Component {
               })
             }>
             <TouchableOpacity onPress={this.markedDate}>
-              <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+              <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                 SUBMIT REQUEST
               </Text>
             </TouchableOpacity>
@@ -444,7 +444,7 @@ export default class HomeScreen extends Component {
               })
             }>
             <TouchableOpacity onPress={this.ToggleFunction}>
-              <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+              <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
                 CANCEL
               </Text>
             </TouchableOpacity>
@@ -454,7 +454,7 @@ export default class HomeScreen extends Component {
 
       {this.state.isVisibleT1 ? (
         <View style={[styles.modalFooter]}>
-          <View style={{height: 150}}></View>
+          <View style={{ height: 150 }}></View>
           <TouchableOpacity
             style={{
               alignItems: 'center',
@@ -463,7 +463,7 @@ export default class HomeScreen extends Component {
               backgroundColor: '#ff9800',
             }}
             onPress={this.ToggleFunction}>
-            <Text style={{fontSize: 16, padding: 8, color: 'white'}}>
+            <Text style={{ fontSize: 16, padding: 8, color: 'white' }}>
               REQUEST LEAVE
             </Text>
           </TouchableOpacity>
@@ -472,7 +472,7 @@ export default class HomeScreen extends Component {
     </View>
   )
 
-  render () {
+  render() {
     const intime = this.props.navigation.getParam('timein', 'nothing sent')
     const outputDate = moment().format('YYYY-MM-DD')
     const d = new Date()
@@ -536,7 +536,7 @@ export default class HomeScreen extends Component {
     //   }
     // }
     // if (this.state.isLoading) {
-      // return (
+    // return (
     //     <View style={styles.maincontainer}>
     //       <View style={styles.container}>
     //         <View style={styles.container1}>
@@ -565,187 +565,192 @@ export default class HomeScreen extends Component {
     //   )
     // } 
     // else {
-      // if (this.state.showForm === 0) {
-        return (
-          <View style={styles.maincontainer}>
-            <View style={styles.container}>
-              <View style={styles.container1}>
-                <View style={styles.viewStyleOne}>
-                  <TouchableHighlight
-                    onPress={() =>
-                      this.props.navigation.dispatch(DrawerActions.openDrawer())
-                    }
-                    style={styles.touchableHighlight}
-                    underlayColor={'rgba(0,0,0,0.8)'}>
-                    <Image
-                      source={require('../assets/menu.png')}
-                      style={{height: 30, width: 30}}
-                    />
-                  </TouchableHighlight>
-                </View>
-                <View style={styles.viewStyleTwo}>
-                  <Text style={styles.text}>HOME</Text>
-                </View>
-                <View style={styles.viewStyleThree}>
-                  {/* <Text style={styles.textStyle}> 3 </Text> */}
-                </View>
-              </View>
-            </View>
-            {/* ----------------CALENDAR---------------------- */}
-            <View style={styles.container2}>
-              <View
-                style={{
-                  width: wp('100%'),
-                  height: hp('5%'),
-                  backgroundColor: '#008ECC',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    fontSize: 25,
-                    color: 'white',
-                  }}>
-                  {dayName +
-                    ', ' +
-                    monthNames[d.getMonth()] +
-                    ' ' +
-                    this.state.date}
-                </Text>
-              </View>
-              <Modal isVisible={this.state.visibleModal === 1}>
-                {this.renderModalContent()}
-              </Modal>
-              <View style={styles.calendarContainer}>
-                <Calendar
-                  // Handler which gets executed on day press. Default = undefined
-                  onDayPress={day => {
-                    this.setState({
-                      visibleModal: 1,
-                      clickedDate: moment(day.dateString).format(
-                        'MMMM DD, YYYY',
-                      ),
-                      pressedDate: moment(day.dateString).format('YY MM DD'),
-                      pickerdate: moment(day.dateString).toDate(),
-                      startDateFuture: moment(day.dateString).format(
-                        'MMMM DD, YYYY',
-                      ),
-                      startDateHolder: moment(day.dateString).format(
-                        'YYYY-MM-DD',
-                      ),
-                    })
-                  }}
-                  // onDayPress={(day) => { datePressed = day }}
-                  // Handler which gets executed on day long press. Default = undefined
-                  onDayLongPress={day => {
-                    console.log('selected day', day)
-                  }}
-                  // Handler which gets executed when visible month changes in calendar. Default = undefined
-                  onMonthChange={month => {
-                    console.log('month changed', month)
-                  }}
-                  markedDates={{
-                    [this.state.currentDate]: {selected: true, selectedColor: '#008ECC'},
-                  }}
-                  // markedDates={this.state.marked}
-                  markingType={this.state.eventType}
-                  style={{
-                    width: wp('95%'),
-                  }}
-                  // Specify theme properties to override specific styles for calendar parts. Default = {}
-                  theme={{
-                    backgroundColor: '#ffffff',
-                    calendarBackground: '#ffffff',
-                    textSectionTitleColor: 'black',
-                    selectedDayBackgroundColor: '#ff9800',
-                    // selectedDayTextColor: 'blue',
-                    todayTextColor: 'white',
-                    dayTextColor: 'black',
-                    textDisabledColor: '#d9e1e8',
-                    dotColor: '#00adf5',
-                    selectedDotColor: '#ffffff',
-                    arrowColor: 'black',
-                    monthTextColor: 'grey',
-                    indicatorColor: 'grey',
-                    textDayFontFamily: 'Arial',
-                    textMonthFontFamily: 'Arial',
-                    textDayHeaderFontFamily: 'Arial',
-                    textDayFontWeight: '300',
-                    textMonthFontWeight: 'bold',
-                    textDayHeaderFontWeight: '300',
-                    textDayFontSize: hp('2%'),
-                    textMonthFontSize: hp('2.3%'),
-                    textDayHeaderFontSize: hp('1.8%'),
-                    'stylesheet.calendar.header': {
-                      week: {
-                        marginTop: 5,
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginHorizontal: 10,
-                      },
-                    },
-                  }}
+    // if (this.state.showForm === 0) {
+    return (
+      <View style={styles.maincontainer}>
+        <View style={styles.container}>
+          <View style={styles.container1}>
+            <View style={styles.viewStyleOne}>
+              <TouchableHighlight
+                onPress={() =>
+                  this.props.navigation.dispatch(DrawerActions.openDrawer())
+                }
+                style={styles.touchableHighlight}
+                underlayColor={'rgba(0,0,0,0.8)'}>
+                <Image
+                  source={require('../assets/menu.png')}
+                  style={{ height: 30, width: 30 }}
                 />
-              </View>
-
-              <View style={{marginLeft: 10}}>
-                <Text style={{marginVertical: 5}}>LEGENDS:</Text>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View
-                    style={{
-                      backgroundColor: 'blue',
-                      height: 15,
-                      width: 15,
-                      borderRadius: 15,
-                    }}></View>
-                  <Text> Vacation Leave</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View
-                    style={{
-                      backgroundColor: 'grey',
-                      height: 15,
-                      width: 15,
-                      borderRadius: 15,
-                    }}></View>
-                  <Text> Out of the Office Access</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View
-                    style={{
-                      backgroundColor: 'pink',
-                      height: 15,
-                      width: 15,
-                      borderRadius: 15,
-                    }}></View>
-                  <Text> Holiday</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View
-                    style={{
-                      backgroundColor: 'orange',
-                      height: 15,
-                      width: 15,
-                      borderRadius: 15,
-                    }}></View>
-                  <Text> Internal Event</Text>
-                </View>
-                <View style={{flexDirection: 'row', marginVertical: 5}}>
-                  <View
-                    style={{
-                      backgroundColor: 'yellow',
-                      height: 15,
-                      width: 15,
-                      borderRadius: 15,
-                    }}></View>
-                  <Text> Meeting</Text>
-                </View>
-              </View>
+              </TouchableHighlight>
+            </View>
+            <View style={styles.viewStyleTwo}>
+              <Text style={styles.text}>HOME</Text>
+            </View>
+            <View style={styles.viewStyleThree}>
+              {/* <Text style={styles.textStyle}> 3 </Text> */}
             </View>
           </View>
-        )
-      }
-    }
+        </View>
+        {/* ----------------CALENDAR---------------------- */}
+        <View style={styles.container2}>
+          <View
+            style={{
+              width: wp('100%'),
+              height: hp('5%'),
+              backgroundColor: '#008ECC',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 25,
+                color: 'white',
+              }}>
+              {dayName +
+                ', ' +
+                monthNames[d.getMonth()] +
+                ' ' +
+                this.state.date}
+            </Text>
+          </View>
+          <Modal isVisible={this.state.visibleModal === 1}>
+            {this.renderModalContent()}
+          </Modal>
+          <View style={styles.calendarContainer}>
+            <Calendar
+              // Handler which gets executed on day press. Default = undefined
+              onDayPress={day => {
+                this.setState({
+                  visibleModal: 1,
+                  clickedDate: moment(day.dateString).format(
+                    'MMMM DD, YYYY',
+                  ),
+                  pressedDate: moment(day.dateString).format('YY MM DD'),
+                  pickerdate: moment(day.dateString).toDate(),
+                  startDateFuture: moment(day.dateString).format(
+                    'MMMM DD, YYYY',
+                  ),
+                  startDateHolder: moment(day.dateString).format(
+                    'YYYY-MM-DD',
+                  ),
+                })
+              }}
+              // onDayPress={(day) => { datePressed = day }}
+              // Handler which gets executed on day long press. Default = undefined
+              onDayLongPress={day => {
+                console.log('selected day', day)
+              }}
+              // Handler which gets executed when visible month changes in calendar. Default = undefined
+              onMonthChange={month => {
+                console.log('month changed', month)
+              }}
+              markedDates={{
+                [this.state.currentDate]: { selected: true, selectedColor: '#008ECC' },
+              }}
+              // markedDates={this.state.marked}
+              markingType={this.state.eventType}
+              style={{
+                width: wp('95%'),
+              }}
+              // Specify theme properties to override specific styles for calendar parts. Default = {}
+              theme={{
+                backgroundColor: '#ffffff',
+                calendarBackground: '#ffffff',
+                textSectionTitleColor: 'black',
+                selectedDayBackgroundColor: '#ff9800',
+                // selectedDayTextColor: 'blue',
+                todayTextColor: 'white',
+                dayTextColor: 'black',
+                textDisabledColor: '#d9e1e8',
+                dotColor: '#00adf5',
+                selectedDotColor: '#ffffff',
+                arrowColor: 'black',
+                monthTextColor: 'grey',
+                indicatorColor: 'grey',
+                textDayFontFamily: 'Arial',
+                textMonthFontFamily: 'Arial',
+                textDayHeaderFontFamily: 'Arial',
+                textDayFontWeight: '300',
+                textMonthFontWeight: 'bold',
+                textDayHeaderFontWeight: '300',
+                textDayFontSize: hp('2%'),
+                textMonthFontSize: hp('2.3%'),
+                textDayHeaderFontSize: hp('1.8%'),
+                'stylesheet.calendar.header': {
+                  week: {
+                    marginTop: 5,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginHorizontal: 10,
+                  },
+                },
+              }}
+            />
+          </View>
+
+          <View style={{ marginHorizontal: 20, marginTop: 20 }}>
+            <Text style={{ marginVertical: 5 }}>LEGENDS:</Text>
+            <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    backgroundColor: 'pink',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 15,
+                  }}></View>
+                <Text> Holiday</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    backgroundColor: 'orange',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 15,
+                  }}></View>
+                <Text> Internal Event</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    backgroundColor: 'yellow',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 15,
+                  }}></View>
+                <Text> Meeting</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between' }}>
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    backgroundColor: 'blue',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 15,
+                  }}></View>
+                <Text> Vacation Leave</Text>
+              </View>
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    backgroundColor: 'grey',
+                    height: 15,
+                    width: 15,
+                    borderRadius: 15,
+                  }}></View>
+                <Text> Out of the Office Access</Text>
+              </View>
+
+            </View>
+          </View>
+        </View>
+      </View>
+    )
+  }
+}
 //   }
 // }
 
@@ -763,8 +768,8 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: '#A9A9A9',
-    padding: 5,
+    // backgroundColor: '#A9A9A9',
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 2,
@@ -772,7 +777,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    padding: 22,
+    // padding: 22,
     borderRadius: 2,
     borderColor: 'rgba(0, 0, 0, 0.1)',
     height: 'auto',
@@ -781,6 +786,8 @@ const styles = StyleSheet.create({
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    backgroundColor: '#008ECC',
+
   },
   modalFooter: {
     justifyContent: 'flex-end',
