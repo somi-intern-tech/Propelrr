@@ -152,6 +152,7 @@ export default class Profile extends Component {
         ))
         return (
           <View style={styles.viewStyleSix}>
+            <ScrollView>
             <View
               style={{
                 width: wp('100%'),
@@ -412,6 +413,7 @@ export default class Profile extends Component {
                 {this.renderPersonalContent()}
               </Modal>
             </View>
+            </ScrollView>
           </View>
         )
       }

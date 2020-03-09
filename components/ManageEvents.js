@@ -138,17 +138,22 @@ export default class ManageEvents extends Component {
     }
   }
   advancedSearch = () => {
-    if (this.state.role == '' || this.state.event == '' || this.state.startDate == '' || this.state.endDate == '' || this.state.eventName == '') {
-      alert('please fill up fields')
-      console.log('error')
-    }
-    else {
-      this.setState({
-        visibleModal: null, startDate: '', endDate: '', role: ''
-        , status: '', eventType: '', eventName: ''
-      })
-      console.log('success')
-    }
+    // if (this.state.role == '' || this.state.event == '' || this.state.startDate == '' || this.state.endDate == '' || this.state.eventName == '') {
+    //   alert('please fill up fields')
+    //   console.log('error')
+    // }
+    // else {
+    //   this.setState({
+    //     visibleModal: null, startDate: '', endDate: '', role: ''
+    //     , status: '', eventType: '', eventName: ''
+    //   })
+    //   console.log('success')
+    // }
+    // this.SearchFilterFunction()
+    this.setState({
+      visibleModal: null, startDate: '', endDate: '', role: ''
+      , status: '', eventType: '', eventName: ''
+    })
   }
   async componentDidMount() {
     try {

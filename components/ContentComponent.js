@@ -309,12 +309,12 @@ const styles = StyleSheet.create({
   drawer: {
     flex: 1,
     width: wp('70%'),
-    backgroundColor: 'white',
+    backgroundColor: '#FFF5EE',
   },
   header: {
     width: wp('70%'),
     height: hp('50'),
-    backgroundColor: 'white',
+    backgroundColor: '#FFF5EE',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 80,

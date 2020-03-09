@@ -129,6 +129,9 @@ export default class HomeScreen extends Component {
     //   console.log(error)
     // }
   }
+  handleReason = reason => {
+    this.setState({ reason })
+  }
   markedDate = () => {
     if (this.state.endDate == 'End Date' || this.state.reason == '') {
       alert('please fill up fields')
@@ -396,6 +399,7 @@ export default class HomeScreen extends Component {
 
           <TextInput
             value={this.state.reason}
+            onChangeText={this.handleReason}
             placeholder='Reason...'
             style={{
               borderBottomColor: '#000000',
